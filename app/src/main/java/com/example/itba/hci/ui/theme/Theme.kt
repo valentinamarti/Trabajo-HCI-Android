@@ -1,6 +1,5 @@
 package com.example.itba.hci.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,18 +8,22 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Color(0xFFECF0F1),
+    secondary = PurpleGrey40,
+    tertiary = Pink40,
+    background = Color(0xFFE8F3FC),
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Color(0xFFC3DBFF),
+    secondary = Color.White,
+    tertiary = Color.White,
+    background = Color(0xFFE8F3FC),
+    onPrimary = Color(0xFF244388),
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -30,11 +33,54 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
+
+Aquí están los colores convertidos al formato de 32 bits 0xAARRGGBB:
+
+white: #fff
+
+Hex: #ffffff
+0xFFFFFFFF
+background-blue: #e8f3fc
+
+0xFFE8F3FC
+blue-hover: #b3d9f9
+
+0xFFB3D9F9
+lightblue: #c3dbff
+
+0xFFC3DBFF
+blue: #4378f9
+
+0xFF4378F9
+lightorange: #ffe7d5
+
+0xFFFFE7D5
+orange: #eb843a
+
+0xFFEB843A
+lightpurple: #e8c3ff
+
+0xFFE8C3FF
+purple: #9747ff
+
+0xFF9747FF
+black: #000000
+
+0xFF000000
+button-blue: #abc8fe
+
+0xFFABC8FE
+dark-blue: #3054aa
+
+0xFF3054AA
+
+
+
     */
 )
 
 @Composable
-fun TrabajoHCITheme(
+fun HomeDomeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -51,7 +97,7 @@ fun TrabajoHCITheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = LightColorScheme,
         typography = Typography,
         content = content
     )

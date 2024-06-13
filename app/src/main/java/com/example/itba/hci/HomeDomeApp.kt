@@ -7,12 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.itba.hci.components.NavigationBar
+import com.example.itba.hci.components.TopAppBar
+import com.example.itba.hci.screens.HomeScreen
+import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
 fun HomeDomeApp() {
-    FruitSaladTheme {
+    HomeDomeTheme {
         Scaffold(
-            topBar = { FruitSaladTopAppBar() },
+            topBar = { TopAppBar() },
             bottomBar = { NavigationBar() }
         ) { padding ->
             HomeScreen(Modifier.padding(padding))

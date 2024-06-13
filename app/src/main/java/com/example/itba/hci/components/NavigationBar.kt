@@ -2,6 +2,7 @@ package com.example.itba.hci.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +25,19 @@ fun NavigationBar(modifier: Modifier = Modifier) {
         NavigationBarItem(
             icon = {
                 Icon(
+                    imageVector = Icons.Default.List, // cambiarlo por Material Design "list-box-outline"
+                    contentDescription = null
+                )
+            },
+            label = {
+                Text(stringResource(R.string.bottom_navigation_routines))
+            },
+            selected = false,
+            onClick = {}
+        )
+        NavigationBarItem(
+            icon = {
+                Icon(
                     imageVector = Icons.Default.Home,
                     contentDescription = null
                 )
@@ -37,20 +51,7 @@ fun NavigationBar(modifier: Modifier = Modifier) {
         NavigationBarItem(
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text(stringResource(R.string.bottom_navigation_routines))
-            },
-            selected = false,
-            onClick = {}
-        )
-        NavigationBarItem(
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = Icons.Default.Person, // cambiarlo por Material Design "cellphone-link"
                     contentDescription = null
                 )
             },
