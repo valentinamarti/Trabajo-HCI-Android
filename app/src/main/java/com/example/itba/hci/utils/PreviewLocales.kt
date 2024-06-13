@@ -13,4 +13,4 @@ import androidx.compose.ui.tooling.preview.Preview
     locale = "es"
 )
 
-annotation class PreviewLocales()
+annotation class PreviewLocales

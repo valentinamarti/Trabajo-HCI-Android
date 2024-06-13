@@ -15,4 +15,4 @@ import androidx.compose.ui.tooling.preview.Preview
     device = Devices.TABLET
 )
 
-annotation class PreviewScreenSizes()
+annotation class PreviewScreenSizes
