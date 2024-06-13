@@ -4,7 +4,7 @@
             "outputFile": "com.example.itba.hci.app-mergeDebugResources-42:/values-hu/values-hu.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Alicia\\.gradle\\caches\\transforms-4\\ca5f82a317c359fa136adddc17f7c000\\transformed\\material3-1.1.1\\res\\values-hu\\values-hu.xml",
+                    "source": "C:\\Users\\julie\\.gradle\\caches\\transforms-4\\ca5f82a317c359fa136adddc17f7c000\\transformed\\material3-1.1.1\\res\\values-hu\\values-hu.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Alicia\\.gradle\\caches\\transforms-4\\9bf4080abb7225320be50e6f52b8e102\\transformed\\core-1.13.1\\res\\values-hu\\values-hu.xml",
+                    "source": "C:\\Users\\julie\\.gradle\\caches\\transforms-4\\9bf4080abb7225320be50e6f52b8e102\\transformed\\core-1.13.1\\res\\values-hu\\values-hu.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Alicia\\.gradle\\caches\\transforms-4\\acaf0f5d7511fc1fb083fbc2be18d435\\transformed\\ui-release\\res\\values-hu\\values-hu.xml",
+                    "source": "C:\\Users\\julie\\.gradle\\caches\\transforms-4\\acaf0f5d7511fc1fb083fbc2be18d435\\transformed\\ui-release\\res\\values-hu\\values-hu.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
