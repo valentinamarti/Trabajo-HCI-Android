@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HomeDome</string>
+    <string name="bottom_navigation_home">Inicio</string>
+    <string name="bottom_navigation_devices">Dispositivos</string>
+    <string name="bottom_navigation_routines">Rutinas</string>
+</resources>
