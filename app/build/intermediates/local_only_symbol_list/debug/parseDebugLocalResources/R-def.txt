@@ -14,6 +14,8 @@ drawable blinds
 drawable devices
 drawable door
 drawable fridge_outline
+drawable heart
+drawable heart_outline
 drawable homedome
 drawable ic_launcher_background
 drawable ic_launcher_foreground

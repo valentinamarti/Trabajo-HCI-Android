@@ -1,17 +1,10 @@
+// DeviceCard.kt
 package com.example.itba.hci.components.cards
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -75,18 +68,24 @@ fun DeviceCard(
                         tint = iconColor
                     )
                 }
-                Spacer(modifier = Modifier.width(mediumPadding)) // Ajusta el espacio aquí
+                Spacer(modifier = Modifier.width(mediumPadding))
             }
             Text(
                 text = stringResource(text),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
-                modifier = Modifier.padding(start = mediumPadding) // Ajusta el padding aquí
+                modifier = Modifier.weight(1f) // Para llenar el espacio disponible
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.heart_outline),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp),
+                tint = iconColor
             )
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
