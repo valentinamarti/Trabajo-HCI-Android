@@ -1,10 +1,13 @@
 package com.example.itba.hci.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.itba.hci.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -72,4 +75,11 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+
+val screenTitle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontSize = 20.sp,
+    color = Color(0xFF2F3E92)
 )

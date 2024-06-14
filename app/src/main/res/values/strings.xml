@@ -4,4 +4,8 @@
     <string name="bottom_navigation_home">Home</string>
     <string name="bottom_navigation_devices">Devices</string>
     <string name="bottom_navigation_routines">Routines</string>
+
+    <!-- Hardcoded device names -->
+    <string name="device1">Device 1</string>
+    <string name="device2">Device 2</string>
 </resources>

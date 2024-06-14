@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -34,7 +35,9 @@ import com.example.itba.hci.ui.theme.HomeDomeTheme
 fun DeviceCard(
     @StringRes text: Int,
     modifier: Modifier = Modifier,
-    @DrawableRes icon: Int? = null
+    @DrawableRes icon: Int? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.onBackground,
+    iconColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -47,6 +50,7 @@ fun DeviceCard(
             .padding(8.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
+            .height(80.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -57,17 +61,18 @@ fun DeviceCard(
             if (icon != null) {
                 Box(
                     modifier = Modifier
-                        .size(64.dp)
+                        .size(50.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.background),
+                        .background(backgroundColor),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = icon),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(48.dp)
-                            .padding(8.dp)
+                            .size(40.dp)
+                            .padding(8.dp),
+                        tint = iconColor
                     )
                 }
                 Spacer(modifier = Modifier.width(mediumPadding)) // Ajusta el espacio aquí
@@ -92,7 +97,9 @@ fun DeviceCardPreview() {
         DeviceCard(
             text = R.string.bottom_navigation_devices,
             modifier = Modifier.padding(smallPadding),
-            icon = R.drawable.devices
+            icon = R.drawable.devices,
+            backgroundColor = MaterialTheme.colorScheme.background,
+            iconColor = MaterialTheme.colorScheme.primary
         )
     }
 }
