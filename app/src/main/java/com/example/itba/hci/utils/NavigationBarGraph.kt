@@ -11,18 +11,9 @@ import com.example.itba.hci.screens.RoutinesScreen
 
 @Composable
 fun NavigationBarGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
-        startDestination = NavigationScreen.Home.route
-    ) {
-        composable(route = NavigationScreen.Home.route) {
-            HomeScreen()
-        }
-        composable(route = NavigationScreen.Routines.route) {
-            RoutinesScreen()
-        }
-        composable(route = NavigationScreen.Devices.route) {
-            DevicesScreen()
-        }
+    NavHost(navController = navController, startDestination = NavigationScreen.Home.route) {
+        composable(NavigationScreen.Routines.route) { RoutinesScreen(navController) }
+        composable(NavigationScreen.Home.route) { HomeScreen(navController) }
+        composable(NavigationScreen.Devices.route) { DevicesScreen(navController) }
     }
 }

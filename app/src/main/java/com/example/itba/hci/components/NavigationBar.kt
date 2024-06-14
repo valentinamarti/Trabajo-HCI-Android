@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceEvenly
 import androidx.compose.foundation.shape.CircleShape
@@ -16,8 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.itba.hci.utils.NavigationScreen
@@ -25,8 +24,8 @@ import com.example.itba.hci.utils.NavigationScreen
 @Composable
 fun NavigationBar(modifier: Modifier = Modifier, navController: NavHostController) {
     val screens = listOf(
-        NavigationScreen.Home,
         NavigationScreen.Routines,
+        NavigationScreen.Home,
         NavigationScreen.Devices,
     )
 

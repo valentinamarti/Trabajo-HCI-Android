@@ -30,3 +30,4 @@ sealed class NavigationScreen(
         icon = Icons.Default.Person
     )
 }
+
