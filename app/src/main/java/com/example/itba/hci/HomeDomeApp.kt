@@ -19,8 +19,8 @@ fun HomeDomeApp() {
         Scaffold(
             topBar = { TopAppBar() },
             bottomBar = { NavigationBar(navController = navController) }
-        ) {
-            NavigationBarGraph(navController = navController)
+        ) { innerPadding ->
+            NavigationBarGraph(navController = navController, paddingValues = innerPadding)
         }
     }
 }
@@ -30,4 +30,3 @@ fun HomeDomeApp() {
 fun HomeDomeAppPreview() {
     HomeDomeApp()
 }
-
