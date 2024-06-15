@@ -51,7 +51,6 @@ fun RoutinesScreen(navController: NavController, paddingValues: PaddingValues) {
         ) {
             items(routines) { routine ->
                 RoutineCard(
-                    iconDrawable = R.drawable.play_icon,
                     text = routine.text,
                     secondaryText = routine.secondaryText,
                     backgroundColor = routine.backgroundColor,
