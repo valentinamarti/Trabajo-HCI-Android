@@ -55,6 +55,7 @@ fun RoutineCard(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     var isPressed by remember { mutableStateOf(false) }
+    var isPlaying by remember { mutableStateOf(false) }
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -90,11 +91,12 @@ fun RoutineCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.play_icon),
+                        painter = painterResource(id = if (!isPlaying) R.drawable.play_icon else R.drawable.pause_icon),
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
-                            .padding(8.dp),
+                            .padding(8.dp)
+                            .clickable { isPlaying = !isPlaying },
                         tint = iconColor
                     )
                 }
@@ -130,7 +132,6 @@ fun RoutineCard(
 
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
