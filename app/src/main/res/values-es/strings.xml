@@ -9,4 +9,8 @@
     <!-- Hardcoded device names -->
     <string name="device1">Dispositivo 1</string>
     <string name="device2">Dispositivo 2</string>
+
+    <!-- Hardcoded routines names -->
+    <string name="routine1">Rutina 1</string>
+    <string name="routine2">Rutina 2</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -27,10 +28,12 @@ import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
 fun RoutineCard(
-    @DrawableRes iconDrawable: Int,
+    @DrawableRes iconDrawable: Int? = null,
     @StringRes text: Int,
+    modifier: Modifier = Modifier,
     @StringRes secondaryText: Int,
-    modifier: Modifier = Modifier
+    backgroundColor: Color = MaterialTheme.colorScheme.onBackground,
+    iconColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val smallPadding = dimensionResource(R.dimen.small_padding)
@@ -52,12 +55,14 @@ fun RoutineCard(
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = mediumPadding)
                 )
-                Image(
-                    painter = painterResource(iconDrawable),
-                    contentDescription = "Icon",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(24.dp)
-                )
+                iconDrawable?.let { painterResource(it) }?.let {
+                    Image(
+                        painter = it,
+                        contentDescription = "Icon",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
         }
             Text(
                 text = stringResource(secondaryText),
