@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import com.example.itba.hci.R
 import com.example.itba.hci.model.DeviceType
 
@@ -59,25 +60,23 @@ fun DeviceCard(
                 .padding(vertical = mediumPadding, horizontal = 16.dp)
                 .widthIn(min = 192.dp, max = screenWidth)
         ) {
-            if (icon != null) {
-                Box(
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(primaryColor.toColorInt())),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = null,
                     modifier = Modifier
-                        .size(50.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(primaryColor),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(8.dp),
-                        tint = primaryColor
-                    )
-                }
-                Spacer(modifier = Modifier.width(mediumPadding))
+                        .size(40.dp)
+                        .padding(8.dp),
+                    tint = Color(primaryColor.toColorInt())
+                )
             }
+            Spacer(modifier = Modifier.width(mediumPadding))
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
@@ -90,7 +89,7 @@ fun DeviceCard(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { isPressed = !isPressed },
-                tint = primaryColor
+                tint = Color(primaryColor.toColorInt())
             )
         }
     }
