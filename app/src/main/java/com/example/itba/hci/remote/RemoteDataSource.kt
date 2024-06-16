@@ -1,22 +1,12 @@
 package com.example.itba.hci.remote
 
-import ar.edu.itba.example.api.DataSourceException
+import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.remote.model.RemoteError
 import com.example.itba.hci.remote.model.RemoteResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Response
 import java.io.IOException
-
-//
-//import androidx.media3.datasource.DataSourceException
-//import ar.edu.itba.example.api.DataSourceException
-//import com.example.itba.hci.remote.model.RemoteError
-//import com.example.itba.hci.remote.model.RemoteResult
-//import com.google.gson.Gson
-//import com.google.gson.reflect.TypeToken
-//import retrofit2.Response
-//import java.io.IOException
 
 abstract class RemoteDataSource {
 

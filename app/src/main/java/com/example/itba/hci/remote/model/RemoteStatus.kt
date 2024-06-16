@@ -1,4 +1,4 @@
-package ar.edu.itba.example.api.remote.model
+package com.example.itba.hci.remote.model
 
 import com.example.itba.hci.model.Status
 

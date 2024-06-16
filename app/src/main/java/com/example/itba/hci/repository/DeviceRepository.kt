@@ -6,12 +6,6 @@ import com.example.itba.hci.remote.DeviceRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-//import ar.edu.itba.example.api.model.Device
-//import ar.edu.itba.example.api.model.Lamp
-//import ar.edu.itba.example.api.remote.DeviceRemoteDataSource
-//import kotlinx.coroutines.flow.Flow
-//import kotlinx.coroutines.flow.map
-
 class DeviceRepository(
     private val remoteDataSource: DeviceRemoteDataSource
 ) {

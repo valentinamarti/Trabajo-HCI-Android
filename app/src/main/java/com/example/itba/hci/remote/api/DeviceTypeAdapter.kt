@@ -1,4 +1,4 @@
-package ar.edu.itba.example.api.remote.api
+package com.example.itba.hci.remote.api
 
 import com.example.itba.hci.remote.model.RemoteDevice
 import com.example.itba.hci.remote.model.RemoteDeviceType

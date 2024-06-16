@@ -1,7 +1,7 @@
-package ar.edu.itba.example.api.repository
+package com.example.itba.hci.repository
 
-import ar.edu.itba.example.api.model.Room
-import ar.edu.itba.example.api.remote.RoomRemoteDataSource
+import com.example.itba.hci.model.Room
+import com.example.itba.hci.remote.RoomRemoteDataSource
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 

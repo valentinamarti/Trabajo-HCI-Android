@@ -1,8 +1,7 @@
 package com.example.itba.hci.remote
 
-import ar.edu.itba.example.api.remote.api.RoomService
+import com.example.itba.hci.remote.api.RoomService
 import com.example.itba.hci.remote.model.RemoteRoom
-import com.example.itba.hci.remote.RemoteDataSource
 
 class RoomRemoteDataSource(
     private val roomService: RoomService

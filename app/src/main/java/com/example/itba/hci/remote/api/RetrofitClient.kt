@@ -1,8 +1,5 @@
 package com.example.itba.hci.remote.api
 
-import ar.edu.itba.example.api.remote.api.DateTypeAdapter
-import ar.edu.itba.example.api.remote.api.DeviceTypeAdapter
-import ar.edu.itba.example.api.remote.api.RoomService
 import com.example.itba.hci.remote.model.RemoteDevice
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
