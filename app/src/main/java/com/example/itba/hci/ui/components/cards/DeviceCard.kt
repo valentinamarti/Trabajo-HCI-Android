@@ -1,8 +1,6 @@
 // DeviceCard.kt
 package com.example.itba.hci.ui.components.cards
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,22 +21,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.itba.hci.R
-import com.example.itba.hci.ui.theme.HomeDomeTheme
+import com.example.itba.hci.model.DeviceType
 
 @Composable
 fun DeviceCard(
-    @StringRes text: Int,
-    modifier: Modifier = Modifier,
-    @DrawableRes icon: Int? = null,
-    backgroundColor: Color = MaterialTheme.colorScheme.onBackground,
-    iconColor: Color = MaterialTheme.colorScheme.onSurface
+    text: String,
+    deviceType: DeviceType,
+    primaryColor: String,
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+    val icon = when(deviceType) {
+        DeviceType.SPEAKER -> R.drawable.speaker
+        DeviceType.FRIDGE -> R.drawable.fridge_outline
+        // Agrega más casos para los otros tipos de dispositivos
+        else -> R.drawable.homedome
+    }
 
     var isPressed by remember { mutableStateOf(false) }
 
@@ -46,7 +47,7 @@ fun DeviceCard(
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
         shadowElevation = 4.dp,
-        modifier = modifier
+        modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -63,7 +64,7 @@ fun DeviceCard(
                     modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(backgroundColor),
+                        .background(primaryColor),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -72,13 +73,13 @@ fun DeviceCard(
                         modifier = Modifier
                             .size(40.dp)
                             .padding(8.dp),
-                        tint = iconColor
+                        tint = primaryColor
                     )
                 }
                 Spacer(modifier = Modifier.width(mediumPadding))
             }
             Text(
-                text = stringResource(text),
+                text = text,
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
                 modifier = Modifier.weight(1f) // Para llenar el espacio disponible
@@ -89,24 +90,24 @@ fun DeviceCard(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { isPressed = !isPressed },
-                tint = iconColor
+                tint = primaryColor
             )
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun DeviceCardPreview() {
-    val smallPadding = dimensionResource(R.dimen.small_padding)
-
-    HomeDomeTheme {
-        DeviceCard(
-            text = R.string.bottom_navigation_devices,
-            modifier = Modifier.padding(smallPadding),
-            icon = R.drawable.devices,
-            backgroundColor = MaterialTheme.colorScheme.background,
-            iconColor = MaterialTheme.colorScheme.primary
-        )
-    }
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun DeviceCardPreview() {
+//    val smallPadding = dimensionResource(R.dimen.small_padding)
+//
+//    HomeDomeTheme {
+//        DeviceCard(
+//            text = R.string.bottom_navigation_devices,
+//            modifier = Modifier.padding(smallPadding),
+//            icon = R.drawable.devices,
+//            backgroundColor = MaterialTheme.colorScheme.background,
+//            iconColor = MaterialTheme.colorScheme.primary
+//        )
+//    }
+//}
