@@ -1,5 +1,5 @@
 // DeviceCard.kt
-package com.example.itba.hci.components.cards
+package com.example.itba.hci.ui.components.cards
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -1,4 +1,4 @@
-package com.example.itba.hci.components
+package com.example.itba.hci.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding

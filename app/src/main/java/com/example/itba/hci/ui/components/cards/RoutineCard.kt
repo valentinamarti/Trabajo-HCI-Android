@@ -1,4 +1,4 @@
-package com.example.itba.hci.components.cards
+package com.example.itba.hci.ui.components.cards
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Row

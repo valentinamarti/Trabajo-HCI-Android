@@ -1,11 +1,10 @@
-package com.example.itba.hci.screens
+package com.example.itba.hci.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -19,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.R
-import com.example.itba.hci.components.cards.DeviceCard
+import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.theme.screenTitle
 
 data class Device(val text: Int, val icon: Int?, val backgroundColor: Color, val iconColor: Color)

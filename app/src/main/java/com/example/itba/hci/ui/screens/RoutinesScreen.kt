@@ -1,4 +1,4 @@
-package com.example.itba.hci.screens
+package com.example.itba.hci.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.R
-import com.example.itba.hci.components.cards.RoutineCard
+import com.example.itba.hci.ui.components.cards.RoutineCard
 import com.example.itba.hci.ui.theme.screenTitle
 
 

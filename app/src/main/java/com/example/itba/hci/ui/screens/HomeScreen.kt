@@ -1,4 +1,4 @@
-package com.example.itba.hci.screens
+package com.example.itba.hci.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
