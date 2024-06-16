@@ -3,8 +3,6 @@ package com.example.itba.hci.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +44,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
                     .padding(end = 12.dp))
             {
                 Icon(
-                    imageVector = Icons.Default.Notifications,
+                    painter = painterResource(id = R.drawable.notification_outline),
                     contentDescription = null,
                     tint =  MaterialTheme.colorScheme.onPrimary,
                     modifier = modifier.size(28.dp)
