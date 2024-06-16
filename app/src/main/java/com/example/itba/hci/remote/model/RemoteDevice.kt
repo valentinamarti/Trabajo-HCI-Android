@@ -4,7 +4,7 @@ import com.example.itba.hci.model.Device
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-abstract class RemoteDevice<T> where T : Any {
+class RemoteDevice<T> where T : Any {
     @SerializedName("id")
     var id: String? = null
 
@@ -15,19 +15,26 @@ abstract class RemoteDevice<T> where T : Any {
     @Expose(serialize = false)
     lateinit var type: RemoteDeviceType
 
-    @SerializedName("room")
-    var room: RemoteRoom? = null
+//    @SerializedName("room")
+//    var room: RemoteRoom? = null
 
     @Expose(serialize = false)
     lateinit var state: T
         private set
 
     @SerializedName("meta")
-    var meta: Any? = null
+    lateinit var meta: RemoteDeviceMeta
 
     fun setState(state: T) {
         this.state = state
     }
 
-    abstract fun asModel(): Device
+    fun asModel() : Device {
+        return Device(
+            id = id,
+            name = name,
+            type = type,
+            color = meta.color
+        )
+    }
 }
