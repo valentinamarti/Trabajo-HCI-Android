@@ -11,7 +11,8 @@ class RemoteLamp : RemoteDevice<RemoteLampState>() {
             room = room?.asModel(),
             status = RemoteStatus.asModel(state.status),
             color = state.color,
-            brightness = state.brightness
+            brightness = state.brightness,
+            meta = meta
         )
     }
 }
