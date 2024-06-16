@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.itba.hci.ui.screens.DevicesScreen
+import com.example.itba.hci.ui.devices.DevicesScreen
 import com.example.itba.hci.ui.screens.HomeScreen
 import com.example.itba.hci.ui.screens.RoutinesScreen
 

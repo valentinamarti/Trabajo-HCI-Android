@@ -1,4 +1,4 @@
-package com.example.itba.hci.ui.screens
+package com.example.itba.hci.ui.devices
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

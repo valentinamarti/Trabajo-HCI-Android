@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.RoutineCard
+import com.example.itba.hci.ui.devices.DevicesScreen
 import com.example.itba.hci.ui.theme.screenTitle
 
 
