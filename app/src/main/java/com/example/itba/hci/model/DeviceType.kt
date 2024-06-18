@@ -4,5 +4,6 @@ enum class DeviceType {
     LAMP,
     FRIDGE,
     SPEAKER,
-    DOOR
+    DOOR,
+    BLIND
 }
