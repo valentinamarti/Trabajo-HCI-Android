@@ -32,10 +32,10 @@ fun NavigationBarGraph(navController: NavHostController, paddingValues: PaddingV
             val deviceType = backStackEntry.arguments?.getString("deviceType") ?: ""
             val deviceId = backStackEntry.arguments?.getString("deviceId") ?: ""
             when (deviceType) {
-                "Parlante" -> SpeakerCard(deviceId)
-                "Heladera" -> FridgeCard(deviceId)
-                "Persiana" -> BlindsCard(deviceId)
-                "Puerta" -> DoorCard(deviceId)
+                "Parlante" -> SpeakerCard(deviceId, paddingValues)
+                "Heladera" -> FridgeCard(deviceId, paddingValues)
+                "Persiana" -> BlindsCard(deviceId, paddingValues)
+                "Puerta" -> DoorCard(deviceId, paddingValues)
                 else -> Text("Unknown Device")
             }
         }
