@@ -4,6 +4,8 @@
     <string name="bottom_navigation_home">Inicio</string>
     <string name="bottom_navigation_devices">Dispositivos</string>
     <string name="bottom_navigation_routines">Rutinas</string>
+    <string name="routines_actions">Acciones agregadas:</string>
+    <string name="color_title">Colores:</string>
 
 
     <!-- Hardcoded device names -->
