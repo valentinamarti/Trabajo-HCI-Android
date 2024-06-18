@@ -5,13 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,17 +15,25 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 
 @Composable
-fun FridgeCard(deviceId: String) {
-    Surface(shape = RoundedCornerShape(16.dp),
+fun FridgeCard(deviceId: String, paddingValues: PaddingValues) {
+    Surface(
+        shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
+            .padding(paddingValues)
             .padding(8.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)) {
+            .padding(horizontal = 16.dp)
+            .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom + WindowInsetsSides.Top))
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -59,7 +61,6 @@ fun FridgeCard(deviceId: String) {
             InventoryControl()
         }
     }
-
 }
 
 @Composable
@@ -107,10 +108,12 @@ fun TemperatureControl(label: String, initialTemp: Int) {
 fun InventoryControl() {
     var items by remember { mutableStateOf(listOf("Queso crema", "Leche", "Huevos")) }
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp)
-        .clip(RoundedCornerShape(10.dp))) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .clip(RoundedCornerShape(10.dp))
+    ) {
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primary)
@@ -118,7 +121,11 @@ fun InventoryControl() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("Inventory", modifier = Modifier.padding(6.dp).fillMaxWidth(), textAlign = TextAlign.Left)
+            Text(
+                "Inventory",
+                modifier = Modifier.padding(6.dp).fillMaxWidth(),
+                textAlign = TextAlign.Left
+            )
             items.forEach { item ->
                 Text(item, modifier = Modifier.padding(2.dp).fillMaxWidth(), textAlign = TextAlign.Center)
             }
@@ -134,15 +141,13 @@ fun InventoryControl() {
             }
         }
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     HomeDomeTheme {
         val smallPadding = dimensionResource(R.dimen.small_padding)
-        FridgeCard("3")
+        FridgeCard("3", paddingValues = PaddingValues(0.dp))
     }
 }

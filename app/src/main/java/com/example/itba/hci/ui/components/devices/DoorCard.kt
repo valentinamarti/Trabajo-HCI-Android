@@ -17,13 +17,14 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun DoorCard(deviceId: String) {
+fun DoorCard(deviceId: String, paddingValues: PaddingValues) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
+            .padding(paddingValues)
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
         Column(
@@ -102,6 +103,6 @@ fun DoorControl() {
 @Composable
 fun DoorPreview() {
     HomeDomeTheme {
-        DoorCard("2")
+        DoorCard("2", paddingValues = PaddingValues(0.dp))
     }
 }

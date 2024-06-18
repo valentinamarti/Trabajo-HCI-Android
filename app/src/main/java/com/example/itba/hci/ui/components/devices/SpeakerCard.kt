@@ -19,11 +19,12 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun SpeakerCard(deviceId: String) {
+fun SpeakerCard(deviceId: String, paddingValues: PaddingValues) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
+            .padding(paddingValues)
             .padding(8.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -189,6 +190,6 @@ fun Playlist() {
 @Composable
 fun SpeakerPreview() {
     HomeDomeTheme {
-        SpeakerCard("4")
+        SpeakerCard("4", paddingValues = PaddingValues(0.dp))
     }
 }

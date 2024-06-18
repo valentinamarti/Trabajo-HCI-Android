@@ -19,15 +19,15 @@ import androidx.compose.ui.unit.sp
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
-
 @Composable
-fun BlindsCard(deviceId: String) {
+fun BlindsCard(deviceId: String, paddingValues: PaddingValues) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
+            .padding(paddingValues)
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
         Column(
@@ -109,6 +109,6 @@ fun BlindControl() {
 @Composable
 fun BlindsPreview() {
     HomeDomeTheme {
-        BlindsCard("1")
+        BlindsCard("1", paddingValues = PaddingValues(0.dp))
     }
 }
