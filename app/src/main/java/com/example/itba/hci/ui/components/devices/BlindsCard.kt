@@ -21,7 +21,7 @@ import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 
 @Composable
-fun BlindsCard() {
+fun BlindsCard(deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -109,6 +109,6 @@ fun BlindControl() {
 @Composable
 fun BlindsPreview() {
     HomeDomeTheme {
-        BlindsCard()
+        BlindsCard("1")
     }
 }
