@@ -21,29 +21,21 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.theme.screenTitle
 
-data class Device(val text: Int, val icon: Int?, val backgroundColor: Color, val iconColor: Color)
+data class Device(val text: Int, val icon: Int?, val type: String, val backgroundColor: Color, val iconColor: Color)
+
 @Composable
 fun DevicesScreen(navController: NavController, paddingValues: PaddingValues) {
     val devices = listOf(
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
-        Device(R.string.device2, R.drawable.door, Color(0xFFBFE3FF),Color(0xFF2196F3))
+        Device(R.string.device1, R.drawable.fridge_outline, "Heladera", Color(0xFFFCD59D), Color(0xFFFF5722)),
+        Device(R.string.device1, R.drawable.fridge_outline, "Heladera", Color(0xFFFCD59D), Color(0xFFFF5722)),
+        Device(R.string.device2, R.drawable.door, "Puerta", Color(0xFFBFE3FF), Color(0xFF2196F3)),
     )
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(paddingValues)
-        .padding(16.dp)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(16.dp)
     ) {
         Text(
             text = stringResource(id = R.string.bottom_navigation_devices),
@@ -60,8 +52,10 @@ fun DevicesScreen(navController: NavController, paddingValues: PaddingValues) {
                 DeviceCard(
                     text = device.text,
                     icon = device.icon,
+                    deviceType = device.type,
                     backgroundColor = device.backgroundColor,
-                    iconColor = device.iconColor
+                    iconColor = device.iconColor,
+                    onClick = { navController.navigate("deviceDetail/${device.type}") }
                 )
             }
         }
@@ -71,5 +65,6 @@ fun DevicesScreen(navController: NavController, paddingValues: PaddingValues) {
 @Preview(showBackground = true)
 @Composable
 fun DevicesScreenPreview() {
-    DevicesScreen(navController = rememberNavController() ,paddingValues = PaddingValues(0.dp))
+    val mockNavController = rememberNavController()
+    DevicesScreen(navController = mockNavController, paddingValues = PaddingValues(0.dp))
 }
