@@ -19,7 +19,7 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun SpeakerCard() {
+fun SpeakerCard(deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -189,6 +189,6 @@ fun Playlist() {
 @Composable
 fun SpeakerPreview() {
     HomeDomeTheme {
-        SpeakerCard()
+        SpeakerCard("4")
     }
 }
