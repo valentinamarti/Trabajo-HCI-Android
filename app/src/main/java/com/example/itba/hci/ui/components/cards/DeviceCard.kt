@@ -1,4 +1,3 @@
-// DeviceCard.kt
 package com.example.itba.hci.ui.components.cards
 
 import androidx.annotation.DrawableRes
@@ -34,8 +33,10 @@ fun DeviceCard(
     @StringRes text: Int,
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int? = null,
+    deviceType: String,
     backgroundColor: Color = MaterialTheme.colorScheme.onBackground,
-    iconColor: Color = MaterialTheme.colorScheme.onSurface
+    iconColor: Color = MaterialTheme.colorScheme.onSurface,
+    onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -51,6 +52,7 @@ fun DeviceCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .height(80.dp)
+            .clickable { onClick() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -81,7 +83,7 @@ fun DeviceCard(
                 text = stringResource(text),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
-                modifier = Modifier.weight(1f) // Para llenar el espacio disponible
+                modifier = Modifier.weight(1f)
             )
             Icon(
                 painter = painterResource(id = if (isPressed) R.drawable.heart else R.drawable.heart_outline),
@@ -105,8 +107,11 @@ fun DeviceCardPreview() {
             text = R.string.bottom_navigation_devices,
             modifier = Modifier.padding(smallPadding),
             icon = R.drawable.devices,
+            deviceType = "Heladera",
             backgroundColor = MaterialTheme.colorScheme.background,
-            iconColor = MaterialTheme.colorScheme.primary
+            iconColor = MaterialTheme.colorScheme.primary,
+            onClick = {}
         )
     }
 }
+
