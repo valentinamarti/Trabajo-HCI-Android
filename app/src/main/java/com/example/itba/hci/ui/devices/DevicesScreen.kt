@@ -24,7 +24,7 @@ import com.example.itba.hci.ui.devices.DevicesViewModel
 import com.example.itba.hci.ui.theme.screenTitle
 
 @Composable
-fun DevicesScreen(viewModel: DevicesViewModel, navController: NavController, paddingValues: PaddingValues) {
+fun DevicesScreen(viewModel: DevicesViewModel,navController: NavController, paddingValues: PaddingValues) {
     val uiState by viewModel.uiState.collectAsState()
     //    val devices = listOf(
 //        Device(R.string.device1, R.drawable.fridge_outline, Color(0xFFFCD59D),Color(0xFFFF5722)),
