@@ -21,14 +21,21 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.theme.screenTitle
 
-data class Device(val text: Int, val icon: Int?, val type: String, val backgroundColor: Color, val iconColor: Color)
+data class Device(
+    val id: String,
+    val text: Int,
+    val icon: Int?,
+    val type: String,
+    val backgroundColor: Color,
+    val iconColor: Color
+)
 
 @Composable
 fun DevicesScreen(navController: NavController, paddingValues: PaddingValues) {
     val devices = listOf(
-        Device(R.string.device1, R.drawable.fridge_outline, "Heladera", Color(0xFFFCD59D), Color(0xFFFF5722)),
-        Device(R.string.device1, R.drawable.fridge_outline, "Heladera", Color(0xFFFCD59D), Color(0xFFFF5722)),
-        Device(R.string.device2, R.drawable.door, "Puerta", Color(0xFFBFE3FF), Color(0xFF2196F3)),
+        Device("1", R.string.device1, R.drawable.fridge_outline, "Heladera", Color(0xFFFCD59D), Color(0xFFFF5722)),
+        Device("2", R.string.device1, R.drawable.fridge_outline, "Heladera", Color(0xFFFCD59D), Color(0xFFFF5722)),
+        Device("3", R.string.device2, R.drawable.door, "Puerta", Color(0xFFBFE3FF), Color(0xFF2196F3)),
     )
 
     Column(
@@ -55,7 +62,7 @@ fun DevicesScreen(navController: NavController, paddingValues: PaddingValues) {
                     deviceType = device.type,
                     backgroundColor = device.backgroundColor,
                     iconColor = device.iconColor,
-                    onClick = { navController.navigate("deviceDetail/${device.type}") }
+                    onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
                 )
             }
         }
