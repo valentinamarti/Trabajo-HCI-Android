@@ -25,7 +25,7 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun FridgeCard() {
+fun FridgeCard(deviceId: String) {
     Surface(shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
@@ -143,6 +143,6 @@ fun InventoryControl() {
 fun DefaultPreview() {
     HomeDomeTheme {
         val smallPadding = dimensionResource(R.dimen.small_padding)
-        FridgeCard()
+        FridgeCard("3")
     }
 }
