@@ -12,6 +12,7 @@ import com.example.itba.hci.ui.devices.LampViewModel
 import com.example.itba.hci.ApiApplication
 import com.example.itba.hci.repository.DeviceRepository
 import com.example.itba.hci.repository.RoomRepository
+import com.example.itba.hci.repository.RoutineRepository
 import com.example.itba.hci.ui.devices.DevicesViewModel
 
 @Composable
@@ -19,9 +20,11 @@ fun getViewModelFactory(defaultArgs: Bundle? = null): ViewModelFactory {
     val application = (LocalContext.current.applicationContext as ApiApplication)
     val roomRepository = application.roomRepository
     val deviceRepository = application.deviceRepository
+    val routineRepository = application.routineRepository
     return ViewModelFactory(
         roomRepository,
         deviceRepository,
+        routineRepository,
         LocalSavedStateRegistryOwner.current,
         defaultArgs
     )
@@ -30,6 +33,7 @@ fun getViewModelFactory(defaultArgs: Bundle? = null): ViewModelFactory {
 class ViewModelFactory (
     private val roomRepository: RoomRepository,
     private val deviceRepository: DeviceRepository,
+    private val routineRepository: RoutineRepository,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
@@ -48,6 +52,9 @@ class ViewModelFactory (
 
             isAssignableFrom(LampViewModel::class.java) ->
                 LampViewModel(deviceRepository)
+
+            isAssignableFrom(RoutineViewModel::class.java) ->
+                RoutineViewModel(routineRepository)
 
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
