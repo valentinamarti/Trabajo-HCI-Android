@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,6 +31,7 @@ fun RoutinesScreen(
     viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    Log.d("RoutinesScreen", "Routines list is empty: ${uiState.routines.isEmpty()}")
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)

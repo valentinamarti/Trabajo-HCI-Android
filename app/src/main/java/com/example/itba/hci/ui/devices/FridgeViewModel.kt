@@ -22,10 +22,11 @@ class FridgeViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        collectOnViewModelScope(
-            repository.currentDevice
-        ) { state, response -> state.copy(currentDevice = response as Fridge?) }
-    }
+        viewModelScope.launch {
+            repository.currentDevice.collect { device ->
+                _uiState.value = _uiState.value.copy(currentDevice = device as Fridge?)
+            }
+        }}
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,
         updateState: (FridgeUiState, T) -> FridgeUiState

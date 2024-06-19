@@ -1,5 +1,6 @@
 package com.example.itba.hci.repository
 
+import android.util.Log
 import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.Lamp
 import com.example.itba.hci.remote.DeviceRemoteDataSource
@@ -11,7 +12,11 @@ class DeviceRepository(
 ) {
     val devices: Flow<List<Device>> =
         remoteDataSource.devices
-            .map { it.map { jt -> jt.asModel() } }
+            .map { remoteDevices ->
+                val devices = remoteDevices.filterNotNull().map { it.asModel() }
+                Log.d("DeviceRepository", "Devices transformed successfully. Devices count: ${devices.size}")
+                devices
+            }
 
     val currentDevice = devices.map { it.firstOrNull { jt -> jt is Lamp } }
 

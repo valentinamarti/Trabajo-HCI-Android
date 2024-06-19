@@ -1,5 +1,6 @@
 package com.example.itba.hci.remote
 
+import android.util.Log
 import com.example.itba.hci.remote.api.DeviceService
 import com.example.itba.hci.remote.model.RemoteDevice
 import kotlinx.coroutines.delay
@@ -12,10 +13,15 @@ class DeviceRemoteDataSource(
 
     val devices: Flow<List<RemoteDevice<*>>> = flow {
         while (true) {
-            val devices = handleApiResponse {
-                deviceService.getDevices()
+            try {
+                val devices = handleApiResponse {
+                    deviceService.getDevices()
+                }
+                Log.d("DeviceRemoteDataSource", "Devices fetched successfully. Devices count: ${devices.size}")
+                emit(devices)
+            } catch (e: Exception) {
+                Log.e("DeviceRemoteDataSource", "Error fetching devices", e)
             }
-            emit(devices)
             delay(DELAY)
         }
     }

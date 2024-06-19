@@ -1,10 +1,11 @@
 package com.example.itba.hci.remote.model
 
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Device
 
 class RemoteBlind : RemoteDevice<RemoteBlindState>() {
 
-    override fun asModel(): Blind {
+    override fun asModel(): Device {
         return Blind(
             id = id,
             name = name,

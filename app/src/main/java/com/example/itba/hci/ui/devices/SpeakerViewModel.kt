@@ -22,9 +22,11 @@ class SpeakerViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        collectOnViewModelScope(
-            repository.currentDevice
-        ) { state, response -> state.copy(currentDevice = response as Speaker?) }
+        viewModelScope.launch {
+            repository.currentDevice.collect { device ->
+                _uiState.value = _uiState.value.copy(currentDevice = device as Speaker?)
+            }
+        }
     }
 
     fun nextSong() = runOnViewModelScope(

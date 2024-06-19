@@ -22,9 +22,11 @@ class BlindViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        collectOnViewModelScope(
-            repository.currentDevice
-        ) { state, response -> state.copy(currentDevice = response as Blind?) }
+        viewModelScope.launch {
+            repository.currentDevice.collect { device ->
+                _uiState.value = _uiState.value.copy(currentDevice = device as Blind?)
+            }
+        }
     }
 
     fun open() = runOnViewModelScope(

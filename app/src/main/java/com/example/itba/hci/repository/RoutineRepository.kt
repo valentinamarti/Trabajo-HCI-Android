@@ -1,5 +1,6 @@
 package com.example.itba.hci.repository
 
+import android.util.Log
 import com.example.itba.hci.model.Routine
 import com.example.itba.hci.remote.RoutineRemoteDataSource
 import kotlinx.coroutines.sync.Mutex

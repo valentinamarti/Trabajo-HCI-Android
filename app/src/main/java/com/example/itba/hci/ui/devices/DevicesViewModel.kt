@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.devices
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.DataSourceException
@@ -21,9 +22,12 @@ class DevicesViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        collectOnViewModelScope(
-            repository.devices
-        ) { state, response -> state.copy(devices = response) }
+        viewModelScope.launch {
+            repository.devices.collect { devices ->
+                _uiState.value = _uiState.value.copy(devices = devices)
+                Log.d("DevicesViewModel", "UI state updated successfully. Devices count: ${devices.size}")
+            }
+        }
     }
 
     private fun <T> collectOnViewModelScope(
