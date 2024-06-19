@@ -4,6 +4,9 @@ import com.example.itba.hci.model.Routine
 import com.google.gson.annotations.SerializedName
 
 class RemoteRoutine {
+
+
+
     @SerializedName("id")
     var id: String? = null
 
