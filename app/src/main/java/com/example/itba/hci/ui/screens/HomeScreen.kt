@@ -12,21 +12,20 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun HomeScreen(navController: NavController, paddingValues: PaddingValues) {
+fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
             .padding(30.dp)
     ) {
         Text(
             text = "Home Screen"
         )
-        Button(onClick = {
-            navController.navigate("devices")
-        }) {
-            Text(text = "Go to Devices Screen")
-        }
+//        Button(onClick = {
+//            navController.navigate("devices")
+//        }) {
+//            Text(text = "Go to Devices Screen")
+//        }
     }
 }
 
