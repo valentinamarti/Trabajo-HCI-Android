@@ -38,14 +38,13 @@ import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
 fun RoutineCard(
-    @StringRes text: Int,
+    text: String,
     modifier: Modifier = Modifier,
-    @StringRes secondaryText: Int,
-    backgroundColor: Color = MaterialTheme.colorScheme.onBackground,
-    iconColor: Color = MaterialTheme.colorScheme.onSurface
+    secondaryText: String,
+    backgroundColor: Color,
+    iconColor: Color
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
-    val smallPadding = dimensionResource(R.dimen.small_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     var isPressed by remember { mutableStateOf(false) }
@@ -102,7 +101,7 @@ fun RoutineCard(
                     .widthIn(min = 192.dp, max = screenWidth)
             ) {
                 Text(
-                    text = stringResource(text),
+                    text = text,
                     style = MaterialTheme.typography.titleSmall,
                     color = Color.Black,
                     modifier = Modifier.weight(1f) // Para llenar el espacio disponible
@@ -116,7 +115,7 @@ fun RoutineCard(
                     .widthIn(min = 192.dp, max = screenWidth)
             ){
                 Text(
-                    text = stringResource(secondaryText),
+                    text = secondaryText,
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Black,
                     modifier = Modifier.weight(1f)
@@ -134,8 +133,8 @@ fun RoutineCardPreview() {
     HomeDomeTheme {
         val smallPadding = dimensionResource(R.dimen.small_padding)
         RoutineCard(
-            text = R.string.bottom_navigation_routines,
-            secondaryText = R.string.bottom_navigation_routines,
+            text = "Routines1",
+            secondaryText = "Routines1 description",
             modifier = Modifier.padding(smallPadding),
             backgroundColor = MaterialTheme.colorScheme.background,
             iconColor = MaterialTheme.colorScheme.primary
