@@ -7,29 +7,35 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceEvenly
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.itba.hci.utils.NavigationScreen
+import com.example.itba.hci.ui.navigation.AppDestinations
+
+
 
 @Composable
-fun NavigationBar(modifier: Modifier = Modifier, navController: NavHostController) {
+fun NavigationBar(
+    modifier: Modifier = Modifier,
+    currentRoute: String?,
+    onNavigateToRoute: (String) -> Unit
+) {
     val screens = listOf(
-        NavigationScreen.Routines,
-        NavigationScreen.Home,
-        NavigationScreen.Devices,
+        AppDestinations.DEVICES,
+        AppDestinations.HOME,
+        AppDestinations.ROUTINES
     )
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
 
     BottomNavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
@@ -44,19 +50,15 @@ fun NavigationBar(modifier: Modifier = Modifier, navController: NavHostControlle
         ) {
             screens.forEach{ screen ->
                 CustomNavigationBarItem(
-                label = {
-                    Text(text = screen.title)
-                },
-                icon = screen.icon,
-                selected = currentDestination?.hierarchy?.any {
-                    it.route == screen.route
-                } == true,
-                onClick = {
-                    navController.navigate(screen.route)
-                })
+                    label = { Text(text = stringResource(screen.title)) },
+                    icon = screen.icon,
+                    selected = currentRoute == screen.route,
+                    onClick = { onNavigateToRoute(screen.route) }
+                )
             }
         }
     }
+
 }
 
 @Composable

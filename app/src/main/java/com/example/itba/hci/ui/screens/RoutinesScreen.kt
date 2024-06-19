@@ -19,13 +19,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.RoutineCard
-import com.example.itba.hci.ui.devices.DevicesScreen
 import com.example.itba.hci.ui.theme.screenTitle
 
 
 data class Routine(val text: Int, val secondaryText: Int, val backgroundColor: Color, val iconColor: Color)
 @Composable
-fun RoutinesScreen(navController: NavController, paddingValues: PaddingValues) {
+fun RoutinesScreen() {
     val routines = listOf(
         Routine(R.string.routine1, R.string.routine1,Color(0xFFFCD59D), Color(0xFFFF5722)),
         Routine(R.string.routine1, R.string.routine1, Color(0xFFFCD59D), Color(0xFFFF5722)),
@@ -36,7 +35,6 @@ fun RoutinesScreen(navController: NavController, paddingValues: PaddingValues) {
     )
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(paddingValues)
         .padding(16.dp)
     ) {
         Text(
@@ -62,8 +60,8 @@ fun RoutinesScreen(navController: NavController, paddingValues: PaddingValues) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RoutinesScreenPreview() {
-    DevicesScreen(navController = rememberNavController() ,paddingValues = PaddingValues(0.dp))
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun RoutinesScreenPreview() {
+//    DevicesScreen(navController = rememberNavController() ,paddingValues = PaddingValues(0.dp))
+//}

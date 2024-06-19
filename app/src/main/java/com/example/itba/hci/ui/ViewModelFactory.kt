@@ -13,7 +13,11 @@ import com.example.itba.hci.ApiApplication
 import com.example.itba.hci.repository.DeviceRepository
 import com.example.itba.hci.repository.RoomRepository
 import com.example.itba.hci.repository.RoutineRepository
+import com.example.itba.hci.ui.devices.BlindViewModel
 import com.example.itba.hci.ui.devices.DevicesViewModel
+import com.example.itba.hci.ui.devices.DoorViewModel
+import com.example.itba.hci.ui.devices.FridgeViewModel
+import com.example.itba.hci.ui.devices.SpeakerViewModel
 
 @Composable
 fun getViewModelFactory(defaultArgs: Bundle? = null): ViewModelFactory {
@@ -55,6 +59,18 @@ class ViewModelFactory (
 
             isAssignableFrom(RoutineViewModel::class.java) ->
                 RoutineViewModel(routineRepository)
+
+            isAssignableFrom(LampViewModel::class.java) ->
+                DoorViewModel(deviceRepository)
+
+            isAssignableFrom(LampViewModel::class.java) ->
+                BlindViewModel(deviceRepository)
+
+            isAssignableFrom(LampViewModel::class.java) ->
+                FridgeViewModel(deviceRepository)
+
+            isAssignableFrom(LampViewModel::class.java) ->
+                SpeakerViewModel(deviceRepository)
 
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
