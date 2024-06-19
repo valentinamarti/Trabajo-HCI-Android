@@ -5,13 +5,14 @@ import com.google.gson.annotations.SerializedName
 
 class RemoteRoutine {
 
-
-
     @SerializedName("id")
     var id: String? = null
 
     @SerializedName("name")
     lateinit var name: String
+
+    @SerializedName("actions" )
+    var actions : ArrayList<RemoteAction> = arrayListOf()
 
     @SerializedName("meta")
     lateinit var meta: RemoteRoutineMeta
@@ -20,6 +21,7 @@ class RemoteRoutine {
         return Routine(
             id = id,
             name = name,
+            actions = actions,
             description = meta.description,
             color = meta.color,
             favourite = meta.favourite
