@@ -33,8 +33,8 @@ fun HomeDomeApp() {
                     restoreState = true
                 }
             } }
-        ) {
-            AppNavGraph(navController = navController)
+        ) {innerPadding ->
+            AppNavGraph(navController = navController,  innerPadding = innerPadding)
         }
     }
 }

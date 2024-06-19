@@ -22,11 +22,9 @@ import com.example.itba.hci.ui.devices.SpeakerViewModel
 @Composable
 fun getViewModelFactory(defaultArgs: Bundle? = null): ViewModelFactory {
     val application = (LocalContext.current.applicationContext as ApiApplication)
-    val roomRepository = application.roomRepository
     val deviceRepository = application.deviceRepository
     val routineRepository = application.routineRepository
     return ViewModelFactory(
-        roomRepository,
         deviceRepository,
         routineRepository,
         LocalSavedStateRegistryOwner.current,
@@ -35,7 +33,6 @@ fun getViewModelFactory(defaultArgs: Bundle? = null): ViewModelFactory {
 }
 
 class ViewModelFactory (
-    private val roomRepository: RoomRepository,
     private val deviceRepository: DeviceRepository,
     private val routineRepository: RoutineRepository,
     owner: SavedStateRegistryOwner,
@@ -54,23 +51,20 @@ class ViewModelFactory (
             isAssignableFrom(DevicesViewModel::class.java) ->
                 DevicesViewModel(deviceRepository)
 
-            isAssignableFrom(LampViewModel::class.java) ->
-                LampViewModel(deviceRepository)
+            isAssignableFrom(DoorViewModel::class.java) ->
+                DoorViewModel(deviceRepository)
+
+            isAssignableFrom(FridgeViewModel::class.java) ->
+                FridgeViewModel(deviceRepository)
+
+            isAssignableFrom(BlindViewModel::class.java) ->
+                BlindViewModel(deviceRepository)
+
+            isAssignableFrom(SpeakerViewModel::class.java) ->
+                SpeakerViewModel(deviceRepository)
 
             isAssignableFrom(RoutineViewModel::class.java) ->
                 RoutineViewModel(routineRepository)
-
-            isAssignableFrom(LampViewModel::class.java) ->
-                DoorViewModel(deviceRepository)
-
-            isAssignableFrom(LampViewModel::class.java) ->
-                BlindViewModel(deviceRepository)
-
-            isAssignableFrom(LampViewModel::class.java) ->
-                FridgeViewModel(deviceRepository)
-
-            isAssignableFrom(LampViewModel::class.java) ->
-                SpeakerViewModel(deviceRepository)
 
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
