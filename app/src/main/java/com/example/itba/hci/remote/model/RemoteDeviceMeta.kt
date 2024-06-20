@@ -6,4 +6,7 @@ import com.google.gson.annotations.SerializedName
 class RemoteDeviceMeta {
     @SerializedName("color")
     lateinit var color: RemoteColorPS
+
+    @SerializedName("favourite")
+    var favourite: Boolean = false
 }

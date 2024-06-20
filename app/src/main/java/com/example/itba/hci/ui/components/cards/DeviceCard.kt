@@ -31,7 +31,8 @@ fun DeviceCard(
     text: String,
     deviceType: DeviceType,
     primaryColor: String,
-    secondaryColor: String
+    secondaryColor: String,
+    isFavourite: Boolean
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -85,7 +86,7 @@ fun DeviceCard(
                 modifier = Modifier.weight(1f) // Para llenar el espacio disponible
             )
             Icon(
-                painter = painterResource(id = if (isPressed) R.drawable.heart else R.drawable.heart_outline),
+                painter = painterResource(id = if (isFavourite) R.drawable.heart else R.drawable.heart_outline),
                 contentDescription = null,
                 modifier = Modifier
                     .size(24.dp)

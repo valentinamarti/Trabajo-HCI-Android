@@ -9,9 +9,9 @@ class RemoteFridgeState {
     @SerializedName("mode")
     lateinit var mode: String
 
-    @SerializedName("freezerTemp")
+    @SerializedName("freezerTemperature")
     var freezerTemp: Int = -8
 
-    @SerializedName("fridgeTemp")
+    @SerializedName("temperature")
     var fridgeTemp: Int = 2
 }
