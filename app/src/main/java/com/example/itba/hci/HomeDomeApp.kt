@@ -11,7 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.ui.components.NavigationBar
 import com.example.itba.hci.ui.components.TopAppBar
-import com.example.itba.hci.ui.navigation.AppNavGraph
+import com.example.itba.hci.utils.navigation.AppNavGraph
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.devices.BlindViewModel
@@ -29,6 +30,7 @@ import com.example.itba.hci.ui.theme.screenTitle
 
 @Composable
 fun DevicesScreen(
+    navController: NavHostController,
     viewModel: DevicesViewModel = viewModel(factory = getViewModelFactory()),
     doorViewModel: DoorViewModel = viewModel(factory = getViewModelFactory()),
     fridgeViewModel: FridgeViewModel = viewModel(factory = getViewModelFactory()),
@@ -59,7 +61,8 @@ fun DevicesScreen(
                     deviceType = device.type,
                     primaryColor = device.meta?.color?.primary ?: "#FFFFFF",
                     secondaryColor = device.meta?.color?.secondary ?: "#FFFFFF",
-                    isFavourite = device.meta?.favourite ?: false
+                    isFavourite = device.meta?.favourite ?: false,
+                    onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
                     )
             }
         }

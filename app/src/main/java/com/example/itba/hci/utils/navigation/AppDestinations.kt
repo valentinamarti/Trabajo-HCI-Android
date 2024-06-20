@@ -1,4 +1,4 @@
-package com.example.itba.hci.ui.navigation
+package com.example.itba.hci.utils.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons

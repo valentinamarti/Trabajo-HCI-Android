@@ -1,4 +1,4 @@
-package com.example.itba.hci.ui.navigation
+package com.example.itba.hci.utils.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -19,7 +19,7 @@ fun AppNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
         modifier = Modifier.padding(innerPadding)
     ) {
         composable(AppDestinations.DEVICES.route) {
-            DevicesScreen()
+            DevicesScreen(navController = navController)
         }
         composable(AppDestinations.HOME.route) {
             HomeScreen()

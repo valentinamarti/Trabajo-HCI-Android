@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.itba.hci.ui.navigation.AppDestinations
+import com.example.itba.hci.utils.navigation.AppDestinations
 
 
 

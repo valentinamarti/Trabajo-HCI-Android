@@ -31,7 +31,8 @@ fun DeviceCard(
     deviceType: DeviceType,
     primaryColor: String,
     secondaryColor: String,
-    isFavourite: Boolean
+    isFavourite: Boolean,
+    onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -39,7 +40,8 @@ fun DeviceCard(
     val icon = when(deviceType) {
         DeviceType.SPEAKER -> R.drawable.speaker
         DeviceType.FRIDGE -> R.drawable.fridge_outline
-        // Agrega más casos para los otros tipos de dispositivos
+        DeviceType.BLIND -> R.drawable.blinds
+        DeviceType.DOOR -> R.drawable.door
         else -> R.drawable.homedome
     }
 
