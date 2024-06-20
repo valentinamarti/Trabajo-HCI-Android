@@ -6,7 +6,7 @@ import com.example.itba.hci.model.Lamp
 
 class RemoteDoor : RemoteDevice<RemoteDoorState>() {
 
-    override fun asModel(): Device {
+    override fun asModel(): Door {
         return Door(
             id = id,
             name = name,

@@ -18,6 +18,7 @@ class DeviceRemoteDataSource(
                     deviceService.getDevices()
                 }
                 Log.d("DeviceRemoteDataSource", "Devices fetched successfully. Devices count: ${devices.size}")
+                Log.d("DeviceRemoteDataSource", "Devices: $devices")
                 emit(devices)
             } catch (e: Exception) {
                 Log.e("DeviceRemoteDataSource", "Error fetching devices", e)

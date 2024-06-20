@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-abstract class RemoteDevice<T> where T : Any {
+abstract class RemoteDevice<T : Any> {
     @SerializedName("id")
     var id: String? = null
 

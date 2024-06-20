@@ -30,7 +30,6 @@ class Fridge(
         if (meta != null) {
             model.meta = meta
         }
-
         return model
     }
 

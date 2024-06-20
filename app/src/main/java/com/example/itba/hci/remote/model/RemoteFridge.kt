@@ -6,7 +6,7 @@ import com.example.itba.hci.model.Fridge
 
 class RemoteFridge : RemoteDevice<RemoteFridgeState>() {
 
-    override fun asModel(): Device {
+    override fun asModel(): Fridge {
         return Fridge(
             id = id,
             name = name,

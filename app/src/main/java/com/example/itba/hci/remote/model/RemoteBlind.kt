@@ -5,7 +5,7 @@ import com.example.itba.hci.model.Device
 
 class RemoteBlind : RemoteDevice<RemoteBlindState>() {
 
-    override fun asModel(): Device {
+    override fun asModel(): Blind {
         return Blind(
             id = id,
             name = name,

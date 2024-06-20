@@ -5,7 +5,7 @@ import com.example.itba.hci.model.Speaker
 
 class RemoteSpeaker : RemoteDevice<RemoteSpeakerState>() {
 
-    override fun asModel(): Device {
+    override fun asModel(): Speaker {
         return Speaker(
             id = id,
             name = name,
