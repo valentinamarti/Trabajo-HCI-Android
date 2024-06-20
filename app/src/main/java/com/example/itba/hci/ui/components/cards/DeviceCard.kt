@@ -1,4 +1,3 @@
-// DeviceCard.kt
 package com.example.itba.hci.ui.components.cards
 
 import androidx.compose.foundation.layout.*
@@ -55,6 +54,7 @@ fun DeviceCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .height(80.dp)
+            .clickable { onClick() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -83,7 +83,7 @@ fun DeviceCard(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
-                modifier = Modifier.weight(1f) // Para llenar el espacio disponible
+                modifier = Modifier.weight(1f)
             )
             Icon(
                 painter = painterResource(id = if (isFavourite) R.drawable.heart else R.drawable.heart_outline),
