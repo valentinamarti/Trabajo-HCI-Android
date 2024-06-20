@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 class LampViewModel(
@@ -24,6 +25,7 @@ class LampViewModel(
     init {
         collectOnViewModelScope(
             repository.currentDevice
+                .filterIsInstance<Lamp>()
         ) { state, response -> state.copy(currentDevice = response as Lamp?) }
     }
 

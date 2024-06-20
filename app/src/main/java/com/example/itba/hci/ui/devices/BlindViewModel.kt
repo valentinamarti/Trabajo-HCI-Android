@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Lamp
 import com.example.itba.hci.repository.DeviceRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 class BlindViewModel(
@@ -22,11 +24,11 @@ class BlindViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            repository.currentDevice.collect { device ->
-                _uiState.value = _uiState.value.copy(currentDevice = device as Blind?)
-            }
-        }
+        collectOnViewModelScope(
+            repository.currentDevice
+                .filterIsInstance<Blind>()
+        ) { state, response -> state.copy(currentDevice = response as Blind?) }
+
     }
 
     fun open() = runOnViewModelScope(
