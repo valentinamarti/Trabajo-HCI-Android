@@ -11,9 +11,8 @@ class RemoteFridge : RemoteDevice<RemoteFridgeState>() {
             id = id,
             name = name,
             room = room?.asModel(),
-            status = RemoteStatus.asModel(state.status),
-            freezerTemp = state.freezerTemp,
-            fridgeTemp = state.fridgeTemp,
+            freezerTemperature = state.freezerTemperature,
+            temperature = state.temperature,
             mode = state.mode,
             meta = meta
         )

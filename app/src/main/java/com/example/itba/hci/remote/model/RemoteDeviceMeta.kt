@@ -7,6 +7,6 @@ class RemoteDeviceMeta {
     @SerializedName("color")
     lateinit var color: RemoteColorPS
 
-    @SerializedName("favourite")
+    @SerializedName("favorite")
     var favourite: Boolean = false
 }

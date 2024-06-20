@@ -8,18 +8,16 @@ class Fridge(
     id: String?,
     name: String,
     val room: Room?,
-    val status: Status,
-    val freezerTemp: Int,
-    val fridgeTemp: Int,
+    val freezerTemperature: Int,
+    val temperature: Int,
     val mode: String,
     override val meta: RemoteDeviceMeta?
 ) : Device(id, name, DeviceType.FRIDGE, meta) {
 
     override fun asRemoteModel(): RemoteFridge {
         val state = RemoteFridgeState()
-        state.status = Status.asRemoteModel(status)
-        state.freezerTemp = freezerTemp
-        state.fridgeTemp = fridgeTemp
+        state.freezerTemperature = freezerTemperature
+        state.temperature = temperature
         state.mode = mode
 
         val model = RemoteFridge()
