@@ -31,6 +31,7 @@ fun DeviceCard(
     text: String,
     deviceType: DeviceType,
     primaryColor: String,
+    secondaryColor: String
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -73,7 +74,7 @@ fun DeviceCard(
                     modifier = Modifier
                         .size(40.dp)
                         .padding(8.dp),
-                    tint = Color(primaryColor.toColorInt())
+                    tint = Color(secondaryColor.toColorInt())
                 )
             }
             Spacer(modifier = Modifier.width(mediumPadding))
@@ -89,7 +90,7 @@ fun DeviceCard(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { isPressed = !isPressed },
-                tint = Color(primaryColor.toColorInt())
+                tint = Color(secondaryColor.toColorInt())
             )
         }
     }
