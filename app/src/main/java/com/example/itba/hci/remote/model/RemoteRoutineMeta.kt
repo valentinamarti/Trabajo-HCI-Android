@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName
 
 class RemoteRoutineMeta {
     @SerializedName("description")
-    lateinit var description: String
+    var description: String? = null
 
     @SerializedName("color")
     lateinit var color: RemoteColorPS
 
     @SerializedName("favourite")
-    lateinit var favourite: String
+    var favourite: Boolean = false
 
 }

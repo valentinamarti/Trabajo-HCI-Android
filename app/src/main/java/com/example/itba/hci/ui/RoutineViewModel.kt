@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.DataSourceException
@@ -20,13 +21,21 @@ class RoutineViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        getRoutines()
+        viewModelScope.launch {
+            repository.routines.collect { routines ->
+                _uiState.value = _uiState.value.copy(routines = routines)
+                Log.d("RoutinesViewModel", "UI state updated successfully. Routines count: ${routines.size}")
+            }
+        }
     }
-
-    fun getRoutines() = runOnViewModelScope(
-        { repository.getRoutines(true) },
-        { state, response -> state.copy(routines = response) }
-    )
+//    init {
+//        getRoutines()
+//    }
+//
+//    fun getRoutines() = runOnViewModelScope(
+//        { repository.getRoutines(true) },
+//        { state, response -> state.copy(routines = response) }
+//    )
 
     fun getRoutine(routineId: String) {
         runOnViewModelScope(
@@ -39,7 +48,7 @@ class RoutineViewModel(
         runOnViewModelScope(
             { routine.id?.let { repository.executeRoutine(it) } },
             { state, _ -> state.copy(currentRoutine = routine) }
-        ).invokeOnCompletion { getRoutines() }
+        )
     }
 
 
