@@ -20,11 +20,18 @@ class RoutineRepository(
 
     suspend fun getRoutines(refresh: Boolean = false): List<Routine> {
         if (refresh || routines.isEmpty()) {
+            Log.d("RoutineRepository", "Fetching routines from remote data source")
             val result = remoteDataSource.getRoutines()
+            Log.d("RoutineRepository", "Fetched routines: $result")
             updateCache(result.map { it.asModel() })
+        } else {
+            Log.d("RoutineRepository", "Using cached routines")
         }
 
-        return routinesMutex.withLock { this.routines }
+        return routinesMutex.withLock {
+            Log.d("RoutineRepository", "Returning routines: $routines")
+            this.routines
+        }
     }
 
     suspend fun getRoutine(routineId: String): Routine {
