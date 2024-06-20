@@ -40,7 +40,7 @@ import com.example.itba.hci.ui.theme.HomeDomeTheme
 fun RoutineCard(
     text: String,
     modifier: Modifier = Modifier,
-    secondaryText: String,
+    secondaryText: String?,
     backgroundColor: Color,
     iconColor: Color
 ) {
@@ -115,7 +115,7 @@ fun RoutineCard(
                     .widthIn(min = 192.dp, max = screenWidth)
             ){
                 Text(
-                    text = secondaryText,
+                    text = secondaryText ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Black,
                     modifier = Modifier.weight(1f)

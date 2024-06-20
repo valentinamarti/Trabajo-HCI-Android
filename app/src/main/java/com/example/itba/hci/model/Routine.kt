@@ -8,10 +8,10 @@ import com.example.itba.hci.remote.model.RemoteRoutineMeta
 class Routine(
     var id: String? = null,
     var name: String,
-    var description: String,
+    var description: String?,
     var actions: ArrayList<RemoteAction> = arrayListOf(),
     var color: RemoteColorPS,
-    var favourite : String
+    var favourite : Boolean
 ) {
 
     fun asRemoteModel(): RemoteRoutine {
