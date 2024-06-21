@@ -25,12 +25,13 @@ import com.example.itba.hci.ui.devices.BlindViewModel
 fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
-
-    viewModel.getDevice(deviceId)
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
 
     val currentDevice = uiState.currentDevice
 
-    Log.d("DoorCard", "Current device: $currentDevice")
+    Log.d("BlindsCard", "Current device: $currentDevice")
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -64,17 +65,19 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
                 Icon(
                     painter = painterResource(R.drawable.blinds),
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
-                    ))
+                    Text(
+                        text = currentDevice?.name ?: "",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp
+                        )
+                    )
                     currentDevice?.room?.let { room ->
                         Text("$room", style = MaterialTheme.typography.bodySmall)
                     }
@@ -83,14 +86,22 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            BlindControl()
+            BlindControl(viewModel, deviceId)
         }
     }
 }
 
 @Composable
-fun BlindControl() {
-    var sliderValue by remember { mutableStateOf(100f) }
+fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
+
+    val currentDevice = uiState.currentDevice
+
+    var sliderValue by remember { mutableStateOf(currentDevice?.level?.toFloat() ?: 0f) }
 
     Row(
         modifier = Modifier
@@ -104,7 +115,9 @@ fun BlindControl() {
         ) {
             Slider(
                 value = sliderValue,
-                onValueChange = { sliderValue = it },
+                onValueChange = {
+                    sliderValue = it
+                },
                 valueRange = 0f..100f,
                 modifier = Modifier
                     .height(200.dp)
@@ -119,7 +132,10 @@ fun BlindControl() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Button(onClick = { sliderValue = 0f }) {
+            Button(onClick = {
+                sliderValue = 0f
+                viewModel.open()
+            }) {
                 Text("Abrir")
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -129,17 +145,12 @@ fun BlindControl() {
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { sliderValue = 100f }) {
+            Button(onClick = {
+                sliderValue = 100f
+                viewModel.close()
+            }) {
                 Text("Cerrar")
             }
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BlindsPreview() {
-//    HomeDomeTheme {
-//        BlindsCard("1")
-//    }
-//}

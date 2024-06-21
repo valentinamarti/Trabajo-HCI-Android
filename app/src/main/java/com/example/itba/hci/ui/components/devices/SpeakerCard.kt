@@ -80,7 +80,7 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            SpeakerControl()
+            SpeakerControl(viewModel, deviceId)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -94,8 +94,14 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
 }
 
 @Composable
-fun SpeakerControl() {
-    var isPlaying by remember { mutableStateOf(false) }
+fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    viewModel.getDevice(deviceId)
+
+    val currentDevice = uiState.currentDevice
+
+    var isPlaying by remember { mutableStateOf(currentDevice?.status) }
 
     Box(
         modifier = Modifier
@@ -109,19 +115,31 @@ fun SpeakerControl() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            IconButton(onClick = { /* Handle skip previous action */ }) {
+            IconButton(onClick = { viewModel.previousSong() }) {
                 Icon(painterResource(id = R.drawable.mdi_skip_previous_circle), contentDescription = "Previous")
             }
-            IconButton(onClick = { isPlaying = !isPlaying }) {
+            IconButton(onClick = { if (isPlaying == "playing") {
+                viewModel.pause()
+                isPlaying = "paused"
+            } else if(isPlaying == "paused") {
+                viewModel.resume()
+                isPlaying = "playing"
+            } else if(isPlaying == "stopped") {
+                viewModel.play()
+                isPlaying = "playing"
+            } }) {
                 Icon(
-                    painterResource(id = if (isPlaying) R.drawable.mdi_pause_circle else R.drawable.mdi_play_circle),
-                    contentDescription = if (isPlaying) "Pause" else "Play"
+                    painterResource(id = if (isPlaying == "playing") R.drawable.mdi_pause_circle else R.drawable.mdi_play_circle),
+                    contentDescription = if (isPlaying == "playing") "Pause" else "Play"
                 )
             }
-            IconButton(onClick = { /* Handle skip next action */ }) {
+            IconButton(onClick = { viewModel.nextSong() }) {
                 Icon(painterResource(id = R.drawable.mdi_skip_next_circle), contentDescription = "Next")
             }
-            IconButton(onClick = { /* Handle stop action */ }) {
+            IconButton(onClick = {
+                viewModel.stop()
+                isPlaying = "stopped"
+            }) {
                 Icon(painterResource(id = R.drawable.mdi_square), contentDescription = "Stop")
             }
         }

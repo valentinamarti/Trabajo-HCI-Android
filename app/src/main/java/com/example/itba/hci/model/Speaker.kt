@@ -8,7 +8,7 @@ class Speaker(
     id: String?,
     name: String,
     val room: Room?,
-    val status: Status,
+    val status: String,
     val genre: String,
     val volume: Int,
     override val meta: RemoteDeviceMeta?
@@ -16,7 +16,7 @@ class Speaker(
 
     override fun asRemoteModel(): RemoteSpeaker {
         val state = RemoteSpeakerState()
-        state.status = Status.asRemoteModel(status)
+        state.status = status
         state.genre = genre
         state.volume = volume
 
