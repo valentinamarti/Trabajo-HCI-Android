@@ -30,18 +30,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.itba.hci.R
 import com.example.itba.hci.model.Routine
 import com.example.itba.hci.ui.RoutineViewModel
-import com.example.itba.hci.ui.getViewModelFactory
 import com.example.itba.hci.ui.screens.toColor
 
 @Composable
 fun RoutineCard(
     routine: Routine,
     modifier: Modifier = Modifier,
-    viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()),
+    viewModel: RoutineViewModel,
     onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)

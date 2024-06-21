@@ -8,4 +8,6 @@
     <string name="color_title">Colores:</string>
     <string name="fav_devices">Dispositivos favoritos</string>
     <string name="fav_routines">Rutinas favoritas</string>
+    <string name="no_favorite_routines">No tienes ningúna rutina marcada como favorita</string>
+    <string name="no_favorite_devices">No tienes ningún dispositivo marcado como favorito</string>
 </resources>

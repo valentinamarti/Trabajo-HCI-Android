@@ -23,6 +23,7 @@ import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.components.cards.RoutineCard
 import com.example.itba.hci.ui.devices.DevicesViewModel
 import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.theme.noElements
 import com.example.itba.hci.ui.theme.screenTitle
 
 @Composable
@@ -31,8 +32,8 @@ fun HomeScreen(navController: NavHostController,
                routinesViewModel: RoutineViewModel = viewModel(factory = getViewModelFactory())
 ) {
 
-    val DevicesUiState by devicesViewModel.uiState.collectAsState()
-    val RoutineUiState by routinesViewModel.uiState.collectAsState()
+    val devicesUiState by devicesViewModel.uiState.collectAsState()
+    val routineUiState by routinesViewModel.uiState.collectAsState()
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
@@ -55,31 +56,54 @@ fun HomeScreen(navController: NavHostController,
                             .padding(horizontal = 10.dp)
                 )
             }
-            items(DevicesUiState.devices.filter { it.meta?.favorite == true }) { device ->
-                DeviceCard(
-                    text = device.name,
-                    deviceType = device.type,
-                    primaryColor = device.meta?.color?.primary ?: "#FFFFFF",
-                    secondaryColor = device.meta?.color?.secondary ?: "#FFFFFF",
-                    isFavourite = device.meta?.favorite ?: false,
-                    onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
-                )
+            if (devicesUiState.devices.filter { it.meta?.favorite == true }.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.no_favorite_devices),
+                        style = noElements,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+            } else {
+                items(devicesUiState.devices.filter { it.meta?.favorite == true }) { device ->
+                    DeviceCard(
+                        text = device.name,
+                        deviceType = device.type,
+                        primaryColor = device.meta?.color?.primary ?: "#FFFFFF",
+                        secondaryColor = device.meta?.color?.secondary ?: "#FFFFFF",
+                        isFavourite = device.meta?.favorite ?: false,
+                        onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
+                    )
+                }
             }
-
             item {
                 Text(text = stringResource(id = R.string.fav_routines),
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 5.dp)
                 )
             }
-
-            items(RoutineUiState.routines.filter { it.favorite }) { routine ->
-                routine.color.primary?.let {
-                    routine.color.secondary?.let { it1 ->
-                        RoutineCard(
-                            routine = routine,
-                            onClick = { navController.navigate("routineDetail/${routine.id}") }
-                        )
+            if (routineUiState.routines.filter { it.favorite }.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.no_favorite_routines),
+                        style = noElements,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+            } else {
+                items(routineUiState.routines.filter { it.favorite }) { routine ->
+                    routine.color.primary?.let {
+                        routine.color.secondary?.let { it1 ->
+                            RoutineCard(
+                                routine = routine,
+                                viewModel = routinesViewModel,
+                                onClick = { navController.navigate("routineDetail/${routine.id}") }
+                            )
+                        }
                     }
                 }
             }
