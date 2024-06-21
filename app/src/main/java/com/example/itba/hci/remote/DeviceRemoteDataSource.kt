@@ -3,6 +3,7 @@ package com.example.itba.hci.remote
 import android.util.Log
 import com.example.itba.hci.remote.api.DeviceService
 import com.example.itba.hci.remote.model.RemoteDevice
+import com.example.itba.hci.remote.model.RemoteDeviceModify
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -39,9 +40,9 @@ class DeviceRemoteDataSource(
         }
     }
 
-    suspend fun modifyDevice(device: RemoteDevice<*>): Boolean {
+    suspend fun modifyDevice(deviceId: String? , device: RemoteDeviceModify): Boolean {
         return handleApiResponse {
-            deviceService.modifyDevice(device.id!!, device)
+            deviceService.modifyDevice(deviceId!!, device)
         }
     }
 

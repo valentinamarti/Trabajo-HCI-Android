@@ -45,7 +45,7 @@ class RoutineViewModel(
         )
     }
 
-    fun modifyRoutine(routine: Routine) {
+    private fun modifyRoutine(routine: Routine) {
         runOnViewModelScope(
             { routine.id?.let { repository.modifyRoutine(routine) } },
             { state, _ -> state.copy(currentRoutine = routine) }

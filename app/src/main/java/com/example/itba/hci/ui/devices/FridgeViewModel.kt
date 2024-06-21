@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Fridge
 import com.example.itba.hci.repository.DeviceRepository
@@ -42,6 +43,29 @@ class FridgeViewModel(
                 Log.d("DoorViewModel", "Fetched device: $response")
                 Log.d("DoorViewModel", "Current device: $device")
                 state.copy(currentDevice = device)
+            }
+        )
+    }
+
+    private fun modifyRoutine(device: Device) {
+        runOnViewModelScope(
+            { device.id?.let { repository.modifyDevice(device) } },
+            { state, _ -> state.copy(currentDevice = device as Fridge) }
+        )
+    }
+
+    fun updateFav(deviceId: String) {
+        runOnViewModelScope(
+            { repository.getDevice(deviceId) },
+            { state, currentDevice ->
+                try {
+                    currentDevice.meta?.favorite = !currentDevice.meta?.favorite!!
+                    modifyRoutine(currentDevice)
+                    state.copy(currentDevice = currentDevice as Fridge)
+                } catch (e: Exception) {
+                    Log.e("RoutineViewModel", "Error updating favorite state for routine $deviceId", e)
+                    state // Return original state on error
+                }
             }
         )
     }

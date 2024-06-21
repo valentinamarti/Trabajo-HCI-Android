@@ -3,6 +3,7 @@ package com.example.itba.hci.model
 import com.example.itba.hci.remote.RemoteColorPS
 import com.example.itba.hci.remote.model.RemoteAction
 import com.example.itba.hci.remote.model.RemoteActionModify
+import com.example.itba.hci.remote.model.RemoteDeviceModify
 import com.example.itba.hci.remote.model.RemoteRoutine
 import com.example.itba.hci.remote.model.RemoteRoutineMeta
 import com.example.itba.hci.remote.model.RemoteRoutineModify

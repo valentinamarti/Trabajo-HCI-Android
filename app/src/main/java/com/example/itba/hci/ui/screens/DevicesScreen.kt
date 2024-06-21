@@ -48,11 +48,7 @@ fun DevicesScreen(
         ) {
             items(uiState.devices) { device ->
                 DeviceCard(
-                    text = device.name,
-                    deviceType = device.type,
-                    primaryColor = device.meta?.color?.primary ?: "#FFFFFF",
-                    secondaryColor = device.meta?.color?.secondary ?: "#FFFFFF",
-                    isFavourite = device.meta?.favorite ?: false,
+                    device = device,
                     onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
                     )
             }

@@ -2,7 +2,6 @@ package com.example.itba.hci.repository
 
 import android.util.Log
 import com.example.itba.hci.model.Device
-import com.example.itba.hci.model.Lamp
 import com.example.itba.hci.remote.DeviceRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -31,7 +30,7 @@ class DeviceRepository(
     }
 
     suspend fun modifyDevice(device: Device): Boolean {
-        return remoteDataSource.modifyDevice(device.asRemoteModel())
+        return remoteDataSource.modifyDevice(device.id, device.asRemoteModifyModel())
     }
 
     suspend fun deleteDevice(deviceId: String): Boolean {

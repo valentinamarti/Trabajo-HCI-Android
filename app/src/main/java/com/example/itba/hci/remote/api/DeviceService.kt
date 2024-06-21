@@ -1,6 +1,7 @@
 package com.example.itba.hci.remote.api
 
 import com.example.itba.hci.remote.model.RemoteDevice
+import com.example.itba.hci.remote.model.RemoteDeviceModify
 import com.example.itba.hci.remote.model.RemoteResult
 import retrofit2.Response
 import retrofit2.http.Body
@@ -23,7 +24,7 @@ interface DeviceService {
     @PUT("devices/{deviceId}")
     suspend fun modifyDevice(
         @Path("deviceId") deviceId: String,
-        @Body device: RemoteDevice<*>
+        @Body device: RemoteDeviceModify
     ): Response<RemoteResult<Boolean>>
 
     @DELETE("devices/{deviceId}")

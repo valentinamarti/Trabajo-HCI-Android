@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Speaker
 import com.example.itba.hci.repository.DeviceRepository
@@ -76,6 +77,31 @@ class SpeakerViewModel(
         { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Speaker.RESUME_ACTION) },
         { state, _ -> state }
     )
+
+
+    private fun modifyRoutine(device: Device) {
+        runOnViewModelScope(
+            { device.id?.let { repository.modifyDevice(device) } },
+            { state, _ -> state.copy(currentDevice = device as Speaker) }
+        )
+    }
+
+    fun updateFav(deviceId: String) {
+        runOnViewModelScope(
+            { repository.getDevice(deviceId) },
+            { state, currentDevice ->
+                try {
+                    currentDevice.meta?.favorite = !currentDevice.meta?.favorite!!
+                    modifyRoutine(currentDevice)
+                    state.copy(currentDevice = currentDevice as Speaker)
+                } catch (e: Exception) {
+                    Log.e("RoutineViewModel", "Error updating favorite state for routine $deviceId", e)
+                    state // Return original state on error
+                }
+            }
+        )
+    }
+
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,
         updateState: (SpeakerUiState, T) -> SpeakerUiState
