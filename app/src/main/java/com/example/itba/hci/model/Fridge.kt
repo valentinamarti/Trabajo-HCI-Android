@@ -31,5 +31,10 @@ class Fridge(
         return model
     }
 
+    companion object {
+        const val SET_FREEZER_TEMPERATURE = "setFreezerTemperature"
+        const val SET_TEMPERATURE = "setTemperature"
+        const val SET_MODE = "setMode"
+    }
 }
 

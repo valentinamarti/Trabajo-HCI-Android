@@ -39,6 +39,8 @@ fun DoorCard(
 
     val currentDevice = uiState.currentDevice
 
+    //.
+
     Log.d("DoorCard meta", "Current device: ${currentDevice?.meta}")
     Log.d("DoorCard status", "Current device: ${currentDevice?.status}")
     Log.d("DoorCard lock", "Current device: ${currentDevice?.lock}")

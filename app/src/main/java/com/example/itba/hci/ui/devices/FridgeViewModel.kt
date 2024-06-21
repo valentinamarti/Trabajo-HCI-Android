@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
-import com.example.itba.hci.model.Blind
 import com.example.itba.hci.model.Device
-import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Fridge
 import com.example.itba.hci.repository.DeviceRepository
 import kotlinx.coroutines.Job
@@ -46,6 +44,37 @@ class FridgeViewModel(
             }
         )
     }
+
+    fun setTemperature(temperature: Int) = runOnViewModelScope(
+        {
+            Log.d("parameters 1", "")
+            val parameters = arrayOf<Any>(temperature)
+            Log.d("parameters", "${parameters}")
+            repository.executeDeviceAction(
+                uiState.value.currentDevice?.id!!,
+                Fridge.SET_TEMPERATURE,
+                parameters
+            )
+        },
+        { state, _ -> state }
+    )
+
+    //fun setFreezerTemperature(temperature: Int) = runOnViewModelScope(
+     //   { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Fridge.SET_FREEZER_TEMPERATURE, intArrayOf(temperature))
+     //        },
+     //   { state, _ -> state }
+    //)
+
+    fun setMode() = runOnViewModelScope(
+        {
+            val deviceId = uiState.value.currentDevice?.id
+            if (deviceId != null) {
+                repository.executeDeviceAction(deviceId, Fridge.SET_MODE)
+            }
+        },
+        { state, _ -> state }
+    )
+
 
     private fun modifyRoutine(device: Device) {
         runOnViewModelScope(
