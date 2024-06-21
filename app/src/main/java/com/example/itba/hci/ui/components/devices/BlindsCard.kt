@@ -20,12 +20,11 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun BlindsCard(deviceId: String, paddingValues: PaddingValues) {
+fun BlindsCard(deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
-            .padding(paddingValues)
             .padding(8.dp)
             .fillMaxSize()
             .padding(horizontal = 16.dp)
@@ -109,6 +108,6 @@ fun BlindControl() {
 @Composable
 fun BlindsPreview() {
     HomeDomeTheme {
-        BlindsCard("1", paddingValues = PaddingValues(0.dp))
+        BlindsCard("1")
     }
 }

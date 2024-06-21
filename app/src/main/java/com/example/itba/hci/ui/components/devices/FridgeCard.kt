@@ -23,12 +23,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 
 @Composable
-fun FridgeCard(deviceId: String, paddingValues: PaddingValues) {
+fun FridgeCard(deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
-            .padding(paddingValues)
             .padding(8.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -148,6 +147,6 @@ fun InventoryControl() {
 fun DefaultPreview() {
     HomeDomeTheme {
         val smallPadding = dimensionResource(R.dimen.small_padding)
-        FridgeCard("3", paddingValues = PaddingValues(0.dp))
+        FridgeCard("3")
     }
 }
