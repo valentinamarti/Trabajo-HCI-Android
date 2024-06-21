@@ -1,5 +1,9 @@
 package com.example.itba.hci.ui.components.devices
 
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,16 +14,27 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.devices.DoorViewModel
 import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun DoorCard(navController: NavController, viewModel: DoorViewModel = viewModel(factory = getViewModelFactory()), deviceId: String) {
+fun DoorCard(
+    navController: NavController,
+    viewModel: DoorViewModel = viewModel(factory = getViewModelFactory()),
+    deviceId: String
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Surface(
@@ -61,6 +76,7 @@ fun DoorCard(navController: NavController, viewModel: DoorViewModel = viewModel(
 fun DoorControl() {
     var isDoorOpen by remember { mutableStateOf(false) }
     var isDoorLocked by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,6 +105,8 @@ fun DoorControl() {
             onClick = {
                 if (!isDoorOpen) {
                     isDoorLocked = !isDoorLocked
+                    val notificationText = if (isDoorLocked) "The door has been locked" else "The door has been unlocked"
+                    sendNotification(context, notificationText)
                 }
             }
         ) {
@@ -102,10 +120,29 @@ fun DoorControl() {
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun DoorPreview() {
-//    HomeDomeTheme {
-//        DoorCard("2")
-//    }
-//}
+fun sendNotification(context: Context, text: String) {
+    val builder = NotificationCompat.Builder(context, "door_lock_channel")
+        .setSmallIcon(R.drawable.homedome)
+        .setContentTitle("Door State Changed")
+        .setContentText(text)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+        with(NotificationManagerCompat.from(context)) {
+            notify(1, builder.build())
+        }
+    } else {
+        println("Notification permission not granted.")
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DoorPreview() {
+    HomeDomeTheme {
+        DoorCard(
+            navController = rememberNavController(),
+            deviceId = "2"
+        )
+    }
+}
