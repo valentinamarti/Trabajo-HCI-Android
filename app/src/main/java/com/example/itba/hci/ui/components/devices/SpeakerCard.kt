@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,14 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.devices.SpeakerViewModel
-import com.example.itba.hci.ui.getViewModelFactory
 
 @Composable
-fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = viewModel(factory = getViewModelFactory()), deviceId: String) {
+fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
     viewModel.getDevice(deviceId)
@@ -49,7 +47,7 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = view
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { navController.navigate("devices_screen") }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
             }
 

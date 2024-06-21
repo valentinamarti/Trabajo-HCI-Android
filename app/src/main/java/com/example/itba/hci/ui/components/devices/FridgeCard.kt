@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,14 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.devices.FridgeViewModel
-import com.example.itba.hci.ui.getViewModelFactory
 
 @Composable
-fun FridgeCard(navController: NavController, viewModel: FridgeViewModel = viewModel(factory = getViewModelFactory()),deviceId: String) {
+fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
     viewModel.getDevice(deviceId)
@@ -50,7 +48,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel = viewMo
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { navController.navigate("devices_screen") }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
             }
 

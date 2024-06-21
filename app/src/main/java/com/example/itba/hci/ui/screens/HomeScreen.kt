@@ -15,25 +15,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.components.cards.RoutineCard
+import com.example.itba.hci.ui.devices.BlindViewModel
 import com.example.itba.hci.ui.devices.DevicesViewModel
-import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.devices.DoorViewModel
+import com.example.itba.hci.ui.devices.FridgeViewModel
+import com.example.itba.hci.ui.devices.SpeakerViewModel
 import com.example.itba.hci.ui.theme.noElements
 import com.example.itba.hci.ui.theme.screenTitle
 
 @Composable
 fun HomeScreen(navController: NavHostController,
-               devicesViewModel: DevicesViewModel = viewModel(factory = getViewModelFactory()),
-               routinesViewModel: RoutineViewModel = viewModel(factory = getViewModelFactory())
+               devicesViewModel: DevicesViewModel,
+               doorViewModel: DoorViewModel,
+               fridgeViewModel: FridgeViewModel,
+               speakerViewModel: SpeakerViewModel,
+               blindViewModel: BlindViewModel,
+               routineViewModel: RoutineViewModel
 ) {
 
     val devicesUiState by devicesViewModel.uiState.collectAsState()
-    val routineUiState by routinesViewModel.uiState.collectAsState()
+    val routineUiState by routineViewModel.uiState.collectAsState()
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
@@ -69,12 +75,12 @@ fun HomeScreen(navController: NavHostController,
             } else {
                 items(devicesUiState.devices.filter { it.meta?.favorite == true }) { device ->
                     DeviceCard(
-                        text = device.name,
-                        deviceType = device.type,
-                        primaryColor = device.meta?.color?.primary ?: "#FFFFFF",
-                        secondaryColor = device.meta?.color?.secondary ?: "#FFFFFF",
-                        isFavourite = device.meta?.favorite ?: false,
-                        onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
+                        device = device,
+                        onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") },
+                        doorViewModel = doorViewModel,
+                        fridgeViewModel = fridgeViewModel,
+                        speakerViewModel = speakerViewModel,
+                        blindViewModel = blindViewModel
                     )
                 }
             }
@@ -100,7 +106,7 @@ fun HomeScreen(navController: NavHostController,
                         routine.color.secondary?.let { it1 ->
                             RoutineCard(
                                 routine = routine,
-                                viewModel = routinesViewModel,
+                                viewModel = routineViewModel,
                                 onClick = { navController.navigate("routineDetail/${routine.id}") }
                             )
                         }

@@ -16,20 +16,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.DeviceCard
+import com.example.itba.hci.ui.devices.BlindViewModel
 import com.example.itba.hci.ui.devices.DevicesViewModel
-import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.devices.DoorViewModel
+import com.example.itba.hci.ui.devices.FridgeViewModel
+import com.example.itba.hci.ui.devices.SpeakerViewModel
 import com.example.itba.hci.ui.theme.screenTitle
 
 @Composable
 fun DevicesScreen(
     navController: NavHostController,
-    viewModel: DevicesViewModel = viewModel(factory = getViewModelFactory())
+    devicesViewModel: DevicesViewModel,
+    doorViewModel: DoorViewModel,
+    fridgeViewModel: FridgeViewModel,
+    speakerViewModel: SpeakerViewModel,
+    blindViewModel: BlindViewModel
 ){
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by devicesViewModel.uiState.collectAsState()
     Log.d("DevicesScreen", "Devices list is empty: ${uiState.devices.isEmpty()}")
     Column(modifier = Modifier
         .fillMaxSize()
@@ -49,15 +55,13 @@ fun DevicesScreen(
             items(uiState.devices) { device ->
                 DeviceCard(
                     device = device,
-                    onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
+                    onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}")},
+                    doorViewModel = doorViewModel,
+                    fridgeViewModel = fridgeViewModel,
+                    speakerViewModel = speakerViewModel,
+                    blindViewModel = blindViewModel
                     )
             }
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DevicesScreenPreview() {
-//    DevicesScreen(navController = rememberNavController() ,paddingValues = PaddingValues(0.dp))
-//}

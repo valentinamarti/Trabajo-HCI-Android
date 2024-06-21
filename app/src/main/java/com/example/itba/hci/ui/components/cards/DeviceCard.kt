@@ -21,25 +21,23 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.itba.hci.R
 import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.DeviceType
-import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.devices.BlindViewModel
-import com.example.itba.hci.ui.devices.DevicesViewModel
 import com.example.itba.hci.ui.devices.DoorViewModel
 import com.example.itba.hci.ui.devices.FridgeViewModel
 import com.example.itba.hci.ui.devices.SpeakerViewModel
-import com.example.itba.hci.ui.getViewModelFactory
 import com.example.itba.hci.ui.screens.toColor
 
 @Composable
 fun DeviceCard(
     device: Device,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    doorViewModel: DoorViewModel,
+    fridgeViewModel: FridgeViewModel,
+    speakerViewModel: SpeakerViewModel,
+    blindViewModel: BlindViewModel
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -111,10 +109,10 @@ fun DeviceCard(
                             isFavorite = !isFavorite
                             device.id?.let { it1 ->
                                 when (device.type) {
-                                    DeviceType.BLIND -> (viewModel as BlindViewModel).updateFav(it1)
-                                    DeviceType.DOOR -> (viewModel as DoorViewModel).updateFav(it1)
-                                    DeviceType.FRIDGE -> (viewModel as FridgeViewModel).updateFav(it1)
-                                    DeviceType.SPEAKER -> (viewModel as SpeakerViewModel).updateFav(it1)
+                                    DeviceType.BLIND -> blindViewModel.updateFav(it1)
+                                    DeviceType.DOOR -> doorViewModel.updateFav(it1)
+                                    DeviceType.FRIDGE -> fridgeViewModel.updateFav(it1)
+                                    DeviceType.SPEAKER -> speakerViewModel.updateFav(it1)
                                     else -> {}
                                 }
                             }
