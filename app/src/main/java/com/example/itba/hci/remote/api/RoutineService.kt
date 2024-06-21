@@ -25,7 +25,7 @@ interface RoutineService {
         @Path("routineId") routineId: String
     ): Response<RemoteResult<Boolean>>
 
-    @PUT("routine/{routineId}")
+    @PUT("routines/{routineId}")
     suspend fun modifyRoutine(
         @Path("routineId") routineId: String,
         @Body routine: RemoteRoutineModify

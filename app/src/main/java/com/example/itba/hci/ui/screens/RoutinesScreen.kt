@@ -29,7 +29,7 @@ import com.example.itba.hci.ui.theme.screenTitle
 @Composable
 fun RoutinesScreen(
     navController: NavHostController,
-    viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()),
+    viewModel: RoutineViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Log.d("RoutinesScreen", "Routines list is empty: ${uiState.routines.isEmpty()}")
@@ -49,8 +49,8 @@ fun RoutinesScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(uiState.routines) { routine ->
-                routine.color.primary?.let {
-                    routine.color.secondary?.let { it1 ->
+                routine.meta?.color?.primary?.let {
+                    routine.meta.color.secondary?.let { it1 ->
                         RoutineCard(
                             routine = routine,
                             viewModel = viewModel,

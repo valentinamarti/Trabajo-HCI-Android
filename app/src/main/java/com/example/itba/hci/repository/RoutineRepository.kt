@@ -55,10 +55,7 @@ class RoutineRepository(
     }
 
     suspend fun modifyRoutine(routine: Routine): Boolean {
-        val result = remoteDataSource.modifyRoutine(routine.asRemoteModifyModel(),
-            routine.id.toString()
-        )
-        return result
+        return remoteDataSource.modifyRoutine(routine.id, routine.asRemoteModifyModel())
     }
 
 }

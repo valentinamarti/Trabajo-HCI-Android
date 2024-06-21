@@ -42,7 +42,7 @@ import com.example.itba.hci.ui.getViewModelFactory
 
 
 @Composable
-fun RoutineView(navController: NavController, viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()), routineId: String) {
+fun RoutineView(navController: NavController, viewModel: RoutineViewModel, routineId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
     viewModel.getRoutine(routineId)
@@ -93,7 +93,7 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
             CustomDivider()
             Row {
                 Text(
-                    text = routine?.description ?: "",
+                    text = routine?.meta?.description ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .padding(26.dp)
@@ -190,7 +190,7 @@ fun EventItem(action: RemoteAction) {
 
 @Composable
 fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
-    val selectedColor = routine.color
+    val selectedColor = routine.meta?.color
 
     val colorOptions = listOf(
         Color(0xFFFCD59D),
@@ -215,8 +215,10 @@ fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             colorOptions.forEach { option ->
-                val isSelected = selectedColor.primary == option.toHexString().lowercase()
-                Log.d("Colors", "SelectedColor: ${selectedColor.primary}")
+                val isSelected = selectedColor?.primary == option.toHexString().lowercase()
+                if (selectedColor != null) {
+                    Log.d("Colors", "SelectedColor: ${selectedColor.primary}")
+                }
                 Log.d("Colors", "optionHEx: ${option.toHexString()}")
                 Log.d("Colors", "option: $option")
                 Box(

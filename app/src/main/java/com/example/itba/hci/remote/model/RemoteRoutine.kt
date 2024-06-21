@@ -22,9 +22,7 @@ class RemoteRoutine {
             id = id,
             name = name,
             actions = actions,
-            description = meta.description,
-            color = meta.color,
-            favorite = meta.favorite
+            meta = meta
         )
     }
 }

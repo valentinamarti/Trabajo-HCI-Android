@@ -65,7 +65,7 @@ fun AppNavGraph(navController: NavHostController,
             val routineId = backStackEntry.arguments?.getString("routineId")
             Log.d("AppNavGraph", "RoutineId: $routineId")
             if (routineId != null) {
-                RoutineView(navController = navController, routineId = routineId)
+                RoutineView(navController = navController, viewModel = routineViewModel, routineId = routineId)
             }
         }
 

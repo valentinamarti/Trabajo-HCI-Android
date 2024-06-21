@@ -90,7 +90,7 @@ fun HomeScreen(navController: NavHostController,
                     .padding(horizontal = 10.dp, vertical = 5.dp)
                 )
             }
-            if (routineUiState.routines.filter { it.favorite }.isEmpty()) {
+            if (routineUiState.routines.filter { it.meta?.favorite!!}.isEmpty()) {
                 item {
                     Text(
                         text = stringResource(id = R.string.no_favorite_routines),
@@ -101,9 +101,9 @@ fun HomeScreen(navController: NavHostController,
                     )
                 }
             } else {
-                items(routineUiState.routines.filter { it.favorite }) { routine ->
-                    routine.color.primary?.let {
-                        routine.color.secondary?.let { it1 ->
+                items(routineUiState.routines.filter { it.meta?.favorite!! }) { routine ->
+                    routine.meta?.color?.primary?.let {
+                        routine.meta.color.secondary?.let { it1 ->
                             RoutineCard(
                                 routine = routine,
                                 viewModel = routineViewModel,

@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.DataSourceException
-import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.model.Routine
 import com.example.itba.hci.repository.RoutineRepository
@@ -50,6 +49,12 @@ class RoutineViewModel(
             { routine.id?.let { repository.modifyRoutine(routine) } },
             { state, _ -> state.copy(currentRoutine = routine) }
         )
+
+        viewModelScope.launch {
+            repository.routines.collect { routines ->
+                _uiState.value = _uiState.value.copy(routines = routines)
+            }
+        }
     }
 
     fun updateFav(routineId: String) {
@@ -57,7 +62,7 @@ class RoutineViewModel(
             { repository.getRoutine(routineId) },
             { state, currentRoutine ->
                 try {
-                    currentRoutine.favorite = !currentRoutine.favorite
+                    currentRoutine.meta?.favorite = !currentRoutine.meta?.favorite!!
                     modifyRoutine(currentRoutine)
                     state.copy(currentRoutine = currentRoutine)
                 } catch (e: Exception) {

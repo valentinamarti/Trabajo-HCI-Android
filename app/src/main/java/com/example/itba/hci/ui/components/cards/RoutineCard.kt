@@ -45,7 +45,7 @@ fun RoutineCard(
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    var isFavorite by remember { mutableStateOf(routine.favorite) }
+    var isFavorite by remember { mutableStateOf(routine.meta!!.favorite) }
     var isPlaying by remember { mutableStateOf(false) }
 
 
@@ -67,7 +67,7 @@ fun RoutineCard(
                     .padding(vertical = mediumPadding, horizontal = 16.dp)
                     .widthIn(min = 192.dp, max = screenWidth)
             ){
-                routine.color.secondary?.let {
+                routine.meta?.color?.secondary?.let {
                     Icon(
                         painter = painterResource(id = if (isFavorite) R.drawable.heart else R.drawable.heart_outline),
                         contentDescription = null,
@@ -81,7 +81,7 @@ fun RoutineCard(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                routine.color.primary?.let {
+                routine.meta?.color?.primary?.let {
                     Modifier
                         .size(48.dp)
                         .clip(CircleShape)
@@ -91,7 +91,7 @@ fun RoutineCard(
                         modifier = it,
                         contentAlignment = Alignment.Center
                     ) {
-                        routine.color.secondary?.let { it1 ->
+                        routine.meta.color.secondary?.let { it1 ->
                             Icon(
                                 painter = painterResource(id = if (!isPlaying) R.drawable.play_icon else R.drawable.pause_icon),
                                 contentDescription = null,
@@ -126,7 +126,7 @@ fun RoutineCard(
                     .widthIn(min = 192.dp, max = screenWidth)
             ){
                 Text(
-                    text = routine.description ?: "",
+                    text = routine.meta?.description ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Black,
                     modifier = Modifier.weight(1f)
