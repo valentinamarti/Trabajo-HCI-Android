@@ -47,7 +47,6 @@ fun DevicesScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(uiState.devices) { device ->
-                Log.d("DevicesScreen", "Devices primary color: ${device.meta?.color?.primary}")
                 DeviceCard(
                     text = device.name,
                     deviceType = device.type,

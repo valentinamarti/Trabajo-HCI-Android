@@ -11,6 +11,6 @@ class RemoteAction{
     var actionName: String? = null
 
     @SerializedName("params")
-    var params: ArrayList<String> = arrayListOf()
+    var params: ArrayList<RemoteParam> = arrayListOf()
 
 }
