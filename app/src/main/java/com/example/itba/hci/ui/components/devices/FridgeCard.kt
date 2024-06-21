@@ -87,8 +87,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
                 Spacer(modifier = Modifier.height(16.dp))
             }
             item{
-                TemperatureControl("Temperatura heladera", 7)
-                TemperatureControl("Temperatura freezer", -2)
+                TemperatureControl(viewModel, deviceId)
                 InventoryControl()
             }
 
@@ -97,8 +96,14 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
 }
 
 @Composable
-fun TemperatureControl(label: String, initialTemp: Int) {
-    var temperature by remember { mutableStateOf(initialTemp) }
+fun TemperatureControl(viewModel: FridgeViewModel,deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    viewModel.getDevice(deviceId)
+
+    val currentDevice = uiState.currentDevice
+
+    var temperature by remember { mutableStateOf(currentDevice?.temperature) }
 
     Box(
         modifier = Modifier
@@ -113,9 +118,13 @@ fun TemperatureControl(label: String, initialTemp: Int) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text(label, modifier = Modifier.weight(1f))
+            Text("Temperatura Heladera", modifier = Modifier.weight(1f))
             Button(
-                onClick = { temperature-- },
+                onClick = {
+                    temperature = temperature!! - 1
+                    Log.d("temperatura", "${}")
+                          viewModel.setTemperature(currentDevice?.temperature?.minus(1) ?: 0)
+                          },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     contentColor = Color.Black
@@ -125,7 +134,10 @@ fun TemperatureControl(label: String, initialTemp: Int) {
             }
             Text("$temperature°C", modifier = Modifier.padding(horizontal = 8.dp))
             Button(
-                onClick = { temperature++ },
+                onClick = {
+                    temperature = temperature!! + 1
+                    viewModel.setTemperature(currentDevice?.temperature?.plus(1) ?: 0)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     contentColor = Color.Black
