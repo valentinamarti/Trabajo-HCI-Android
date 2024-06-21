@@ -38,7 +38,9 @@ fun DoorCard(
 
     val currentDevice = uiState.currentDevice
 
-    Log.d("DoorCard", "Current device: $currentDevice")
+    Log.d("DoorCard meta", "Current device: ${currentDevice?.meta}")
+    Log.d("DoorCard status", "Current device: ${currentDevice?.status}")
+    Log.d("DoorCard lock", "Current device: ${currentDevice?.lock}")
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -91,7 +93,7 @@ fun DoorCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            DoorControl()
+            DoorControl(viewModel, deviceId)
         }
     }
 }
@@ -100,9 +102,18 @@ fun DoorCard(
 
 
 @Composable
-fun DoorControl() {
-    var isDoorOpen by remember { mutableStateOf(false) }
-    var isDoorLocked by remember { mutableStateOf(false) }
+fun DoorControl(viewModel: DoorViewModel, deviceId: String) {
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    viewModel.getDevice(deviceId)
+
+    val currentDevice = uiState.currentDevice
+
+
+
+    var isDoorOpen by remember { mutableStateOf(currentDevice?.status) }
+    var isDoorLocked by remember { mutableStateOf(currentDevice?.lock) }
     val context = LocalContext.current
 
     Column(
@@ -112,36 +123,49 @@ fun DoorControl() {
     ) {
         val doorIcon: Painter = painterResource(
             id = when {
-                isDoorOpen -> R.drawable.mdi_door_open
-                isDoorLocked -> R.drawable.mdi_door_closed_lock
+                isDoorOpen != "closed" -> R.drawable.mdi_door_open
+                isDoorLocked != "unlocked" -> R.drawable.mdi_door_closed_lock
                 else -> R.drawable.mdi_door_closed
             }
         )
 
         Image(
             painter = doorIcon,
-            contentDescription = if (isDoorOpen) "Door Open" else "Door Closed",
+            contentDescription = if (isDoorOpen != "closed") "Door Open" else "Door Closed",
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { isDoorOpen = !isDoorOpen }) {
-            Text(if (isDoorOpen) "Close" else "Open")
+        Button(onClick = { if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
+                                viewModel.open()
+                                    isDoorOpen = "open"
+                            } else {
+                                viewModel.close()
+                                isDoorOpen = "closed"
+                            }
+        }) {
+            Text(if (isDoorOpen != "closed") "Close" else "Open")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                if (!isDoorOpen) {
-                    isDoorLocked = !isDoorLocked
-                    val notificationText = if (isDoorLocked) "The door has been locked" else "The door has been unlocked"
+                if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
+                    viewModel.lock()
+                    isDoorLocked = "locked"
+                    val notificationText = "The door has been locked"
+                    sendNotification(context, notificationText)
+                } else if(isDoorOpen == "closed" && isDoorLocked != "unlocked") {
+                    viewModel.unlock()
+                    isDoorLocked = "unlocked"
+                    val notificationText = "The door has been unlocked"
                     sendNotification(context, notificationText)
                 }
             }
         ) {
             Icon(
                 painter = painterResource(
-                    id = if (isDoorLocked) R.drawable.mdi_lock_open else R.drawable.mdi_lock
+                    id = if (isDoorLocked != "unlocked") R.drawable.mdi_lock_open else R.drawable.mdi_lock
                 ),
-                contentDescription = if (isDoorLocked) "Unlock" else "Lock"
+                contentDescription = if (isDoorLocked != "unlocked") "Unlock" else "Lock"
             )
         }
     }
