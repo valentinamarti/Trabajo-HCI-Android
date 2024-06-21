@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -66,11 +67,16 @@ data class Param(
 fun RoutineView(navController: NavController, viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()), routineId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
+    viewModel.getRoutine(routineId)
+
+    val routine = uiState.currentRoutine
+
+    Log.d("Routine", "Current routine: $routine")
+
+
     LaunchedEffect(Unit) {
         viewModel.getRoutine(routineId)
     }
-
-    val routine = uiState.currentRoutine!!
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -109,7 +115,7 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
             CustomDivider()
             Row {
                 Text(
-                    text = routine.description ?: "",
+                    text = routine?.description ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .padding(26.dp)
@@ -117,11 +123,15 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
             }
             CustomDivider()
 
-            EventContainer(routine = routine)
+            if (routine != null) {
+                EventContainer(routine = routine)
+            }
 
             CustomDivider()
 
-            ColorSelector(routine)
+            if (routine != null) {
+                ColorSelector(routine)
+            }
         }
     }
 }
