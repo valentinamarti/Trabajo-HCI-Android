@@ -3,7 +3,6 @@ package com.example.itba.hci.ui.components.devices
 import android.content.Context
 import android.content.pm.PackageManager
 import android.Manifest
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +25,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.example.itba.hci.R
+import com.example.itba.hci.model.Door
 import com.example.itba.hci.ui.devices.DoorViewModel
+
 
 @Composable
 fun DoorCard(
@@ -39,11 +41,8 @@ fun DoorCard(
 
     val currentDevice = uiState.currentDevice
 
-    //.
-
-    Log.d("DoorCard meta", "Current device: ${currentDevice?.meta}")
-    Log.d("DoorCard status", "Current device: ${currentDevice?.status}")
-    Log.d("DoorCard lock", "Current device: ${currentDevice?.lock}")
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -53,7 +52,7 @@ fun DoorCard(
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-         LazyColumn(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(14.dp)
@@ -100,29 +99,25 @@ fun DoorCard(
                 }
 
 
-                 Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
             }
-             item {
-                 DoorControl(viewModel, deviceId)
-             }
+            item {
+                if(isPortrait)
+                    VerticalDoorControl(viewModel = viewModel , currentDevice = currentDevice)
+                else
+                    HorizontalDoorControl(viewModel = viewModel, currentDevice = currentDevice)
+            }
         }
+
     }
 }
 
 
 
 
+
 @Composable
-fun DoorControl(viewModel: DoorViewModel, deviceId: String) {
-
-    val uiState by viewModel.uiState.collectAsState()
-
-    viewModel.getDevice(deviceId)
-
-    val currentDevice = uiState.currentDevice
-
-
-
+fun VerticalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
     var isDoorOpen by remember { mutableStateOf(currentDevice?.status) }
     var isDoorLocked by remember { mutableStateOf(currentDevice?.lock) }
     val context = LocalContext.current
@@ -146,13 +141,14 @@ fun DoorControl(viewModel: DoorViewModel, deviceId: String) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
-                                viewModel.open()
-                                    isDoorOpen = "open"
-                            } else {
-                                viewModel.close()
-                                isDoorOpen = "closed"
-                            }
+        Button(onClick = {
+            if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
+                viewModel.open()
+                isDoorOpen = "open"
+            } else {
+                viewModel.close()
+                isDoorOpen = "closed"
+            }
         }) {
             Text(if (isDoorOpen != "closed") "Close" else "Open")
         }
@@ -164,7 +160,7 @@ fun DoorControl(viewModel: DoorViewModel, deviceId: String) {
                     isDoorLocked = "locked"
                     val notificationText = "The door has been locked"
                     sendNotification(context, notificationText)
-                } else if(isDoorOpen == "closed" && isDoorLocked != "unlocked") {
+                } else if (isDoorOpen == "closed" && isDoorLocked != "unlocked") {
                     viewModel.unlock()
                     isDoorLocked = "unlocked"
                     val notificationText = "The door has been unlocked"
@@ -182,6 +178,66 @@ fun DoorControl(viewModel: DoorViewModel, deviceId: String) {
     }
 }
 
+@Composable
+fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
+    var isDoorOpen by remember { mutableStateOf(currentDevice?.status) }
+    var isDoorLocked by remember { mutableStateOf(currentDevice?.lock) }
+    val context = LocalContext.current
+
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val doorIcon: Painter = painterResource(
+            id = when {
+                isDoorOpen != "closed" -> R.drawable.mdi_door_open
+                isDoorLocked != "unlocked" -> R.drawable.mdi_door_closed_lock
+                else -> R.drawable.mdi_door_closed
+            }
+        )
+
+        Image(
+            painter = doorIcon,
+            contentDescription = if (isDoorOpen != "closed") "Door Open" else "Door Closed",
+            modifier = Modifier.size(128.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Button(onClick = {
+            if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
+                viewModel.open()
+                isDoorOpen = "open"
+            } else {
+                viewModel.close()
+                isDoorOpen = "closed"
+            }
+        }) {
+            Text(if (isDoorOpen != "closed") "Close" else "Open")
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Button(
+            onClick = {
+                if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
+                    viewModel.lock()
+                    isDoorLocked = "locked"
+                    val notificationText = "The door has been locked"
+                    sendNotification(context, notificationText)
+                } else if (isDoorOpen == "closed" && isDoorLocked != "unlocked") {
+                    viewModel.unlock()
+                    isDoorLocked = "unlocked"
+                    val notificationText = "The door has been unlocked"
+                    sendNotification(context, notificationText)
+                }
+            }
+        ) {
+            Icon(
+                painter = painterResource(
+                    id = if (isDoorLocked != "unlocked") R.drawable.mdi_lock_open else R.drawable.mdi_lock
+                ),
+                contentDescription = if (isDoorLocked != "unlocked") "Unlock" else "Lock"
+            )
+        }
+    }
+}
 fun sendNotification(context: Context, text: String) {
     val builder = NotificationCompat.Builder(context, "door_lock_channel")
         .setSmallIcon(R.drawable.homedome)
@@ -197,6 +253,9 @@ fun sendNotification(context: Context, text: String) {
         println("Notification permission not granted.")
     }
 }
+
+
+
 //
 //@Preview(showBackground = true)
 //@Composable
