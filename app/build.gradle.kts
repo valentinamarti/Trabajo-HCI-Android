@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.itba.hci"
-        minSdk = 34
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
