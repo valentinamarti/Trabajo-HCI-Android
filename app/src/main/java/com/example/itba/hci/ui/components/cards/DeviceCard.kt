@@ -22,22 +22,29 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.itba.hci.R
+import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.DeviceType
+import com.example.itba.hci.ui.RoutineViewModel
+import com.example.itba.hci.ui.devices.BlindViewModel
+import com.example.itba.hci.ui.devices.DevicesViewModel
+import com.example.itba.hci.ui.devices.DoorViewModel
+import com.example.itba.hci.ui.devices.FridgeViewModel
+import com.example.itba.hci.ui.devices.SpeakerViewModel
+import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.screens.toColor
 
 @Composable
 fun DeviceCard(
-    text: String,
-    deviceType: DeviceType,
-    primaryColor: String,
-    secondaryColor: String,
-    isFavourite: Boolean,
+    device: Device,
     onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    val icon = when(deviceType) {
+    val icon = when(device.type) {
         DeviceType.SPEAKER -> R.drawable.speaker
         DeviceType.FRIDGE -> R.drawable.fridge_outline
         DeviceType.BLIND -> R.drawable.blinds
@@ -45,7 +52,9 @@ fun DeviceCard(
         else -> R.drawable.homedome
     }
 
+
     var isPressed by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(device.meta?.favorite ?: false) }
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -63,37 +72,56 @@ fun DeviceCard(
                 .padding(vertical = mediumPadding, horizontal = 16.dp)
                 .widthIn(min = 192.dp, max = screenWidth)
         ) {
-            Box(
-                modifier = Modifier
+            device.meta?.color?.primary?.let {
+                Modifier
                     .size(50.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color(primaryColor.toColorInt())),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .padding(8.dp),
-                    tint = Color(secondaryColor.toColorInt())
-                )
+                    .background(it.toColor())
+            }?.let {
+                Box(
+                    modifier = it,
+                    contentAlignment = Alignment.Center
+                ) {
+                    device.meta!!.color.secondary?.let { it1 ->
+                        Icon(
+                            painter = painterResource(id = icon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .padding(8.dp),
+                            tint = it1.toColor()
+                        )
+                    }
+                }
             }
             Spacer(modifier = Modifier.width(mediumPadding))
             Text(
-                text = text,
+                text = device.name,
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
                 modifier = Modifier.weight(1f)
             )
-            Icon(
-                painter = painterResource(id = if (isFavourite) R.drawable.heart else R.drawable.heart_outline),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { isPressed = !isPressed },
-                tint = Color(secondaryColor.toColorInt())
-            )
+            device.meta?.color?.secondary?.let {
+                Icon(
+                    painter = painterResource(id = if (isFavorite) R.drawable.heart else R.drawable.heart_outline),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            isFavorite = !isFavorite
+                            device.id?.let { it1 ->
+                                when (device.type) {
+                                    DeviceType.BLIND -> (viewModel as BlindViewModel).updateFav(it1)
+                                    DeviceType.DOOR -> (viewModel as DoorViewModel).updateFav(it1)
+                                    DeviceType.FRIDGE -> (viewModel as FridgeViewModel).updateFav(it1)
+                                    DeviceType.SPEAKER -> (viewModel as SpeakerViewModel).updateFav(it1)
+                                    else -> {}
+                                }
+                            }
+                        },
+                    tint = it.toColor()
+                )
+            }
         }
     }
 }
