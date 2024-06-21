@@ -29,7 +29,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
 
     val currentDevice = uiState.currentDevice
 
-    Log.d("DoorCard", "Current device: $currentDevice")
+    Log.d("FridgeCard", "Current device: $currentDevice")
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,

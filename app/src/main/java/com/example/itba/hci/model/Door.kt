@@ -3,6 +3,7 @@ package com.example.itba.hci.model
 import com.example.itba.hci.remote.model.RemoteDeviceMeta
 import com.example.itba.hci.remote.model.RemoteDoor
 import com.example.itba.hci.remote.model.RemoteDoorState
+import com.example.itba.hci.remote.model.RemoteFridgeState
 import com.example.itba.hci.remote.model.RemoteLamp
 import com.example.itba.hci.remote.model.RemoteLampState
 
@@ -10,13 +11,15 @@ class Door(
     id: String?,
     name: String,
     val room: Room?,
-    val status: Status,
+    val status: String,
+    val lock: String,
     override val meta: RemoteDeviceMeta?
 ) : Device(id, name, DeviceType.DOOR, meta) {
 
     override fun asRemoteModel(): RemoteDoor {
         val state = RemoteDoorState()
-        state.status = Status.asRemoteModel(status)
+        state.status = status
+        state.lock = lock
 
         val model = RemoteDoor()
         model.id = id
