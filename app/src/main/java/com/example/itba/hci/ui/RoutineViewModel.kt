@@ -28,14 +28,6 @@ class RoutineViewModel(
             }
         }
     }
-//    init {
-//        getRoutines()
-//    }
-//
-//    fun getRoutines() = runOnViewModelScope(
-//        { repository.getRoutines(true) },
-//        { state, response -> state.copy(routines = response) }
-//    )
 
     fun getRoutine(routineId: String) {
         runOnViewModelScope(

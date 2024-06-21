@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.itba.hci.model.DeviceType
+import com.example.itba.hci.ui.components.RoutineView
 import com.example.itba.hci.ui.components.devices.BlindsCard
 import com.example.itba.hci.ui.components.devices.DoorCard
 import com.example.itba.hci.ui.components.devices.FridgeCard
@@ -32,8 +32,16 @@ fun AppNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
             HomeScreen()
         }
         composable(AppDestinations.ROUTINES.route) {
-            RoutinesScreen()
+            RoutinesScreen(navController = navController)
         }
+        composable("routineDetail/{routineId}") { backStackEntry ->
+            val routineId = backStackEntry.arguments?.getString("routineId")
+            Log.d("AppNavGraph", "RoutineId: $routineId")
+            if (routineId != null) {
+                RoutineView(navController = navController, routineId = routineId)
+            }
+        }
+
         composable("deviceDetail/{deviceType}/{deviceId}") { backStackEntry ->
             val deviceType = backStackEntry.arguments?.getString("deviceType")
             val deviceId = backStackEntry.arguments?.getString("deviceId")

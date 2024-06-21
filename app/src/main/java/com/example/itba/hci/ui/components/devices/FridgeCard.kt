@@ -11,20 +11,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.itba.hci.R
-import com.example.itba.hci.ui.theme.HomeDomeTheme
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.itba.hci.ui.devices.FridgeViewModel
+import com.example.itba.hci.ui.getViewModelFactory
 
 @Composable
-fun FridgeCard(navController: NavController,deviceId: String) {
+fun FridgeCard(navController: NavController, viewModel: FridgeViewModel = viewModel(factory = getViewModelFactory()),deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,

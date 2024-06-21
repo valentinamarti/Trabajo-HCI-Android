@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.components.cards.RoutineCard
@@ -25,9 +26,9 @@ import com.example.itba.hci.ui.getViewModelFactory
 import com.example.itba.hci.ui.theme.screenTitle
 
 
-data class Routine(val text: Int, val secondaryText: Int, val backgroundColor: Color, val iconColor: Color)
 @Composable
 fun RoutinesScreen(
+    navController: NavHostController,
     viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -55,6 +56,7 @@ fun RoutinesScreen(
                             secondaryText = routine.description,
                             backgroundColor = it.toColor(),
                             iconColor = it1.toColor(),
+                            onClick = { navController.navigate("routineDetail/${routine.id}") }
                         )
                     }
                 }

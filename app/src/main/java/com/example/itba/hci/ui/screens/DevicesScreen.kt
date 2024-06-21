@@ -20,22 +20,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.components.cards.DeviceCard
-import com.example.itba.hci.ui.devices.BlindViewModel
 import com.example.itba.hci.ui.devices.DevicesViewModel
-import com.example.itba.hci.ui.devices.DoorViewModel
-import com.example.itba.hci.ui.devices.FridgeViewModel
-import com.example.itba.hci.ui.devices.SpeakerViewModel
 import com.example.itba.hci.ui.getViewModelFactory
 import com.example.itba.hci.ui.theme.screenTitle
 
 @Composable
 fun DevicesScreen(
     navController: NavHostController,
-    viewModel: DevicesViewModel = viewModel(factory = getViewModelFactory()),
-    doorViewModel: DoorViewModel = viewModel(factory = getViewModelFactory()),
-    fridgeViewModel: FridgeViewModel = viewModel(factory = getViewModelFactory()),
-    blindViewModel: BlindViewModel = viewModel(factory = getViewModelFactory()),
-    speakerViewModel: SpeakerViewModel = viewModel(factory = getViewModelFactory())
+    viewModel: DevicesViewModel = viewModel(factory = getViewModelFactory())
 ){
     val uiState by viewModel.uiState.collectAsState()
     Log.d("DevicesScreen", "Devices list is empty: ${uiState.devices.isEmpty()}")

@@ -1,6 +1,5 @@
 package com.example.itba.hci.ui.components.cards
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,11 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.itba.hci.R
-import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
 fun RoutineCard(
@@ -42,7 +38,8 @@ fun RoutineCard(
     modifier: Modifier = Modifier,
     secondaryText: String?,
     backgroundColor: Color,
-    iconColor: Color
+    iconColor: Color,
+    onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -59,6 +56,7 @@ fun RoutineCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .height(160.dp)
+            .clickable { onClick() }
     ) {
         Column {
             Row(
@@ -126,19 +124,19 @@ fun RoutineCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RoutineCardPreview() {
-
-    HomeDomeTheme {
-        val smallPadding = dimensionResource(R.dimen.small_padding)
-        RoutineCard(
-            text = "Routines1",
-            secondaryText = "Routines1 description",
-            modifier = Modifier.padding(smallPadding),
-            backgroundColor = MaterialTheme.colorScheme.background,
-            iconColor = MaterialTheme.colorScheme.primary
-        )
-    }
-}
-
+//@Preview(showBackground = true)
+//@Composable
+//fun RoutineCardPreview() {
+//
+//    HomeDomeTheme {
+//        val smallPadding = dimensionResource(R.dimen.small_padding)
+//        RoutineCard(
+//            text = "Routines1",
+//            secondaryText = "Routines1 description",
+//            modifier = Modifier.padding(smallPadding),
+//            backgroundColor = MaterialTheme.colorScheme.background,
+//            iconColor = MaterialTheme.colorScheme.primary
+//        )
+//    }
+//}
+//

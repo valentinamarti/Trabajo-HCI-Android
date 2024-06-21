@@ -23,15 +23,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.itba.hci.R
-import com.example.itba.hci.ui.theme.HomeDomeTheme
+import com.example.itba.hci.remote.model.RemoteAction
+import com.example.itba.hci.ui.RoutineViewModel
+import com.example.itba.hci.ui.getViewModelFactory
 
 
 
@@ -57,7 +63,15 @@ data class Param(
 
 
 @Composable
-fun RoutineView(routine: Routine) {
+fun RoutineView(navController: NavController, viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()), routineId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getRoutine(routineId)
+    }
+
+    val routine = uiState.currentRoutine!!
+
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -75,25 +89,27 @@ fun RoutineView(routine: Routine) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /* Handle back navigation */ }) {
+                IconButton(onClick = { navController.navigate("routine_screen") }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
             }
             Row {
 
-                Text(
-                    text = routine.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .padding(30.dp)
-                )
+                if (routine != null) {
+                    Text(
+                        text = routine.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier
+                            .padding(30.dp)
+                    )
+                }
 
 
             }
             CustomDivider()
             Row {
                 Text(
-                    text = routine.meta.description,
+                    text = routine.description ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .padding(26.dp)
@@ -123,7 +139,7 @@ fun CustomDivider() {
 
 
 @Composable
-fun EventContainer(routine: Routine) {
+fun EventContainer(routine: com.example.itba.hci.model.Routine) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -159,7 +175,7 @@ fun EventContainer(routine: Routine) {
 }
 
 @Composable
-fun EventItem(action: Action, index: Int) {
+fun EventItem(action: RemoteAction, index: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -170,7 +186,7 @@ fun EventItem(action: Action, index: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = action.actionName,
+                text = action.actionName ?: "",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.weight(1f)
             )
@@ -185,8 +201,8 @@ fun EventItem(action: Action, index: Int) {
 
 
 @Composable
-fun ColorSelector(routine: Routine) {
-    val selectedColor = routine.meta.color
+fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
+    val selectedColor = routine.color
 
     val colorOptions = listOf(
         Color(0xFFFCD59D),
@@ -211,7 +227,7 @@ fun ColorSelector(routine: Routine) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             colorOptions.forEach { option ->
-                val isSelected = selectedColor == option
+                val isSelected = selectedColor.primary == option.toString()
                 Box(
                     modifier = Modifier
                         .size(26.dp)
@@ -229,20 +245,20 @@ fun ColorSelector(routine: Routine) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun RoutinePreview() {
-    val routine = Routine(
-        name = "Routine 1",
-        meta = Meta(description = "Description", color = Color(0xFFFCD59D)),
-        actions = listOf(
-            Action(actionName = "Action 1", params = listOf(Param("Param 1"))),
-            Action(actionName = "Action 2", params = listOf(Param("Param 2"))),
-            Action(actionName = "Action 3", params = listOf(Param("Param 3"))),
-            Action(actionName = "Action 4", params = listOf(Param("Param 4")))
-        )
-    )
-    HomeDomeTheme {
-        RoutineView(routine)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun RoutinePreview() {
+//    val routine = Routine(
+//        name = "Routine 1",
+//        meta = Meta(description = "Description", color = Color(0xFFFCD59D)),
+//        actions = listOf(
+//            Action(actionName = "Action 1", params = listOf(Param("Param 1"))),
+//            Action(actionName = "Action 2", params = listOf(Param("Param 2"))),
+//            Action(actionName = "Action 3", params = listOf(Param("Param 3"))),
+//            Action(actionName = "Action 4", params = listOf(Param("Param 4")))
+//        )
+//    )
+//    HomeDomeTheme {
+//        RoutineView(routine)
+//    }
+//}

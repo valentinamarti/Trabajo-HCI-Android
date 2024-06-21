@@ -11,18 +11,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.itba.hci.R
-import com.example.itba.hci.ui.theme.HomeDomeTheme
+import com.example.itba.hci.ui.devices.BlindViewModel
+import com.example.itba.hci.ui.getViewModelFactory
 
 @Composable
-fun BlindsCard(navController: NavController, deviceId: String) {
+fun BlindsCard(navController: NavController, viewModel: BlindViewModel = viewModel(factory = getViewModelFactory()), deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,

@@ -10,17 +10,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.itba.hci.R
-import com.example.itba.hci.ui.theme.HomeDomeTheme
+import com.example.itba.hci.ui.devices.SpeakerViewModel
+import com.example.itba.hci.ui.getViewModelFactory
 
 @Composable
-fun SpeakerCard(navController: NavController,deviceId: String) {
+fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = viewModel(factory = getViewModelFactory()), deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
