@@ -98,7 +98,10 @@ fun RoutineCard(
                                 modifier = Modifier
                                     .size(40.dp)
                                     .padding(8.dp)
-                                    .clickable { isPlaying = !isPlaying },
+                                    .clickable {
+                                        if(isPlaying){ viewModel.executeRoutine(routine) }
+                                        isPlaying = !isPlaying
+                                        },
                                 tint = it1.toColor()
                             )
                         }
