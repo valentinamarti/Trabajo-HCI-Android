@@ -54,7 +54,6 @@ fun DeviceCard(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .height(80.dp)
             .clickable { onClick() }
     ) {

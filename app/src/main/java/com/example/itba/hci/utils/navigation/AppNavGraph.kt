@@ -29,7 +29,7 @@ fun AppNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
             DevicesScreen(navController = navController)
         }
         composable(AppDestinations.HOME.route) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
         composable(AppDestinations.ROUTINES.route) {
             RoutinesScreen(navController = navController)

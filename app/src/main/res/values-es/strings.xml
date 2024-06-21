@@ -6,13 +6,6 @@
     <string name="bottom_navigation_routines">Rutinas</string>
     <string name="routines_actions">Acciones agregadas:</string>
     <string name="color_title">Colores:</string>
-
-
-    <!-- Hardcoded device names -->
-    <string name="device1">Dispositivo 1</string>
-    <string name="device2">Dispositivo 2</string>
-
-    <!-- Hardcoded routines names -->
-    <string name="routine1">Rutina 1</string>
-    <string name="routine2">Rutina 2</string>
+    <string name="fav_devices">Dispositivos favoritos</string>
+    <string name="fav_routines">Rutinas favoritas</string>
 </resources>

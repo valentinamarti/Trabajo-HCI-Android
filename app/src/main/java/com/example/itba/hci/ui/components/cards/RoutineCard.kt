@@ -41,7 +41,7 @@ import com.example.itba.hci.ui.screens.toColor
 fun RoutineCard(
     routine: Routine,
     modifier: Modifier = Modifier,
-    viewModel: RoutineViewModel,
+    viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()),
     onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
@@ -59,7 +59,6 @@ fun RoutineCard(
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .height(160.dp)
             .clickable { onClick() }
     ) {
