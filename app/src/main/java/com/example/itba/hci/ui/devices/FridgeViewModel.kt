@@ -59,11 +59,18 @@ class FridgeViewModel(
         { state, _ -> state }
     )
 
-    //fun setFreezerTemperature(temperature: Int) = runOnViewModelScope(
-     //   { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Fridge.SET_FREEZER_TEMPERATURE, intArrayOf(temperature))
-     //        },
-     //   { state, _ -> state }
-    //)
+    fun setFreezerTemperature(temperature: Int) = runOnViewModelScope(
+        {
+            val parameters = arrayOf<Any>(temperature)
+            repository.executeDeviceAction(
+                uiState.value.currentDevice?.id!!,
+                Fridge.SET_TEMPERATURE,
+                parameters
+            )
+        },
+        { state, _ -> state }
+    )
+
 
     fun setMode() = runOnViewModelScope(
         {

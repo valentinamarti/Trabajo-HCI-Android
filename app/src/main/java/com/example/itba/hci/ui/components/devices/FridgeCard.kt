@@ -23,7 +23,7 @@ import com.example.itba.hci.R
 import com.example.itba.hci.ui.devices.FridgeViewModel
 
 @Composable
-fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId: String) {
+fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
     viewModel.getDevice(deviceId)
@@ -44,15 +44,15 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
                 .fillMaxSize()
                 .padding(14.dp)
         ) {
-           item {
-               Row(
-                   verticalAlignment = Alignment.CenterVertically,
-                   modifier = Modifier.fillMaxWidth()
-               ) {
-                   IconButton(onClick = { navController.navigate("devices_screen") }) {
-                       Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                   }
-               }
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    IconButton(onClick = { navController.navigate("devices_screen") }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
                 Spacer(modifier = Modifier.height(6.dp))
             }
             item {
@@ -64,8 +64,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
                     Icon(
                         painter = painterResource(R.drawable.fridge_outline),
                         contentDescription = null,
-                        modifier = Modifier
-                            .size(24.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Column(
@@ -86,8 +85,9 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item{
+            item {
                 TemperatureControl(viewModel, deviceId)
+                FreezerTemperatureControl(viewModel, deviceId)
                 InventoryControl()
             }
 
@@ -96,7 +96,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
 }
 
 @Composable
-fun TemperatureControl(viewModel: FridgeViewModel,deviceId: String) {
+fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
     viewModel.getDevice(deviceId)
@@ -122,9 +122,8 @@ fun TemperatureControl(viewModel: FridgeViewModel,deviceId: String) {
             Button(
                 onClick = {
                     temperature = temperature!! - 1
-                    Log.d("temperatura", "${}")
-                          viewModel.setTemperature(currentDevice?.temperature?.minus(1) ?: 0)
-                          },
+                    viewModel.setTemperature(currentDevice?.temperature?.minus(1) ?: 0)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     contentColor = Color.Black
@@ -137,6 +136,59 @@ fun TemperatureControl(viewModel: FridgeViewModel,deviceId: String) {
                 onClick = {
                     temperature = temperature!! + 1
                     viewModel.setTemperature(currentDevice?.temperature?.plus(1) ?: 0)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = Color.Black
+                )
+            ) {
+                Text("+")
+            }
+        }
+    }
+}
+
+@Composable
+fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    viewModel.getDevice(deviceId)
+
+    val currentDevice = uiState.currentDevice
+
+    var freezerTemperature by remember { mutableStateOf(currentDevice?.freezerTemperature) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .clip(RoundedCornerShape(10.dp))
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(8.dp)
+        ) {
+            Text("Temperatura Freezer", modifier = Modifier.weight(1f))
+            Button(
+                onClick = {
+                    freezerTemperature = freezerTemperature!! - 1
+                    viewModel.setFreezerTemperature(currentDevice?.freezerTemperature?.minus(1) ?: 0)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = Color.Black
+                )
+            ) {
+                Text("-")
+            }
+            Text("$freezerTemperature°C", modifier = Modifier.padding(horizontal = 8.dp))
+            Button(
+                onClick = {
+                    freezerTemperature = freezerTemperature!! + 1
+                    viewModel.setFreezerTemperature(currentDevice?.freezerTemperature?.plus(1) ?: 0)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -187,12 +239,3 @@ fun InventoryControl() {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    HomeDomeTheme {
-//        val smallPadding = dimensionResource(R.dimen.small_padding)
-//        FridgeCard("3")
-//    }
-//}
