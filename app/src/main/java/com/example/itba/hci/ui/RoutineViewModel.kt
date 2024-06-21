@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.DataSourceException
+import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.model.Routine
 import com.example.itba.hci.repository.RoutineRepository
@@ -29,12 +30,14 @@ class RoutineViewModel(
     }
 
     fun getRoutine(routineId: String) {
+        Log.d("RoutineViewModel", "Fetching routine with ID: $routineId")
         runOnViewModelScope(
             { repository.getRoutine(routineId) },
-            { state, response -> state.copy(currentRoutine = response) }
+            { state, response ->
+                Log.d("RoutineViewModel", "Fetched routine: $response")
+                state.copy(currentRoutine = response) }
         )
     }
-
     fun executeRoutine(routine: Routine) {
         runOnViewModelScope(
             { routine.id?.let { repository.executeRoutine(it) } },

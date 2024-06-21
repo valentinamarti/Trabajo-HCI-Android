@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,37 +41,20 @@ import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.getViewModelFactory
 
 
-
-data class Routine(
-    val name: String,
-    val meta: Meta,
-    val actions: List<Action>
-)
-
-data class Meta(
-    val description: String,
-    val color: Color
-)
-
-data class Action(
-    val actionName: String,
-    val params: List<Param>
-)
-
-data class Param(
-    val value: String
-)
-
-
 @Composable
 fun RoutineView(navController: NavController, viewModel: RoutineViewModel = viewModel(factory = getViewModelFactory()), routineId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
+    viewModel.getRoutine(routineId)
+
+    val routine = uiState.currentRoutine
+
+    Log.d("Routine", "Current routine: $routine")
+
+
     LaunchedEffect(Unit) {
         viewModel.getRoutine(routineId)
     }
-
-    val routine = uiState.currentRoutine!!
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -90,7 +74,7 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { navController.navigate("routine_screen") }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
             }
             Row {
@@ -109,7 +93,7 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
             CustomDivider()
             Row {
                 Text(
-                    text = routine.description ?: "",
+                    text = routine?.description ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .padding(26.dp)
@@ -117,11 +101,15 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
             }
             CustomDivider()
 
-            EventContainer(routine = routine)
+            if (routine != null) {
+                EventContainer(routine = routine)
+            }
 
             CustomDivider()
 
-            ColorSelector(routine)
+            if (routine != null) {
+                ColorSelector(routine)
+            }
         }
     }
 }
@@ -129,11 +117,11 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel = view
 
 @Composable
 fun CustomDivider() {
-    Divider(
-        color = Color(0xFF8D8888), 
+    HorizontalDivider(
         modifier = Modifier
             .fillMaxWidth()
-            .height(0.5.dp)
+            .height(0.5.dp),
+        color = Color(0xFF8D8888)
     )
 }
 
@@ -166,8 +154,8 @@ fun EventContainer(routine: com.example.itba.hci.model.Routine) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            routine.actions.forEachIndexed { index, action ->
-                EventItem(action = action, index = index)
+            routine.actions.forEachIndexed { _, action ->
+                EventItem(action = action)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -175,7 +163,7 @@ fun EventContainer(routine: com.example.itba.hci.model.Routine) {
 }
 
 @Composable
-fun EventItem(action: RemoteAction, index: Int) {
+fun EventItem(action: RemoteAction) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -227,7 +215,10 @@ fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             colorOptions.forEach { option ->
-                val isSelected = selectedColor.primary == option.toString()
+                val isSelected = selectedColor.primary == option.toHexString().lowercase()
+                Log.d("Colors", "SelectedColor: ${selectedColor.primary}")
+                Log.d("Colors", "optionHEx: ${option.toHexString()}")
+                Log.d("Colors", "option: $option")
                 Box(
                     modifier = Modifier
                         .size(26.dp)
@@ -244,6 +235,13 @@ fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
     }
 }
 
+fun Color.toHexString(): String {
+    return "#%02X%02X%02X".format(
+        (red * 255).toInt(),
+        (green * 255).toInt(),
+        (blue * 255).toInt()
+    )
+}
 
 //@Preview(showBackground = true)
 //@Composable
