@@ -12,7 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.itba.hci.R
@@ -34,14 +36,13 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = view
         shadowElevation = 4.dp,
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(14.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(14.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -50,13 +51,33 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = view
                 IconButton(onClick = { navController.navigate("devices_screen") }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
-                Spacer(modifier = Modifier.weight(1f))
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge)
-                    Text("${currentDevice?.room}", style = MaterialTheme.typography.bodySmall)
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.speaker),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Column(
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp
+                    ))
+                    currentDevice?.room?.let { room ->
+                        Text("$room", style = MaterialTheme.typography.bodySmall)
+                    }
                 }
-                Spacer(modifier = Modifier.weight(1f))
-                Text("Icon", modifier = Modifier.padding(end = 16.dp))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
