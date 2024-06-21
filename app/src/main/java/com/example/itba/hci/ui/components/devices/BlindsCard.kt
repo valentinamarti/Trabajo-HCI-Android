@@ -76,8 +76,7 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
                         fontSize = 24.sp
                     ))
                     currentDevice?.room?.let { room ->
-                        Text("$room", style = MaterialTheme.typography.bodySmall)
-                    }
+                        Text(room.name, style = MaterialTheme.typography.bodySmall)                    }
                 }
             }
 

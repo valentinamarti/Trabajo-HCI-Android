@@ -74,8 +74,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel,deviceId
                         fontSize = 24.sp
                     ))
                     currentDevice?.room?.let { room ->
-                        Text("$room", style = MaterialTheme.typography.bodySmall)
-                    }
+                        Text(room.name, style = MaterialTheme.typography.bodySmall)                    }
                 }
             }
 
