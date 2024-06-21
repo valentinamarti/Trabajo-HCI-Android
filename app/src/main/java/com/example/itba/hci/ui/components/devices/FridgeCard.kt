@@ -21,9 +21,10 @@ import com.example.itba.hci.ui.theme.HomeDomeTheme
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.navigation.NavController
 
 @Composable
-fun FridgeCard(deviceId: String) {
+fun FridgeCard(navController: NavController,deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -43,7 +44,7 @@ fun FridgeCard(deviceId: String) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /* Handle back navigation */ }) {
+                IconButton(onClick = { navController.navigate("devices_screen") }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -142,11 +143,11 @@ fun InventoryControl() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    HomeDomeTheme {
-        val smallPadding = dimensionResource(R.dimen.small_padding)
-        FridgeCard("3")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    HomeDomeTheme {
+//        val smallPadding = dimensionResource(R.dimen.small_padding)
+//        FridgeCard("3")
+//    }
+//}

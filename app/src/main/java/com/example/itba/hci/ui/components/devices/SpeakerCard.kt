@@ -15,11 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun SpeakerCard(deviceId: String) {
+fun SpeakerCard(navController: NavController,deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -38,7 +39,7 @@ fun SpeakerCard(deviceId: String) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /* Handle back navigation */ }) {
+                IconButton(onClick = { navController.navigate("devices_screen") }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -184,11 +185,11 @@ fun Playlist() {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun SpeakerPreview() {
-    HomeDomeTheme {
-        SpeakerCard("4")
-    }
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun SpeakerPreview() {
+//    HomeDomeTheme {
+//        SpeakerCard("4")
+//    }
+//}

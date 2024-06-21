@@ -16,11 +16,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.itba.hci.R
 import com.example.itba.hci.ui.theme.HomeDomeTheme
 
 @Composable
-fun BlindsCard(deviceId: String) {
+fun BlindsCard(navController: NavController, deviceId: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -39,7 +41,7 @@ fun BlindsCard(deviceId: String) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /* Handle back navigation */ }) {
+                IconButton(onClick = { navController.navigate("devices_screen") }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -104,10 +106,10 @@ fun BlindControl() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BlindsPreview() {
-    HomeDomeTheme {
-        BlindsCard("1")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BlindsPreview() {
+//    HomeDomeTheme {
+//        BlindsCard("1")
+//    }
+//}

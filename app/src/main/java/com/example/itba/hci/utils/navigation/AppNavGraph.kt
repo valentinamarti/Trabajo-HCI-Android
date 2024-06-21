@@ -41,16 +41,16 @@ fun AppNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
             if (deviceType != null && deviceId != null) {
                 when (deviceType) {
                     "FRIDGE"  -> {
-                        FridgeCard(deviceId = deviceId)
+                        FridgeCard(navController = navController,deviceId = deviceId)
                     }
                     "DOOR" -> {
-                        DoorCard(deviceId = deviceId)
+                        DoorCard(navController = navController,deviceId = deviceId)
                     }
                     "SPEAKER" -> {
-                        SpeakerCard(deviceId = deviceId)
+                        SpeakerCard(navController = navController,deviceId = deviceId)
                     }
                     "BLIND" -> {
-                        BlindsCard(deviceId = deviceId)
+                        BlindsCard(navController = navController,deviceId = deviceId)
                     }
                     else -> {
                         Text("Unknown device type")
