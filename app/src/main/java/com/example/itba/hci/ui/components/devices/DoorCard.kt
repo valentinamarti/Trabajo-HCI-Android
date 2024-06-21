@@ -202,40 +202,49 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Button(onClick = {
-            if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
-                viewModel.open()
-                isDoorOpen = "open"
-            } else {
-                viewModel.close()
-                isDoorOpen = "closed"
-            }
-        }) {
-            Text(if (isDoorOpen != "closed") "Close" else "Open")
-        }
-        Spacer(modifier = Modifier.width(16.dp))
-        Button(
-            onClick = {
+
+
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp)
+        ){
+            Button(onClick = {
                 if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
-                    viewModel.lock()
-                    isDoorLocked = "locked"
-                    val notificationText = "The door has been locked"
-                    sendNotification(context, notificationText)
-                } else if (isDoorOpen == "closed" && isDoorLocked != "unlocked") {
-                    viewModel.unlock()
-                    isDoorLocked = "unlocked"
-                    val notificationText = "The door has been unlocked"
-                    sendNotification(context, notificationText)
+                    viewModel.open()
+                    isDoorOpen = "open"
+                } else {
+                    viewModel.close()
+                    isDoorOpen = "closed"
                 }
+            }) {
+                Text(if (isDoorOpen != "closed") "Close" else "Open")
             }
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = if (isDoorLocked != "unlocked") R.drawable.mdi_lock_open else R.drawable.mdi_lock
-                ),
-                contentDescription = if (isDoorLocked != "unlocked") "Unlock" else "Lock"
-            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Button(
+                onClick = {
+                    if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
+                        viewModel.lock()
+                        isDoorLocked = "locked"
+                        val notificationText = "The door has been locked"
+                        sendNotification(context, notificationText)
+                    } else if (isDoorOpen == "closed" && isDoorLocked != "unlocked") {
+                        viewModel.unlock()
+                        isDoorLocked = "unlocked"
+                        val notificationText = "The door has been unlocked"
+                        sendNotification(context, notificationText)
+                    }
+                }
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = if (isDoorLocked != "unlocked") R.drawable.mdi_lock_open else R.drawable.mdi_lock
+                    ),
+                    contentDescription = if (isDoorLocked != "unlocked") "Unlock" else "Lock"
+                )
+            }
         }
+
     }
 }
 fun sendNotification(context: Context, text: String) {
