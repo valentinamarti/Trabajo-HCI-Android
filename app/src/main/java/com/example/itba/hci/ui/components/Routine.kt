@@ -33,12 +33,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.itba.hci.R
 import com.example.itba.hci.remote.model.RemoteAction
 import com.example.itba.hci.ui.RoutineViewModel
-import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.screens.toColor
 
 
 @Composable
@@ -193,9 +192,9 @@ fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
     val selectedColor = routine.meta?.color
 
     val colorOptions = listOf(
-        Color(0xFFFCD59D),
-        Color(0xFFBFE3FF),
-        Color(0xFFE8C3FF),
+        "#e8c3ff",
+        "#c3e8ff",
+        "#ffe7d5"
     )
 
     Row(
@@ -215,17 +214,16 @@ fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             colorOptions.forEach { option ->
-                val isSelected = selectedColor?.primary == option.toHexString().lowercase()
+                val isSelected = selectedColor?.primary == option
                 if (selectedColor != null) {
                     Log.d("Colors", "SelectedColor: ${selectedColor.primary}")
                 }
-                Log.d("Colors", "optionHEx: ${option.toHexString()}")
                 Log.d("Colors", "option: $option")
                 Box(
                     modifier = Modifier
                         .size(26.dp)
                         .clip(CircleShape)
-                        .background(color = option)
+                        .background(color = option.toColor())
                         .border(
                             width = if (isSelected) 2.dp else 0.dp,
                             color = if (isSelected) Color.Black else Color.Transparent,
@@ -237,28 +235,3 @@ fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
     }
 }
 
-fun Color.toHexString(): String {
-    return "#%02X%02X%02X".format(
-        (red * 255).toInt(),
-        (green * 255).toInt(),
-        (blue * 255).toInt()
-    )
-}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun RoutinePreview() {
-//    val routine = Routine(
-//        name = "Routine 1",
-//        meta = Meta(description = "Description", color = Color(0xFFFCD59D)),
-//        actions = listOf(
-//            Action(actionName = "Action 1", params = listOf(Param("Param 1"))),
-//            Action(actionName = "Action 2", params = listOf(Param("Param 2"))),
-//            Action(actionName = "Action 3", params = listOf(Param("Param 3"))),
-//            Action(actionName = "Action 4", params = listOf(Param("Param 4")))
-//        )
-//    )
-//    HomeDomeTheme {
-//        RoutineView(routine)
-//    }
-//}
