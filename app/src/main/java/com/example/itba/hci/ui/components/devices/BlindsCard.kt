@@ -2,6 +2,7 @@ package com.example.itba.hci.ui.components.devices
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,13 +26,12 @@ import com.example.itba.hci.ui.devices.BlindViewModel
 fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(deviceId) {
-        viewModel.getDevice(deviceId)
-    }
+
+    viewModel.getDevice(deviceId)
 
     val currentDevice = uiState.currentDevice
 
-    Log.d("BlindsCard", "Current device: $currentDevice")
+    Log.d("DoorCard", "Current device: $currentDevice")
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -41,67 +41,63 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(14.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                IconButton(onClick = { navController.navigate("devices_screen") }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-            }
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.blinds),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column(
-                    verticalArrangement = Arrangement.Center
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text = currentDevice?.name ?: "",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
-                        )
-                    )
-                    currentDevice?.room?.let { room ->
-                        Text("$room", style = MaterialTheme.typography.bodySmall)
+                    IconButton(onClick = { navController.navigate("devices_screen") }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
+
+                Spacer(modifier = Modifier.height(6.dp))
             }
+            item {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.blinds),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            "${currentDevice?.name}",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp
+                            )
+                        )
+                        currentDevice?.room?.let { room ->
+                            Text(room.name, style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item{ BlindControl() }
 
-            BlindControl(viewModel, deviceId)
         }
     }
 }
 
 @Composable
-fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    LaunchedEffect(deviceId) {
-        viewModel.getDevice(deviceId)
-    }
-
-    val currentDevice = uiState.currentDevice
-
-    var sliderValue by remember { mutableStateOf(currentDevice?.level?.toFloat() ?: 0f) }
+fun BlindControl() {
+    var sliderValue by remember { mutableStateOf(100f) }
 
     Row(
         modifier = Modifier
@@ -115,9 +111,7 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
         ) {
             Slider(
                 value = sliderValue,
-                onValueChange = {
-                    sliderValue = it
-                },
+                onValueChange = { sliderValue = it },
                 valueRange = 0f..100f,
                 modifier = Modifier
                     .height(200.dp)
@@ -132,10 +126,7 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Button(onClick = {
-                sliderValue = 0f
-                viewModel.open()
-            }) {
+            Button(onClick = { sliderValue = 0f }) {
                 Text("Abrir")
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -145,12 +136,17 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = {
-                sliderValue = 100f
-                viewModel.close()
-            }) {
+            Button(onClick = { sliderValue = 100f }) {
                 Text("Cerrar")
             }
         }
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun BlindsPreview() {
+//    HomeDomeTheme {
+//        BlindsCard("1")
+//    }
+//}

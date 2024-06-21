@@ -10,15 +10,10 @@ class RemoteRoom {
     @SerializedName("name")
     lateinit var name: String
 
-    @SerializedName("meta")
-    lateinit var meta: RemoteRoomMeta
-
     fun asModel() : Room {
         return Room(
             id = id,
             name = name,
-            size = meta.size,
-            color = meta.color
         )
     }
 }

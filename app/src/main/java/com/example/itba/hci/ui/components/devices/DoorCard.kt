@@ -6,6 +6,7 @@ import android.Manifest
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -50,50 +51,58 @@ fun DoorCard(
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        Column(
+         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(14.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                IconButton(onClick = { navController.navigate("devices_screen") }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-            }
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.door),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column(
-                    verticalArrangement = Arrangement.Center
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
-                    ))
-                    currentDevice?.room?.let { room ->
-                        Text("$room", style = MaterialTheme.typography.bodySmall)
+                    IconButton(onClick = { navController.navigate("devices_screen") }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
+
+                Spacer(modifier = Modifier.height(6.dp))
             }
+            item {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.door),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            "${currentDevice?.name}",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp
+                            )
+                        )
+                        currentDevice?.room?.let { room ->
+                            Text(room.name, style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
 
-            DoorControl(viewModel, deviceId)
+                 Spacer(modifier = Modifier.height(16.dp))
+            }
+             item {
+                 DoorControl(viewModel, deviceId)
+             }
         }
     }
 }
