@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.components.devices
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +22,12 @@ import com.example.itba.hci.ui.getViewModelFactory
 @Composable
 fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = viewModel(factory = getViewModelFactory()), deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
+
+    viewModel.getDevice(deviceId)
+
+    val currentDevice = uiState.currentDevice
+
+    Log.d("DoorCard", "Current device: $currentDevice")
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -45,8 +52,8 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel = view
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Parlante", style = MaterialTheme.typography.bodyLarge)
-                    Text("Room 1", style = MaterialTheme.typography.bodySmall)
+                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge)
+                    Text("${currentDevice?.room}", style = MaterialTheme.typography.bodySmall)
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text("Icon", modifier = Modifier.padding(end = 16.dp))

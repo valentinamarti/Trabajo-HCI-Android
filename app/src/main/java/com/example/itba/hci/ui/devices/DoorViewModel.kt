@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.devices
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
@@ -51,6 +52,18 @@ class DoorViewModel(
         { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Door.UNLOCK_ACTION) },
         { state, _ -> state }
     )
+    fun getDevice(deviceId: String) {
+        Log.d("DoorViewModel", "Fetching device with ID: $deviceId")
+        runOnViewModelScope(
+            { repository.getDevice(deviceId) },
+            { state, response ->
+                val device = response as? Door
+                Log.d("DoorViewModel", "Fetched device: $response")
+                Log.d("DoorViewModel", "Current device: $device")
+                state.copy(currentDevice = device)
+            }
+        )
+    }
 
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,

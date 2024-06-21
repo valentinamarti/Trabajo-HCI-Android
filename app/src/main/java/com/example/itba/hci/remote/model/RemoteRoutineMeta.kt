@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class RemoteRoutineMeta {
     @SerializedName("description")
-    var description: String? = null
+    var description: String? = ""
 
     @SerializedName("color")
     lateinit var color: RemoteColorPS

@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.Manifest
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +38,12 @@ fun DoorCard(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    viewModel.getDevice(deviceId)
+
+    val currentDevice = uiState.currentDevice
+
+    Log.d("DoorCard", "Current device: $currentDevice")
+
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
@@ -60,8 +67,8 @@ fun DoorCard(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Puerta", style = MaterialTheme.typography.bodyLarge)
-                    Text("Room 1", style = MaterialTheme.typography.bodySmall)
+                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge)
+                    Text("${currentDevice?.room}", style = MaterialTheme.typography.bodySmall)
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text("Icon", modifier = Modifier.padding(end = 16.dp))

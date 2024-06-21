@@ -1,10 +1,12 @@
 package com.example.itba.hci.ui.devices
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Speaker
 import com.example.itba.hci.repository.DeviceRepository
 import kotlinx.coroutines.Job
@@ -30,6 +32,20 @@ class SpeakerViewModel(
         ) { state, response -> state.copy(currentDevice = response as Speaker?) }
 
     }
+
+    fun getDevice(deviceId: String) {
+        Log.d("DoorViewModel", "Fetching device with ID: $deviceId")
+        runOnViewModelScope(
+            { repository.getDevice(deviceId) },
+            { state, response ->
+                val device = response as? Speaker
+                Log.d("DoorViewModel", "Fetched device: $response")
+                Log.d("DoorViewModel", "Current device: $device")
+                state.copy(currentDevice = device)
+            }
+        )
+    }
+
 
     fun nextSong() = runOnViewModelScope(
         { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Speaker.NEXT_SONG_ACTION) },

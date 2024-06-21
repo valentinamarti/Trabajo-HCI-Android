@@ -1,10 +1,12 @@
 package com.example.itba.hci.ui.devices
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Fridge
 import com.example.itba.hci.repository.DeviceRepository
 import kotlinx.coroutines.Job
@@ -30,6 +32,20 @@ class FridgeViewModel(
         ) { state, response -> state.copy(currentDevice = response as Fridge?) }
 
     }
+
+    fun getDevice(deviceId: String) {
+        Log.d("DoorViewModel", "Fetching device with ID: $deviceId")
+        runOnViewModelScope(
+            { repository.getDevice(deviceId) },
+            { state, response ->
+                val device = response as? Fridge
+                Log.d("DoorViewModel", "Fetched device: $response")
+                Log.d("DoorViewModel", "Current device: $device")
+                state.copy(currentDevice = device)
+            }
+        )
+    }
+
 
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,

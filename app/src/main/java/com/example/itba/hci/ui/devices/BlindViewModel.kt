@@ -1,10 +1,12 @@
 package com.example.itba.hci.ui.devices
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
+import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Lamp
 import com.example.itba.hci.repository.DeviceRepository
 import kotlinx.coroutines.Job
@@ -40,6 +42,20 @@ class BlindViewModel(
         { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Blind.CLOSE_ACTION) },
         { state, _ -> state }
     )
+
+    fun getDevice(deviceId: String) {
+        Log.d("DoorViewModel", "Fetching device with ID: $deviceId")
+        runOnViewModelScope(
+            { repository.getDevice(deviceId) },
+            { state, response ->
+                val device = response as? Blind
+                Log.d("DoorViewModel", "Fetched device: $response")
+                Log.d("DoorViewModel", "Current device: $device")
+                state.copy(currentDevice = device)
+            }
+        )
+    }
+
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,
         updateState: (BlindUiState, T) -> BlindUiState
