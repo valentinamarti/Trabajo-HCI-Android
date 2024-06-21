@@ -52,7 +52,7 @@ fun DeviceCard(
 
 
     var isPressed by remember { mutableStateOf(false) }
-    var isFavorite by remember { mutableStateOf(device.meta?.favorite ?: false) }
+    var isFavorite by remember { mutableStateOf(device.meta!!.favorite) }
 
     Surface(
         shape = RoundedCornerShape(16.dp),
