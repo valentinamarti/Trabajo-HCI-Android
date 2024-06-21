@@ -177,6 +177,11 @@ fun EventItem(action: RemoteAction) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.weight(1f)
             )
+            Text(
+                text = action.params.joinToString(", ") { it.toString() },
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.weight(1f)
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
