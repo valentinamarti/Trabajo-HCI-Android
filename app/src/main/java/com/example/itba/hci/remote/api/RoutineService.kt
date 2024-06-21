@@ -1,8 +1,11 @@
 package com.example.itba.hci.remote.api
 
+import com.example.itba.hci.model.Routine
 import com.example.itba.hci.remote.model.RemoteDevice
 import com.example.itba.hci.remote.model.RemoteResult
+import com.example.itba.hci.remote.model.RemoteRoom
 import com.example.itba.hci.remote.model.RemoteRoutine
+import com.example.itba.hci.remote.model.RemoteRoutineModify
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,10 +25,10 @@ interface RoutineService {
         @Path("routineId") routineId: String
     ): Response<RemoteResult<Boolean>>
 
-    @PUT("routines/{routineId}")
+    @PUT("routine/{routineId}")
     suspend fun modifyRoutine(
         @Path("routineId") routineId: String,
-        @Body routine: RemoteRoutine
+        @Body routine: RemoteRoutineModify
     ): Response<RemoteResult<Boolean>>
 
 }

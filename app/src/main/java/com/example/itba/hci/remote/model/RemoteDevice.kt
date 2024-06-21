@@ -30,5 +30,12 @@ abstract class RemoteDevice<T : Any> {
         this.state = state
     }
 
+
+    fun asRemoteRoutineDeviceModifyModel(): RemoteRoutineDeviceModify {
+        val model = RemoteRoutineDeviceModify()
+        model.id = id
+        return model
+    }
+
     abstract fun asModel(): Device
 }

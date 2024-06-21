@@ -30,22 +30,27 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.itba.hci.R
+import com.example.itba.hci.model.Routine
+import com.example.itba.hci.ui.RoutineViewModel
+import com.example.itba.hci.ui.getViewModelFactory
+import com.example.itba.hci.ui.screens.toColor
 
 @Composable
 fun RoutineCard(
-    text: String,
+    routine: Routine,
     modifier: Modifier = Modifier,
-    secondaryText: String?,
-    backgroundColor: Color,
-    iconColor: Color,
+    viewModel: RoutineViewModel,
     onClick: () -> Unit
 ) {
     val mediumPadding = dimensionResource(R.dimen.medium_padding)
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    var isPressed by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(routine.favorite) }
     var isPlaying by remember { mutableStateOf(false) }
+
+
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -65,31 +70,42 @@ fun RoutineCard(
                     .padding(vertical = mediumPadding, horizontal = 16.dp)
                     .widthIn(min = 192.dp, max = screenWidth)
             ){
-                Icon(
-                    painter = painterResource(id = if (isPressed) R.drawable.heart else R.drawable.heart_outline),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable { isPressed = !isPressed },
-                    tint = iconColor
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(backgroundColor),
-                    contentAlignment = Alignment.Center
-                ) {
+                routine.color.secondary?.let {
                     Icon(
-                        painter = painterResource(id = if (!isPlaying) R.drawable.play_icon else R.drawable.pause_icon),
+                        painter = painterResource(id = if (isFavorite) R.drawable.heart else R.drawable.heart_outline),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(40.dp)
-                            .padding(8.dp)
-                            .clickable { isPlaying = !isPlaying },
-                        tint = iconColor
+                            .size(24.dp)
+                            .clickable {
+                                isFavorite = !isFavorite
+                                routine.id?.let { it1 -> viewModel.updateFav(it1) }
+                            },
+                        tint = it.toColor()
                     )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                routine.color.primary?.let {
+                    Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(it.toColor())
+                }?.let {
+                    Box(
+                        modifier = it,
+                        contentAlignment = Alignment.Center
+                    ) {
+                        routine.color.secondary?.let { it1 ->
+                            Icon(
+                                painter = painterResource(id = if (!isPlaying) R.drawable.play_icon else R.drawable.pause_icon),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .padding(8.dp)
+                                    .clickable { isPlaying = !isPlaying },
+                                tint = it1.toColor()
+                            )
+                        }
+                    }
                 }
             }
             Row(
@@ -99,7 +115,7 @@ fun RoutineCard(
                     .widthIn(min = 192.dp, max = screenWidth)
             ) {
                 Text(
-                    text = text,
+                    text = routine.name,
                     style = MaterialTheme.typography.titleSmall,
                     color = Color.Black,
                     modifier = Modifier.weight(1f) // Para llenar el espacio disponible
@@ -113,7 +129,7 @@ fun RoutineCard(
                     .widthIn(min = 192.dp, max = screenWidth)
             ){
                 Text(
-                    text = secondaryText ?: "",
+                    text = routine.description ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Black,
                     modifier = Modifier.weight(1f)

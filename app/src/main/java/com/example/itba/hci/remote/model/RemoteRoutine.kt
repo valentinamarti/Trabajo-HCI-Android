@@ -24,7 +24,7 @@ class RemoteRoutine {
             actions = actions,
             description = meta.description,
             color = meta.color,
-            favourite = meta.favourite
+            favorite = meta.favorite
         )
     }
 }

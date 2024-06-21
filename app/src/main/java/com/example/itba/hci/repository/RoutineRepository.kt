@@ -1,13 +1,10 @@
 package com.example.itba.hci.repository
 
 import android.util.Log
-import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.Routine
 import com.example.itba.hci.remote.RoutineRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 class RoutineRepository(
     private val remoteDataSource: RoutineRemoteDataSource
@@ -54,6 +51,13 @@ class RoutineRepository(
     suspend fun executeRoutine(routineId: String): Boolean {
         val result = remoteDataSource.executeRoutine(routineId)
 //        updateCache(emptyList())
+        return result
+    }
+
+    suspend fun modifyRoutine(routine: Routine): Boolean {
+        val result = remoteDataSource.modifyRoutine(routine.asRemoteModifyModel(),
+            routine.id.toString()
+        )
         return result
     }
 

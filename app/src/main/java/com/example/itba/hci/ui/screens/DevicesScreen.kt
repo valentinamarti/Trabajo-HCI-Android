@@ -52,7 +52,7 @@ fun DevicesScreen(
                     deviceType = device.type,
                     primaryColor = device.meta?.color?.primary ?: "#FFFFFF",
                     secondaryColor = device.meta?.color?.secondary ?: "#FFFFFF",
-                    isFavourite = device.meta?.favourite ?: false,
+                    isFavourite = device.meta?.favorite ?: false,
                     onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") }
                     )
             }

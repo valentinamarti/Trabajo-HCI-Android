@@ -8,5 +8,5 @@ class RemoteDeviceMeta {
     lateinit var color: RemoteColorPS
 
     @SerializedName("favorite")
-    var favourite: Boolean = false
+    var favorite: Boolean = false
 }

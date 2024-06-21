@@ -1,8 +1,11 @@
 package com.example.itba.hci.remote
 
 import android.util.Log
+import com.example.itba.hci.model.Routine
 import com.example.itba.hci.remote.api.RoutineService
+import com.example.itba.hci.remote.model.RemoteRoom
 import com.example.itba.hci.remote.model.RemoteRoutine
+import com.example.itba.hci.remote.model.RemoteRoutineModify
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -39,6 +42,12 @@ class RoutineRemoteDataSource(
     suspend fun executeRoutine(routineId: String): Boolean {
         return handleApiResponse {
             routineService.executeRoutine(routineId)
+        }
+    }
+
+    suspend fun modifyRoutine(routine: RemoteRoutineModify, routineId: String): Boolean {
+        return handleApiResponse {
+            routineService.modifyRoutine(routineId, routine)
         }
     }
 

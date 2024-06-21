@@ -10,7 +10,7 @@ class RemoteRoutineMeta {
     @SerializedName("color")
     lateinit var color: RemoteColorPS
 
-    @SerializedName("favourite")
-    var favourite: Boolean = false
+    @SerializedName("favorite")
+    var favorite: Boolean = false
 
 }

@@ -24,7 +24,6 @@ class RoutineViewModel(
         viewModelScope.launch {
             repository.routines.collect { routines ->
                 _uiState.value = _uiState.value.copy(routines = routines)
-                Log.d("RoutinesViewModel", "UI state updated successfully. Routines count: ${routines.size}")
             }
         }
     }
@@ -40,6 +39,29 @@ class RoutineViewModel(
         runOnViewModelScope(
             { routine.id?.let { repository.executeRoutine(it) } },
             { state, _ -> state.copy(currentRoutine = routine) }
+        )
+    }
+
+    fun modifyRoutine(routine: Routine) {
+        runOnViewModelScope(
+            { routine.id?.let { repository.modifyRoutine(routine) } },
+            { state, _ -> state.copy(currentRoutine = routine) }
+        )
+    }
+
+    fun updateFav(routineId: String) {
+        runOnViewModelScope(
+            { repository.getRoutine(routineId) },
+            { state, currentRoutine ->
+                try {
+                    currentRoutine.favorite = !currentRoutine.favorite
+                    modifyRoutine(currentRoutine)
+                    state.copy(currentRoutine = currentRoutine)
+                } catch (e: Exception) {
+                    Log.e("RoutineViewModel", "Error updating favorite state for routine $routineId", e)
+                    state // Return original state on error
+                }
+            }
         )
     }
 
@@ -65,6 +87,7 @@ class RoutineViewModel(
             Error(null, e.message ?: "", null)
         }
     }
+
 }
 
 

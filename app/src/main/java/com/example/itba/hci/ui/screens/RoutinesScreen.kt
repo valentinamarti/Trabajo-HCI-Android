@@ -52,10 +52,8 @@ fun RoutinesScreen(
                 routine.color.primary?.let {
                     routine.color.secondary?.let { it1 ->
                         RoutineCard(
-                            text = routine.name,
-                            secondaryText = routine.description,
-                            backgroundColor = it.toColor(),
-                            iconColor = it1.toColor(),
+                            routine = routine,
+                            viewModel = viewModel,
                             onClick = { navController.navigate("routineDetail/${routine.id}") }
                         )
                     }

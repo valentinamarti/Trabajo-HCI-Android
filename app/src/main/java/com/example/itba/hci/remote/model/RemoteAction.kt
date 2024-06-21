@@ -13,4 +13,14 @@ class RemoteAction{
     @SerializedName("params")
     var params: ArrayList<RemoteParam> = arrayListOf()
 
+
+    fun asRemoteActionModifyModel(): RemoteActionModify {
+        val model = RemoteActionModify()
+        model.actionName = actionName
+        model.device = device?.asRemoteRoutineDeviceModifyModel()
+        model.params = params
+
+        return model
+    }
+
 }
