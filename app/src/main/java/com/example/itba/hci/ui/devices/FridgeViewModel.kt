@@ -64,7 +64,7 @@ class FridgeViewModel(
             val parameters = arrayOf<Any>(temperature)
             repository.executeDeviceAction(
                 uiState.value.currentDevice?.id!!,
-                Fridge.SET_TEMPERATURE,
+                Fridge.SET_FREEZER_TEMPERATURE,
                 parameters
             )
         },

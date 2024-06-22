@@ -26,7 +26,9 @@ import com.example.itba.hci.ui.devices.FridgeViewModel
 fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
-    viewModel.getDevice(deviceId)
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
 
     val currentDevice = uiState.currentDevice
 
@@ -98,11 +100,18 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
 fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
-    viewModel.getDevice(deviceId)
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
 
     val currentDevice = uiState.currentDevice
-
     var temperature by remember { mutableStateOf(currentDevice?.temperature) }
+
+    LaunchedEffect(currentDevice?.temperature) {
+        if (currentDevice?.temperature != null) {
+            temperature = currentDevice.temperature
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -120,8 +129,8 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             Text("Temperatura Heladera", modifier = Modifier.weight(1f))
             Button(
                 onClick = {
-                    temperature = temperature!! - 1
-                    viewModel.setTemperature(currentDevice?.temperature?.minus(1) ?: 0)
+                    temperature = temperature?.minus(1)
+                    viewModel.setTemperature(temperature ?: 0)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -130,11 +139,11 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             ) {
                 Text("-")
             }
-            Text("$temperature°C", modifier = Modifier.padding(horizontal = 8.dp))
+            Text("${temperature ?: 0}°C", modifier = Modifier.padding(horizontal = 8.dp))
             Button(
                 onClick = {
-                    temperature = temperature!! + 1
-                    viewModel.setTemperature(currentDevice?.temperature?.plus(1) ?: 0)
+                    temperature = temperature?.plus(1)
+                    viewModel.setTemperature(temperature ?: 0)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -151,11 +160,21 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
 fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
     val uiState by viewModel.uiState.collectAsState()
 
-    viewModel.getDevice(deviceId)
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
 
     val currentDevice = uiState.currentDevice
+    Log.d("current device temperature", "${currentDevice}")
+    Log.d("freezer temperature", "${currentDevice?.freezerTemperature}")
 
     var freezerTemperature by remember { mutableStateOf(currentDevice?.freezerTemperature) }
+
+    LaunchedEffect(currentDevice?.freezerTemperature) {
+        if (currentDevice?.freezerTemperature != null) {
+            freezerTemperature = currentDevice.freezerTemperature
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -173,8 +192,8 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             Text("Temperatura Freezer", modifier = Modifier.weight(1f))
             Button(
                 onClick = {
-                    freezerTemperature = freezerTemperature!! - 1
-                    viewModel.setFreezerTemperature(currentDevice?.freezerTemperature?.minus(1) ?: 0)
+                    freezerTemperature = freezerTemperature?.minus(1)
+                    viewModel.setFreezerTemperature(freezerTemperature ?: 0)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -183,11 +202,11 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             ) {
                 Text("-")
             }
-            Text("$freezerTemperature°C", modifier = Modifier.padding(horizontal = 8.dp))
+            Text("${freezerTemperature ?: 0}°C", modifier = Modifier.padding(horizontal = 8.dp))
             Button(
                 onClick = {
-                    freezerTemperature = freezerTemperature!! + 1
-                    viewModel.setFreezerTemperature(currentDevice?.freezerTemperature?.plus(1) ?: 0)
+                    freezerTemperature = freezerTemperature?.plus(1)
+                    viewModel.setFreezerTemperature(freezerTemperature ?: 0)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
