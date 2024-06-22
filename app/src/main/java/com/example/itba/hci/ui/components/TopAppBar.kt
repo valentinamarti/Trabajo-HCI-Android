@@ -43,12 +43,6 @@ fun TopAppBar(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .padding(end = 12.dp))
             {
-                Icon(
-                    painter = painterResource(id = R.drawable.notification_outline),
-                    contentDescription = null,
-                    tint =  MaterialTheme.colorScheme.onPrimary,
-                    modifier = modifier.size(28.dp)
-                )
             }
         }
     )
