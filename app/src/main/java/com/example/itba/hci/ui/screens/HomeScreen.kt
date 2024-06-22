@@ -24,7 +24,9 @@ import androidx.navigation.NavHostController
 import com.example.itba.hci.R
 import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.DeviceType
+import com.example.itba.hci.model.Routine
 import com.example.itba.hci.ui.RoutineViewModel
+import com.example.itba.hci.ui.components.RoutineView
 import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.components.cards.RoutineCard
 import com.example.itba.hci.ui.components.devices.BlindsCard
@@ -55,6 +57,9 @@ fun HomeScreen(navController: NavHostController,
 
     var showDeviceDialog by remember { mutableStateOf(false) }
     var selectedDevice by remember { mutableStateOf<Device?>(null) }
+
+    var showRoutineDialog by remember { mutableStateOf(false) }
+    var selectedRoutine by remember { mutableStateOf<Routine?>(null) }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -123,7 +128,7 @@ fun HomeScreen(navController: NavHostController,
                             RoutineCard(
                                 routine = routine,
                                 viewModel = routineViewModel,
-                                onClick = { navController.navigate("routineDetail/${routine.id}") }
+                                onClick = { selectedRoutine = routine; showRoutineDialog = true }
                             )
                         }
                     }
@@ -161,6 +166,12 @@ fun HomeScreen(navController: NavHostController,
                         else -> Text("Tipo de dispositivo desconocido")
                     }
                 }
+            )
+        }
+        if (showRoutineDialog && selectedRoutine != null) {
+            BasicAlertDialog(
+                onDismissRequest = { showRoutineDialog = false },
+                content = { selectedRoutine!!.id?.let { RoutineView(navController,routineViewModel, it) } }
             )
         }
     }

@@ -49,7 +49,6 @@ fun RoutineCard(
     var isPlaying by remember { mutableStateOf(false) }
 
 
-
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
