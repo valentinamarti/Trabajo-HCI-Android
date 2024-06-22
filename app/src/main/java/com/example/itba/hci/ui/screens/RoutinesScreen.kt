@@ -88,17 +88,17 @@ fun RoutinesScreen(
                     shape = RoundedCornerShape(16.dp),
                     shadowElevation = 4.dp,
                     modifier = Modifier
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 100.dp)
                         .wrapContentHeight()
                 ) {
-                    Column(modifier = Modifier.wrapContentHeight()) {
+                    Column(modifier = Modifier.padding(16.dp)) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
                         ) {
-                            IconButton(onClick = { navController.navigate("devices_screen") }) {
+                            IconButton(onClick = { selectedRoutine = null; showDialog = false }) {
                                 Icon(
                                     Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "Back"

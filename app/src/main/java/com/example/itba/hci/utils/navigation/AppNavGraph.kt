@@ -1,9 +1,7 @@
 package com.example.itba.hci.utils.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -11,11 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.itba.hci.ui.RoutineViewModel
-import com.example.itba.hci.ui.components.RoutineView
-import com.example.itba.hci.ui.components.devices.BlindsCard
-import com.example.itba.hci.ui.components.devices.DoorCard
-import com.example.itba.hci.ui.components.devices.FridgeCard
-import com.example.itba.hci.ui.components.devices.SpeakerCard
 import com.example.itba.hci.ui.devices.BlindViewModel
 import com.example.itba.hci.ui.devices.DevicesViewModel
 import com.example.itba.hci.ui.devices.DoorViewModel
@@ -60,38 +53,6 @@ fun AppNavGraph(navController: NavHostController,
         }
         composable(AppDestinations.ROUTINES.route) {
             RoutinesScreen(navController = navController, viewModel = routineViewModel)
-        }
-        composable("routineDetail/{routineId}") { backStackEntry ->
-            val routineId = backStackEntry.arguments?.getString("routineId")
-            Log.d("AppNavGraph", "RoutineId: $routineId")
-            if (routineId != null) {
-                RoutineView(navController = navController, viewModel = routineViewModel, routineId = routineId)
-            }
-        }
-
-        composable("deviceDetail/{deviceType}/{deviceId}") { backStackEntry ->
-            val deviceType = backStackEntry.arguments?.getString("deviceType")
-            val deviceId = backStackEntry.arguments?.getString("deviceId")
-            Log.d("AppNavGraph", "deviceType: $deviceType, deviceId: $deviceId")
-            if (deviceType != null && deviceId != null) {
-                when (deviceType) {
-                    "FRIDGE"  -> {
-                        FridgeCard(navController = navController,deviceId = deviceId, viewModel = fridgeViewModel)
-                    }
-                    "DOOR" -> {
-                        DoorCard(navController = navController,deviceId = deviceId, viewModel = doorViewModel)
-                    }
-                    "SPEAKER" -> {
-                        SpeakerCard(navController = navController,deviceId = deviceId, viewModel = speakerViewModel)
-                    }
-                    "BLIND" -> {
-                        BlindsCard(navController = navController,deviceId = deviceId, viewModel = blindViewModel)
-                    }
-                    else -> {
-                        Text("Unknown device type")
-                    }
-                }
-            }
         }
 
     }
