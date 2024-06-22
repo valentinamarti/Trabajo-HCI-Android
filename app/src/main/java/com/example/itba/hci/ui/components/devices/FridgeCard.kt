@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -112,7 +112,7 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text("Temperatura Heladera", modifier = Modifier.weight(1f))
+            Text(text = stringResource(id = R.string.fridge_temperature), modifier = Modifier.weight(1f))
             Button(
                 onClick = {
                     if (temperature != null && temperature!! > 0) {
@@ -179,7 +179,7 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text("Temperatura Freezer", modifier = Modifier.weight(1f))
+            Text(text = stringResource(id = R.string.freezer_temperature), modifier = Modifier.weight(1f))
             Button(
                 onClick = {
                     if (freezerTemperature != null && freezerTemperature!! > -20) {
