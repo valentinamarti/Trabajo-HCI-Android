@@ -19,8 +19,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.itba.hci.utils.navigation.AppDestinations
 
-
-
 @Composable
 fun NavigationBar(
     modifier: Modifier = Modifier,
@@ -33,10 +31,9 @@ fun NavigationBar(
         AppDestinations.ROUTINES
     )
 
-
     Box(
         modifier = modifier
-            .height(80.dp) // Ajusta el alto según tus necesidades
+            .height(80.dp) // Adjust height as needed
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.primary)
     ) {
@@ -47,19 +44,17 @@ fun NavigationBar(
                 .background(MaterialTheme.colorScheme.primary)
                 .height(90.dp)
         ) {
-                screens.forEach{ screen ->
-                    CustomNavigationBarItem(
-                        label = { Text(text = stringResource(screen.title)) },
-                        icon = screen.icon,
-                        selected = currentRoute == screen.route,
-                        onClick = { onNavigateToRoute(screen.route) },
-                        isHome = screen.route == AppDestinations.HOME.route
-                    )
-                }
+            screens.forEach { screen ->
+                CustomNavigationBarItem(
+                    label = { Text(text = stringResource(screen.title)) },
+                    icon = screen.icon,
+                    selected = currentRoute == screen.route,
+                    onClick = { onNavigateToRoute(screen.route) },
+                    isHome = screen.route == AppDestinations.HOME.route
+                )
             }
-
+        }
     }
-
 }
 
 @Composable
@@ -69,17 +64,17 @@ fun CircleIcon(
     selected: Boolean,
     size: Dp = 40.dp,
     isHome: Boolean = false
-    ) {
+) {
     Surface(
         modifier = Modifier
             .size(size)
             .shadow(
                 elevation = 4.dp,
                 shape = CircleShape,
-                ambientColor = Color.Black.copy(alpha = 0.4f), // Ajusta la opacidad del sombreado
+                ambientColor = Color.Black.copy(alpha = 0.4f), // Adjust the opacity of the shadow
             ),
         shape = CircleShape,
-        color = if (selected) MaterialTheme.colorScheme.onSecondary else if(isHome) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background,
+        color = if (selected) MaterialTheme.colorScheme.onSecondary else if (isHome) Color.White else Color.White,
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -116,5 +111,3 @@ fun CustomNavigationBarItem(
         label()
     }
 }
-
-
