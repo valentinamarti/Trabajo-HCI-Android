@@ -129,8 +129,10 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             Text("Temperatura Heladera", modifier = Modifier.weight(1f))
             Button(
                 onClick = {
-                    temperature = temperature?.minus(1)
-                    viewModel.setTemperature(temperature ?: 0)
+                    if (temperature != null && temperature!! > 0) {
+                        temperature = temperature!! - 1
+                        viewModel.setTemperature(temperature ?: 0)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -142,8 +144,10 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             Text("${temperature ?: 0}°C", modifier = Modifier.padding(horizontal = 8.dp))
             Button(
                 onClick = {
-                    temperature = temperature?.plus(1)
-                    viewModel.setTemperature(temperature ?: 0)
+                    if (temperature != null && temperature!! < 12) {
+                        temperature = temperature!! + 1
+                        viewModel.setTemperature(temperature ?: 0)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -192,8 +196,10 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             Text("Temperatura Freezer", modifier = Modifier.weight(1f))
             Button(
                 onClick = {
-                    freezerTemperature = freezerTemperature?.minus(1)
-                    viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+                    if (freezerTemperature != null && freezerTemperature!! > -20) {
+                        freezerTemperature = freezerTemperature!! - 1
+                        viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -205,8 +211,10 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             Text("${freezerTemperature ?: 0}°C", modifier = Modifier.padding(horizontal = 8.dp))
             Button(
                 onClick = {
-                    freezerTemperature = freezerTemperature?.plus(1)
-                    viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+                    if (freezerTemperature != null && freezerTemperature!! < 0) {
+                        freezerTemperature = freezerTemperature!! + 1
+                        viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -238,11 +246,15 @@ fun InventoryControl() {
         ) {
             Text(
                 "Inventory",
-                modifier = Modifier.padding(6.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(6.dp)
+                    .fillMaxWidth(),
                 textAlign = TextAlign.Left
             )
             items.forEach { item ->
-                Text(item, modifier = Modifier.padding(2.dp).fillMaxWidth(), textAlign = TextAlign.Center)
+                Text(item, modifier = Modifier
+                    .padding(2.dp)
+                    .fillMaxWidth(), textAlign = TextAlign.Center)
             }
             Button(
                 onClick = {},
