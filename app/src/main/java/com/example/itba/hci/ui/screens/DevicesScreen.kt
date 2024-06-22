@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -113,7 +111,7 @@ fun DevicesScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp)
+                                .padding(horizontal = 16.dp)
                         ) {
                             IconButton(onClick = { selectedDevice = null; showDialog = false}) {
                                 Icon(
@@ -122,7 +120,6 @@ fun DevicesScreen(
                                 )
                             }
                         }
-                        Spacer(modifier = Modifier.height(6.dp))
                         when (selectedDevice?.type) {
                             DeviceType.DOOR -> selectedDevice!!.id?.let {
                                 DoorCard(
