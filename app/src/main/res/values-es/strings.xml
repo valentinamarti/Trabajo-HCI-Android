@@ -38,4 +38,5 @@
     <string name="open">Abrir</string>
     <string name="close">Cerrar</string>
     <string name="select_mode">Seleccionar modo</string>
+    <string name="fridge_mode">Modo:</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.itba.hci.ui.components.devices
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +35,7 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
     LazyColumn(
         modifier = Modifier
             .wrapContentHeight()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp)
     ) {
         item {
             Column(
@@ -77,6 +78,11 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
             TemperatureControl(viewModel, deviceId)
             FreezerTemperatureControl(viewModel, deviceId)
             Spacer(modifier = Modifier.height(16.dp))
+            Row {
+                Text(text = stringResource(id = R.string.fridge_mode),
+                    modifier = Modifier.weight(1f).padding(horizontal = 16.dp, vertical = 4.dp),
+                    fontSize = 14.sp)
+            }
             ModeSelection(viewModel, deviceId)
         }
     }
@@ -112,35 +118,46 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text(text = stringResource(id = R.string.fridge_temperature), modifier = Modifier.weight(1f))
-            Button(
-                onClick = {
-                    if (temperature != null && temperature!! > 0) {
-                        temperature = temperature!! - 1
-                        viewModel.setTemperature(temperature ?: 0)
+            Text(text = stringResource(id = R.string.fridge_temperature),
+                modifier = Modifier.weight(1f).padding(end = 8.dp),
+                fontSize = 14.sp)
+            Box(
+                modifier = Modifier
+                    .size(30.dp) // Ajusta el tamaño del área clickeable
+                    .clickable {
+                        if (temperature != null && temperature!! > 0) {
+                            temperature = temperature!! - 1
+                            viewModel.setTemperature(temperature ?: 0)
+                        }
                     }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.Black
-                )
+                    .background(color = MaterialTheme.colorScheme.background,shape = RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center,
             ) {
-                Text("-")
+                Text(
+                    text = "-",
+                    fontSize = 10.sp, // Ajusta el tamaño del texto
+                    color = Color.Black // Color del texto
+                )
             }
+
             Text("${temperature ?: 0}°C", modifier = Modifier.padding(horizontal = 8.dp))
-            Button(
-                onClick = {
-                    if (temperature != null && temperature!! < 12) {
-                        temperature = temperature!! + 1
-                        viewModel.setTemperature(temperature ?: 0)
+            Box(
+                modifier = Modifier
+                    .size(30.dp) // Ajusta el tamaño del área clickeable
+                    .clickable {
+                        if (temperature != null && temperature!! < 12) {
+                            temperature = temperature!! + 1
+                            viewModel.setTemperature(temperature ?: 0)
+                        }
                     }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.Black
-                )
+                    .background(color = MaterialTheme.colorScheme.background,shape = RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center,
             ) {
-                Text("+")
+                Text(
+                    text = "+",
+                    fontSize = 10.sp, // Ajusta el tamaño del texto
+                    color = Color.Black // Color del texto
+                )
             }
         }
     }
@@ -179,36 +196,50 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text(text = stringResource(id = R.string.freezer_temperature), modifier = Modifier.weight(1f))
-            Button(
-                onClick = {
-                    if (freezerTemperature != null && freezerTemperature!! > -20) {
-                        freezerTemperature = freezerTemperature!! - 1
-                        viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+            Text(text = stringResource(id = R.string.freezer_temperature),
+                modifier = Modifier.weight(1f).padding(end = 8.dp),
+                fontSize = 14.sp)
+
+            Box(
+                modifier = Modifier
+                    .size(30.dp) // Ajusta el tamaño del área clickeable
+                    .clickable {
+                        if (freezerTemperature != null && freezerTemperature!! > -20) {
+                            freezerTemperature = freezerTemperature!! - 1
+                            viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+                        }
                     }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.Black
-                )
+                    .background(color = MaterialTheme.colorScheme.background,shape = RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center,
             ) {
-                Text("-")
+                Text(
+                    text = "-",
+                    fontSize = 10.sp, // Ajusta el tamaño del texto
+                    color = Color.Black // Color del texto
+                )
             }
+
             Text("${freezerTemperature ?: 0}°C", modifier = Modifier.padding(horizontal = 8.dp))
-            Button(
-                onClick = {
-                    if (freezerTemperature != null && freezerTemperature!! < 0) {
-                        freezerTemperature = freezerTemperature!! + 1
-                        viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+
+            Box(
+                modifier = Modifier
+                    .size(30.dp) // Ajusta el tamaño del área clickeable
+                    .clickable {
+                        if (freezerTemperature != null && freezerTemperature!! < 0) {
+                            freezerTemperature = freezerTemperature!! + 1
+                            viewModel.setFreezerTemperature(freezerTemperature ?: 0)
+                        }
                     }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.Black
-                )
+                    .background(color = MaterialTheme.colorScheme.background,shape = RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center,
             ) {
-                Text("+")
+                Text(
+                    text = "+",
+                    fontSize = 10.sp, // Ajusta el tamaño del texto
+                    color = Color.Black // Color del texto
+                )
             }
+
         }
     }
 }
@@ -236,11 +267,12 @@ fun ModeSelection(viewModel: FridgeViewModel, deviceId: String) {
             ) {
                 Text(selectedMode)
             }
+
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(220.dp)
                     .background(MaterialTheme.colorScheme.primary)
             ) {
                 val modes = listOf("Default", "Vacation", "Party")
@@ -249,7 +281,7 @@ fun ModeSelection(viewModel: FridgeViewModel, deviceId: String) {
                         onClick = {
                             selectedMode = mode
                             expanded = false
-                            viewModel.setMode(mode.toLowerCase())
+                            viewModel.setMode(mode.lowercase())
                             viewModel.getDevice(deviceId)
                         },
                         text = { Text(mode) }
