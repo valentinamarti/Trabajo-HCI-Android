@@ -256,16 +256,7 @@ fun InventoryControl() {
                     .padding(2.dp)
                     .fillMaxWidth(), textAlign = TextAlign.Center)
             }
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
-            ) {
-                Text("+")
-            }
+
         }
     }
 }
