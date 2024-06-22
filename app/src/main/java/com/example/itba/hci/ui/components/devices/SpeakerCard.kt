@@ -154,7 +154,10 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { viewModel.previousSong() }) {
+                IconButton(onClick = {
+                    viewModel.previousSong()
+                    viewModel.getDevice(deviceId) // refresh device data
+                }) {
                     Icon(
                         painter = painterResource(id = R.drawable.mdi_skip_previous_circle),
                         contentDescription = "Previous"
@@ -171,13 +174,17 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
                         viewModel.play()
                         isPlaying = "playing"
                     }
+                    viewModel.getDevice(deviceId) // refresh device data
                 }) {
                     Icon(
                         painter = painterResource(id = if (isPlaying == "playing") R.drawable.mdi_pause_circle else R.drawable.mdi_play_circle),
                         contentDescription = if (isPlaying == "playing") "Pause" else "Play"
                     )
                 }
-                IconButton(onClick = { viewModel.nextSong() }) {
+                IconButton(onClick = {
+                    viewModel.nextSong()
+                    viewModel.getDevice(deviceId) // refresh device data
+                }) {
                     Icon(
                         painter = painterResource(id = R.drawable.mdi_skip_next_circle),
                         contentDescription = "Next"
@@ -186,6 +193,7 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
                 IconButton(onClick = {
                     viewModel.stop()
                     isPlaying = "stopped"
+                    viewModel.getDevice(deviceId) // refresh device data
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.mdi_square),

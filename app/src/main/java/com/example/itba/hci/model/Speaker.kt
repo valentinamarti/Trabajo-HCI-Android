@@ -2,6 +2,7 @@ package com.example.itba.hci.model
 
 import com.example.itba.hci.remote.model.RemoteDeviceMeta
 import com.example.itba.hci.remote.model.RemoteSpeaker
+import com.example.itba.hci.remote.model.RemoteSpeakerSong
 import com.example.itba.hci.remote.model.RemoteSpeakerState
 
 class Speaker(
@@ -11,7 +12,7 @@ class Speaker(
     val status: String,
     val genre: String,
     val volume: Int,
-    val song: Song?,
+    val song: RemoteSpeakerSong?,
     override val meta: RemoteDeviceMeta?
 ) : Device(id, name, DeviceType.SPEAKER, meta) {
 
@@ -21,11 +22,11 @@ class Speaker(
         state.genre = genre
         state.volume = volume
         song?.let {
-            state.title = it.title
-            state.artist = it.artist
-            state.album = it.album
-            state.duration = it.duration
-            state.progress = it.progress
+            state.song?.title = it.title
+            state.song?.artist = it.artist
+            state.song?.album = it.album
+            state.song?.duration = it.duration
+            state.song?.progress = it.progress
         }
 
         val model = RemoteSpeaker()
@@ -50,11 +51,3 @@ class Speaker(
         const val SET_VOLUME = "setVolume"
     }
 }
-
-data class Song(
-    val title: String,
-    val artist: String,
-    val album: String,
-    val duration: String,
-    val progress: String
-)

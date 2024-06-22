@@ -12,18 +12,6 @@ class RemoteSpeakerState {
     @SerializedName("volume")
     var volume: Int = 0
 
-    @SerializedName("title")
-    var title: String? = null
-
-    @SerializedName("artist")
-    var artist: String? = null
-
-    @SerializedName("album")
-    var album: String? = null
-
-    @SerializedName("duration")
-    var duration: String? = null
-
-    @SerializedName("progress")
-    var progress: String? = null
+    @SerializedName("song")
+    var song: RemoteSpeakerSong? = null
 }
