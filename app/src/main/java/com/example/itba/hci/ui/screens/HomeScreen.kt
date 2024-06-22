@@ -7,19 +7,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.itba.hci.R
+import com.example.itba.hci.model.Device
+import com.example.itba.hci.model.DeviceType
 import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.components.cards.DeviceCard
 import com.example.itba.hci.ui.components.cards.RoutineCard
+import com.example.itba.hci.ui.components.devices.BlindsCard
+import com.example.itba.hci.ui.components.devices.DoorCard
+import com.example.itba.hci.ui.components.devices.FridgeCard
+import com.example.itba.hci.ui.components.devices.SpeakerCard
 import com.example.itba.hci.ui.devices.BlindViewModel
 import com.example.itba.hci.ui.devices.DevicesViewModel
 import com.example.itba.hci.ui.devices.DoorViewModel
@@ -28,6 +39,7 @@ import com.example.itba.hci.ui.devices.SpeakerViewModel
 import com.example.itba.hci.ui.theme.noElements
 import com.example.itba.hci.ui.theme.screenTitle
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController,
                devicesViewModel: DevicesViewModel,
@@ -40,6 +52,10 @@ fun HomeScreen(navController: NavHostController,
 
     val devicesUiState by devicesViewModel.uiState.collectAsState()
     val routineUiState by routineViewModel.uiState.collectAsState()
+
+    var showDeviceDialog by remember { mutableStateOf(false) }
+    var selectedDevice by remember { mutableStateOf<Device?>(null) }
+
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
@@ -76,7 +92,7 @@ fun HomeScreen(navController: NavHostController,
                 items(devicesUiState.devices.filter { it.meta?.favorite == true }) { device ->
                     DeviceCard(
                         device = device,
-                        onClick = { navController.navigate("deviceDetail/${device.type}/${device.id}") },
+                        onClick = {selectedDevice = device; showDeviceDialog = true},
                         doorViewModel = doorViewModel,
                         fridgeViewModel = fridgeViewModel,
                         speakerViewModel = speakerViewModel,
@@ -113,6 +129,39 @@ fun HomeScreen(navController: NavHostController,
                     }
                 }
             }
+        }
+        if (showDeviceDialog && selectedDevice != null) {
+            BasicAlertDialog(onDismissRequest = { showDeviceDialog = false },
+                content = {
+                    when (selectedDevice?.type) {
+                        DeviceType.DOOR -> selectedDevice!!.id?.let {
+                            DoorCard(navController, doorViewModel,
+                                it
+                            )
+                        }
+
+                        DeviceType.FRIDGE -> selectedDevice!!.id?.let {
+                            FridgeCard(navController, fridgeViewModel,
+                                it
+                            )
+                        }
+
+                        DeviceType.SPEAKER -> selectedDevice!!.id?.let {
+                            SpeakerCard(navController, speakerViewModel,
+                                it
+                            )
+                        }
+
+                        DeviceType.BLIND -> selectedDevice!!.id?.let {
+                            BlindsCard(navController, blindViewModel,
+                                it
+                            )
+                        }
+
+                        else -> Text("Tipo de dispositivo desconocido")
+                    }
+                }
+            )
         }
     }
 }

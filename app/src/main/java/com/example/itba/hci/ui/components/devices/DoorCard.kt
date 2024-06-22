@@ -49,8 +49,7 @@ fun DoorCard(
         shadowElevation = 4.dp,
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .height(450.dp)
     ) {
         LazyColumn(
             modifier = Modifier

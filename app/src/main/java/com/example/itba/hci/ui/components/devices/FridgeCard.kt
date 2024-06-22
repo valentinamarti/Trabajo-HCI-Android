@@ -35,9 +35,8 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(vertical = 8.dp)
+            .heightIn(min = 500.dp, max = 600.dp)
     ) {
         LazyColumn(
             modifier = Modifier

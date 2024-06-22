@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,9 +37,8 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(vertical = 8.dp)
+            .height(400.dp)
     ) {
         LazyColumn(
             modifier = Modifier

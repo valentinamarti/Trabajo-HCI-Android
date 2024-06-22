@@ -3,6 +3,7 @@ package com.example.itba.hci.ui.components.devices
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -33,63 +34,67 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 4.dp,
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(vertical = 8.dp)
+            .heightIn(min = 500.dp, max = 600.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(14.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+        LazyColumn {
+            item {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(14.dp)
             ) {
-                IconButton(onClick = { navController.navigate("devices_screen") }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-            }
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.speaker),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column(
-                    verticalArrangement = Arrangement.Center
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
-                    ))
-                    currentDevice?.room?.let { room ->
-                        Text(room.name, style = MaterialTheme.typography.bodySmall)
+                    IconButton(onClick = { navController.navigate("devices_screen") }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.speaker),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text("${currentDevice?.name}", style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp
+                        ))
+                        currentDevice?.room?.let { room ->
+                            Text(room.name, style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                SpeakerControl(viewModel, deviceId)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                GenreSelection()
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Playlist()
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            SpeakerControl(viewModel, deviceId)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            GenreSelection()
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Playlist()
+            }
         }
+
     }
 }
 
