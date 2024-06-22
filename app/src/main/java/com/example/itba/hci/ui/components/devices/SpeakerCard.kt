@@ -209,7 +209,7 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
                     volume = it
                     viewModel.setVolume(it.toInt())
                 },
-                valueRange = 0f..100f,
+                valueRange = 0f..10f,
                 modifier = Modifier.fillMaxWidth()
             )
         }
