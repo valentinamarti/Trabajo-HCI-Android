@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
 class FridgeViewModel(
     private val repository: DeviceRepository
 ) : ViewModel() {
@@ -33,13 +34,13 @@ class FridgeViewModel(
     }
 
     fun getDevice(deviceId: String) {
-        Log.d("DoorViewModel", "Fetching device with ID: $deviceId")
+        Log.d("FridgeViewModel", "Fetching device with ID: $deviceId")
         runOnViewModelScope(
             { repository.getDevice(deviceId) },
             { state, response ->
                 val device = response as? Fridge
-                Log.d("DoorViewModel", "Fetched device: $response")
-                Log.d("DoorViewModel", "Current device: $device")
+                Log.d("FridgeViewModel", "Fetched device: $response")
+                Log.d("FridgeViewModel", "Current device: $device")
                 state.copy(currentDevice = device)
             }
         )
@@ -71,17 +72,18 @@ class FridgeViewModel(
         { state, _ -> state }
     )
 
-
-    fun setMode() = runOnViewModelScope(
+    fun setMode(mode: String) = runOnViewModelScope(
         {
-            val deviceId = uiState.value.currentDevice?.id
-            if (deviceId != null) {
-                repository.executeDeviceAction(deviceId, Fridge.SET_MODE)
-            }
+            Log.d("setMode", "Setting mode to $mode")
+            val parameters = arrayOf<Any>(mode)
+            repository.executeDeviceAction(
+                uiState.value.currentDevice?.id!!,
+                Fridge.SET_MODE,
+                parameters
+            )
         },
         { state, _ -> state }
     )
-
 
     private fun modifyRoutine(device: Device) {
         runOnViewModelScope(
@@ -105,7 +107,6 @@ class FridgeViewModel(
             }
         )
     }
-
 
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,

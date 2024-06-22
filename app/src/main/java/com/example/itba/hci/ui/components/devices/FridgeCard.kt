@@ -76,8 +76,8 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
             }
             TemperatureControl(viewModel, deviceId)
             FreezerTemperatureControl(viewModel, deviceId)
-
-
+            Spacer(modifier = Modifier.height(16.dp))
+            ModeSelection(viewModel, deviceId)
         }
     }
 }
@@ -208,6 +208,49 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 )
             ) {
                 Text("+")
+            }
+        }
+    }
+}
+
+@Composable
+fun ModeSelection(viewModel: FridgeViewModel, deviceId: String) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedMode by remember { mutableStateOf("Select Mode") }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.primary)
+    ) {
+        Column {
+            Button(
+                onClick = { expanded = !expanded },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(selectedMode)
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+            ) {
+                val modes = listOf("Default", "Vacation", "Party")
+                modes.forEach { mode ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedMode = mode
+                            expanded = false
+                            viewModel.setMode(mode.toLowerCase())
+                            viewModel.getDevice(deviceId)
+                        },
+                        text = { Text(mode) }
+                    )
+                }
             }
         }
     }
