@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -36,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.itba.hci.R
+import com.example.itba.hci.model.Routine
 import com.example.itba.hci.remote.model.RemoteAction
 import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.screens.toColor
@@ -55,61 +57,70 @@ fun RoutineView(navController: NavController, viewModel: RoutineViewModel, routi
     LaunchedEffect(Unit) {
         viewModel.getRoutine(routineId)
     }
-
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
+    LazyColumn(
         modifier = Modifier
-            .padding(8.dp)
-            .heightIn(min = 400.dp, max = 500.dp)
+            .wrapContentHeight()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(14.dp),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+        item {
+            Column(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
             ) {
-                IconButton(onClick = { navController.navigate("routine_screen") }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-            }
-            Row {
-
-                if (routine != null) {
-                    Text(
-                        text = routine.name,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier
-                            .padding(30.dp)
-                    )
-                }
-
-
-            }
-            CustomDivider()
-            Row {
-                Text(
-                    text = routine?.meta?.description ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(26.dp)
-                )
-            }
-            CustomDivider()
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IconButton(onClick = { navController.navigate("routine_screen") }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    }
+                    Row {
 
-            if (routine != null) {
-                EventContainer(routine = routine)
-            }
+                        if (routine != null) {
+                            Text(
+                                text = routine.name,
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier
+                                    .padding(30.dp)
+                            )
+                        }
 
-            CustomDivider()
 
-            if (routine != null) {
-                ColorSelector(routine)
+                    }
+                    CustomDivider()
+                    Row {
+                        Text(
+                            text = routine?.meta?.description ?: "",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .padding(26.dp)
+                        )
+                    }
+                    CustomDivider()
+
+                    if (routine != null) {
+                        EventContainer(routine = routine)
+                    }
+
+                    CustomDivider()
+
+                    if (routine != null) {
+                        ColorSelector(routine)
+                    }
+                }
             }
         }
+
     }
 }
 
@@ -126,7 +137,7 @@ fun CustomDivider() {
 
 
 @Composable
-fun EventContainer(routine: com.example.itba.hci.model.Routine) {
+fun EventContainer(routine: Routine) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,7 +204,7 @@ fun EventItem(action: RemoteAction) {
 
 
 @Composable
-fun ColorSelector(routine: com.example.itba.hci.model.Routine) {
+fun ColorSelector(routine: Routine) {
     val selectedColor = routine.meta?.color
 
     val colorOptions = listOf(

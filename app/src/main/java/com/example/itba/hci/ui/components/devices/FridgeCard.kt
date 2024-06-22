@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,34 +31,24 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
     val currentDevice = uiState.currentDevice
 
     Log.d("FridgeCard", "Current device: $currentDevice")
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
+    LazyColumn(
         modifier = Modifier
-            .padding(vertical = 8.dp)
-            .heightIn(min = 500.dp, max = 600.dp)
+            .wrapContentHeight()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(14.dp)
-        ) {
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    IconButton(onClick = { navController.navigate("devices_screen") }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-            }
-            item {
+        item {
+            Column(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.fridge_outline),
@@ -86,11 +74,10 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item {
-                TemperatureControl(viewModel, deviceId)
-                FreezerTemperatureControl(viewModel, deviceId)
-                InventoryControl()
-            }
+            TemperatureControl(viewModel, deviceId)
+            FreezerTemperatureControl(viewModel, deviceId)
+            InventoryControl()
+
 
         }
     }
@@ -252,9 +239,11 @@ fun InventoryControl() {
                 textAlign = TextAlign.Left
             )
             items.forEach { item ->
-                Text(item, modifier = Modifier
-                    .padding(2.dp)
-                    .fillMaxWidth(), textAlign = TextAlign.Center)
+                Text(
+                    item, modifier = Modifier
+                        .padding(2.dp)
+                        .fillMaxWidth(), textAlign = TextAlign.Center
+                )
             }
 
         }
