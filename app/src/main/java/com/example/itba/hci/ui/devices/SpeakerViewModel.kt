@@ -78,6 +78,19 @@ class SpeakerViewModel(
         { state, _ -> state }
     )
 
+    fun setVolume(level: Int) = runOnViewModelScope(
+        {
+            Log.d("setVolume", "Setting volume to $level")
+            val parameters = arrayOf<Any>(level)
+            repository.executeDeviceAction(
+                uiState.value.currentDevice?.id!!,
+                Speaker.SET_VOLUME,
+                parameters
+            )
+        },
+        { state, _ -> state }
+    )
+
 
     private fun modifyRoutine(device: Device) {
         runOnViewModelScope(
