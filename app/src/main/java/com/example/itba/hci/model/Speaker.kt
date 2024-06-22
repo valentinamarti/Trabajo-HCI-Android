@@ -49,5 +49,6 @@ class Speaker(
         const val NEXT_SONG_ACTION = "nextSong"
         const val PREVIOUS_SONG_ACTION = "previousSong"
         const val SET_VOLUME = "setVolume"
+        const val SET_GENRE = "setGenre"
     }
 }

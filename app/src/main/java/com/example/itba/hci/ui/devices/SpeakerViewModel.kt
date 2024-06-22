@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.itba.hci.model.Error
 import com.example.itba.hci.DataSourceException
-import com.example.itba.hci.model.Blind
 import com.example.itba.hci.model.Device
-import com.example.itba.hci.model.Door
 import com.example.itba.hci.model.Speaker
 import com.example.itba.hci.repository.DeviceRepository
 import kotlinx.coroutines.Job
@@ -19,6 +17,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
 class SpeakerViewModel(
     private val repository: DeviceRepository
 ) : ViewModel() {
@@ -35,18 +34,17 @@ class SpeakerViewModel(
     }
 
     fun getDevice(deviceId: String) {
-        Log.d("DoorViewModel", "Fetching device with ID: $deviceId")
+        Log.d("SpeakerViewModel", "Fetching device with ID: $deviceId")
         runOnViewModelScope(
             { repository.getDevice(deviceId) },
             { state, response ->
                 val device = response as? Speaker
-                Log.d("DoorViewModel", "Fetched device: $response")
-                Log.d("DoorViewModel", "Current device: $device")
+                Log.d("SpeakerViewModel", "Fetched device: $response")
+                Log.d("SpeakerViewModel", "Current device: $device")
                 state.copy(currentDevice = device)
             }
         )
     }
-
 
     fun nextSong() = runOnViewModelScope(
         { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Speaker.NEXT_SONG_ACTION) },
@@ -91,6 +89,18 @@ class SpeakerViewModel(
         { state, _ -> state }
     )
 
+    fun setGenre(genre: String) = runOnViewModelScope(
+        {
+            Log.d("setGenre", "Setting genre to $genre")
+            val parameters = arrayOf<Any>(genre)
+            repository.executeDeviceAction(
+                uiState.value.currentDevice?.id!!,
+                Speaker.SET_GENRE,
+                parameters
+            )
+        },
+        { state, _ -> state }
+    )
 
     private fun modifyRoutine(device: Device) {
         runOnViewModelScope(

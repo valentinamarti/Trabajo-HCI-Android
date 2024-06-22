@@ -90,7 +90,7 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    GenreSelection()
+                    GenreSelection(viewModel, deviceId)
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -224,11 +224,19 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
     }
 }
 
-// GenreSelection and Playlist functions remain the same
 @Composable
-fun GenreSelection() {
+fun GenreSelection(viewModel: SpeakerViewModel, deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
+
+    val currentDevice = uiState.currentDevice
+
     var expanded by remember { mutableStateOf(false) }
-    var selectedGenre by remember { mutableStateOf("Select Genre") }
+    var selectedGenre by remember { mutableStateOf(currentDevice?.genre ?: "Select Genre") }
+
 
     Box(
         modifier = Modifier
@@ -251,27 +259,18 @@ fun GenreSelection() {
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.primary)
             ) {
-                DropdownMenuItem(
-                    onClick = {
-                        selectedGenre = "Rock"
-                        expanded = false
-                    },
-                    text = { Text("Rock") }
-                )
-                DropdownMenuItem(
-                    onClick = {
-                        selectedGenre = "Pop"
-                        expanded = false
-                    },
-                    text = { Text("Pop") }
-                )
-                DropdownMenuItem(
-                    onClick = {
-                        selectedGenre = "Jazz"
-                        expanded = false
-                    },
-                    text = { Text("Jazz") }
-                )
+                val genres = listOf("Classical", "Country", "Dance", "Latina", "Pop", "Rock")
+                genres.forEach { genre ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedGenre = genre
+                            expanded = false
+                            viewModel.setGenre(genre.toLowerCase())
+                            viewModel.getDevice(deviceId)
+                        },
+                        text = { Text(genre) }
+                    )
+                }
             }
         }
     }
