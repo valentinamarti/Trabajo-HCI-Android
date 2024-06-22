@@ -26,7 +26,6 @@ import com.example.itba.hci.R
 import com.example.itba.hci.model.Door
 import com.example.itba.hci.ui.devices.DoorViewModel
 
-
 @Composable
 fun DoorCard(
     navController: NavController,
@@ -35,7 +34,9 @@ fun DoorCard(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    viewModel.getDevice(deviceId)
+    LaunchedEffect(deviceId) {
+        viewModel.getDevice(deviceId)
+    }
 
     val currentDevice = uiState.currentDevice
 
@@ -84,7 +85,6 @@ fun DoorCard(
                     }
                 }
 
-
                 Spacer(modifier = Modifier.height(16.dp))
             }
             if (isPortrait)
@@ -92,16 +92,19 @@ fun DoorCard(
             else
                 HorizontalDoorControl(viewModel = viewModel, currentDevice = currentDevice)
         }
-
     }
 }
-
 
 @Composable
 fun VerticalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
     var isDoorOpen by remember { mutableStateOf(currentDevice?.status) }
     var isDoorLocked by remember { mutableStateOf(currentDevice?.lock) }
     val context = LocalContext.current
+
+    LaunchedEffect(currentDevice) {
+        isDoorOpen = currentDevice?.status
+        isDoorLocked = currentDevice?.lock
+    }
 
     val notificationTextLocked = stringResource(id = R.string.notification_locked)
     val notificationTextUnlocked = stringResource(id = R.string.notification_unlocked)
@@ -145,7 +148,7 @@ fun VerticalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
                     viewModel.lock()
                     isDoorLocked = "locked"
                     sendNotification(context, notificationTextLocked, notificationTitle, notificationError)
-                } else if (isDoorOpen == "closed" && isDoorLocked != "unlocked") {
+                } else if (isDoorOpen == "closed") {
                     viewModel.unlock()
                     isDoorLocked = "unlocked"
                     sendNotification(context, notificationTextUnlocked, notificationTitle, notificationError)
@@ -168,11 +171,15 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
     var isDoorLocked by remember { mutableStateOf(currentDevice?.lock) }
     val context = LocalContext.current
 
+    LaunchedEffect(currentDevice) {
+        isDoorOpen = currentDevice?.status
+        isDoorLocked = currentDevice?.lock
+    }
+
     val notificationTextLocked = stringResource(id = R.string.notification_locked)
     val notificationTextUnlocked = stringResource(id = R.string.notification_unlocked)
     val notificationTitle = stringResource(id = R.string.notification_title)
     val notificationError = stringResource(id = R.string.notification_error)
-
 
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -192,7 +199,6 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-
 
         Column(
             modifier = Modifier.padding(horizontal = 20.dp)
@@ -217,7 +223,7 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
                         viewModel.lock()
                         isDoorLocked = "locked"
                         sendNotification(context, notificationTextLocked, notificationTitle, notificationError)
-                    } else if (isDoorOpen == "closed" && isDoorLocked != "unlocked") {
+                    } else if (isDoorOpen == "closed") {
                         viewModel.unlock()
                         isDoorLocked = "unlocked"
                         sendNotification(context, notificationTextUnlocked, notificationTitle, notificationError)
@@ -232,11 +238,10 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
                 )
             }
         }
-
     }
 }
 
-fun sendNotification(context: Context, text: String, title : String, error: String) {
+fun sendNotification(context: Context, text: String, title: String, error: String) {
     val builder = NotificationCompat.Builder(context, "door_lock_channel")
         .setSmallIcon(R.drawable.homedome)
         .setContentTitle(title)
@@ -255,17 +260,3 @@ fun sendNotification(context: Context, text: String, title : String, error: Stri
         println(error)
     }
 }
-
-
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun DoorPreview() {
-//    HomeDomeTheme {
-//        DoorCard(
-//            navController = rememberNavController(),
-//            deviceId = "2"
-//        )
-//    }
-//}
-
