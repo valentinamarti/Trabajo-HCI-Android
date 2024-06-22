@@ -4,12 +4,21 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,9 +51,10 @@ fun RoutinesScreen(
 
     var showDialog by remember { mutableStateOf(false) }
     var selectedRoutine by remember { mutableStateOf<Routine?>(null) }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
         Text(
             text = stringResource(id = R.string.bottom_navigation_routines),
@@ -73,7 +83,32 @@ fun RoutinesScreen(
     if (showDialog && selectedRoutine != null) {
         BasicAlertDialog(
             onDismissRequest = { showDialog = false },
-            content = { selectedRoutine!!.id?.let { RoutineView(navController,viewModel, it) } }
+            content = {
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    shadowElevation = 4.dp,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .wrapContentHeight()
+                ) {
+                    Column(modifier = Modifier.wrapContentHeight()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            IconButton(onClick = { navController.navigate("devices_screen") }) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                        selectedRoutine!!.id?.let { RoutineView(navController, viewModel, it) }
+                    }
+                }
+            }
         )
     }
 }

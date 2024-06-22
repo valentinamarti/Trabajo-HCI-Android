@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,34 +30,24 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
 
     Log.d("BlindsCard", "Current device: $currentDevice")
 
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
+    LazyColumn(
         modifier = Modifier
-            .padding(vertical = 8.dp)
-            .height(400.dp)
+            .wrapContentHeight()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(14.dp)
-        ) {
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    IconButton(onClick = { navController.navigate("devices_screen") }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-            }
-            item {
+        item {
+            Column(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.blinds),
@@ -85,9 +72,7 @@ fun BlindsCard(navController: NavController, viewModel: BlindViewModel, deviceId
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item {
-                BlindControl(viewModel, deviceId)
-            }
+            BlindControl(viewModel, deviceId)
         }
     }
 }

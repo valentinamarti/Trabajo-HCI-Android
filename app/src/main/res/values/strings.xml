@@ -10,5 +10,19 @@
     <string name="fav_routines">Favourite routines</string>
     <string name="no_favorite_routines">You don\'t have any routine marked as favourite</string>
     <string name="no_favorite_devices">You don\'t have any device marked as favourite</string>
+    <string name="fridge_temperature">Fridge Temperature</string>
+    <string name="freezer_temperature">Freezer Temperature</string>
+    <string name="door_closed">Door closed</string>
+    <string name="door_opened">Door opened</string>
+    <string name="door_locked">Door locked</string>
+    <string name="door_unlocked">Door unlocked</string>
+    <string name="closed">Close</string>
+    <string name="opened">Open</string>
+    <string name="locked">Lock</string>
+    <string name="unlocked">Unlock</string>
+    <string name="notification_unlocked">The door has been unlocked</string>
+    <string name="notification_locked">The door has been locked</string>
+    <string name="notification_title">Door state changed</string>
+    <string name="notification_error">Notification permission not granted</string>
 </resources>
 

@@ -3,12 +3,24 @@ package com.example.itba.hci.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -43,13 +55,14 @@ import com.example.itba.hci.ui.theme.screenTitle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController,
-               devicesViewModel: DevicesViewModel,
-               doorViewModel: DoorViewModel,
-               fridgeViewModel: FridgeViewModel,
-               speakerViewModel: SpeakerViewModel,
-               blindViewModel: BlindViewModel,
-               routineViewModel: RoutineViewModel
+fun HomeScreen(
+    navController: NavHostController,
+    devicesViewModel: DevicesViewModel,
+    doorViewModel: DoorViewModel,
+    fridgeViewModel: FridgeViewModel,
+    speakerViewModel: SpeakerViewModel,
+    blindViewModel: BlindViewModel,
+    routineViewModel: RoutineViewModel
 ) {
 
     val devicesUiState by devicesViewModel.uiState.collectAsState()
@@ -61,9 +74,10 @@ fun HomeScreen(navController: NavHostController,
     var showRoutineDialog by remember { mutableStateOf(false) }
     var selectedRoutine by remember { mutableStateOf<Routine?>(null) }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
         Text(
             text = stringResource(id = R.string.bottom_navigation_home),
@@ -80,7 +94,7 @@ fun HomeScreen(navController: NavHostController,
                 Text(
                     text = stringResource(id = R.string.fav_devices),
                     modifier = Modifier
-                            .padding(horizontal = 10.dp)
+                        .padding(horizontal = 10.dp)
                 )
             }
             if (devicesUiState.devices.filter { it.meta?.favorite == true }.isEmpty()) {
@@ -97,7 +111,7 @@ fun HomeScreen(navController: NavHostController,
                 items(devicesUiState.devices.filter { it.meta?.favorite == true }) { device ->
                     DeviceCard(
                         device = device,
-                        onClick = {selectedDevice = device; showDeviceDialog = true},
+                        onClick = { selectedDevice = device; showDeviceDialog = true },
                         doorViewModel = doorViewModel,
                         fridgeViewModel = fridgeViewModel,
                         speakerViewModel = speakerViewModel,
@@ -106,12 +120,13 @@ fun HomeScreen(navController: NavHostController,
                 }
             }
             item {
-                Text(text = stringResource(id = R.string.fav_routines),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 5.dp)
+                Text(
+                    text = stringResource(id = R.string.fav_routines),
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
                 )
             }
-            if (routineUiState.routines.filter { it.meta?.favorite!!}.isEmpty()) {
+            if (routineUiState.routines.filter { it.meta?.favorite!! }.isEmpty()) {
                 item {
                     Text(
                         text = stringResource(id = R.string.no_favorite_routines),
@@ -138,40 +153,106 @@ fun HomeScreen(navController: NavHostController,
         if (showDeviceDialog && selectedDevice != null) {
             BasicAlertDialog(onDismissRequest = { showDeviceDialog = false },
                 content = {
-                    when (selectedDevice?.type) {
-                        DeviceType.DOOR -> selectedDevice!!.id?.let {
-                            DoorCard(navController, doorViewModel,
-                                it
-                            )
-                        }
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        shadowElevation = 4.dp,
+                        modifier = Modifier
+                            .padding(vertical = 100.dp)
+                            .widthIn(min = 300.dp, max = 500.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                        ){
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                IconButton(onClick = { selectedDevice = null; showDeviceDialog = false }) {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back"
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(6.dp))
+                            when (selectedDevice?.type) {
+                                DeviceType.DOOR -> selectedDevice!!.id?.let {
+                                    DoorCard(
+                                        navController, doorViewModel,
+                                        it
+                                    )
+                                }
 
-                        DeviceType.FRIDGE -> selectedDevice!!.id?.let {
-                            FridgeCard(navController, fridgeViewModel,
-                                it
-                            )
-                        }
+                                DeviceType.FRIDGE -> selectedDevice!!.id?.let {
+                                    FridgeCard(
+                                        navController, fridgeViewModel,
+                                        it
+                                    )
+                                }
 
-                        DeviceType.SPEAKER -> selectedDevice!!.id?.let {
-                            SpeakerCard(navController, speakerViewModel,
-                                it
-                            )
-                        }
+                                DeviceType.SPEAKER -> selectedDevice!!.id?.let {
+                                    SpeakerCard(
+                                        navController, speakerViewModel,
+                                        it
+                                    )
+                                }
 
-                        DeviceType.BLIND -> selectedDevice!!.id?.let {
-                            BlindsCard(navController, blindViewModel,
-                                it
-                            )
-                        }
+                                DeviceType.BLIND -> selectedDevice!!.id?.let {
+                                    BlindsCard(
+                                        navController, blindViewModel,
+                                        it
+                                    )
+                                }
 
-                        else -> Text("Tipo de dispositivo desconocido")
+                                else -> Text("Tipo de dispositivo desconocido")
+                            }
+                        }
                     }
+
                 }
             )
         }
         if (showRoutineDialog && selectedRoutine != null) {
             BasicAlertDialog(
                 onDismissRequest = { showRoutineDialog = false },
-                content = { selectedRoutine!!.id?.let { RoutineView(navController,routineViewModel, it) } }
+                content = {
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        shadowElevation = 4.dp,
+                        modifier = Modifier
+                            .padding(vertical = 100.dp)
+                            .wrapContentHeight()
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                IconButton(onClick = {selectedRoutine = null; showRoutineDialog = false}) {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back"
+                                    )
+                                }
+                            }
+                            selectedRoutine!!.id?.let {
+                                RoutineView(
+                                    navController,
+                                    routineViewModel,
+                                    it
+                                )
+                            }
+                        }
+                    }
+                }
             )
         }
     }

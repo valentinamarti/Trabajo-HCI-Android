@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -33,34 +31,24 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
     val currentDevice = uiState.currentDevice
 
     Log.d("FridgeCard", "Current device: $currentDevice")
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
+    LazyColumn(
         modifier = Modifier
-            .padding(vertical = 8.dp)
-            .heightIn(min = 500.dp, max = 600.dp)
+            .wrapContentHeight()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(14.dp)
-        ) {
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    IconButton(onClick = { navController.navigate("devices_screen") }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-            }
-            item {
+        item {
+            Column(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.fridge_outline),
@@ -86,10 +74,9 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item {
-                TemperatureControl(viewModel, deviceId)
-                FreezerTemperatureControl(viewModel, deviceId)
-            }
+            TemperatureControl(viewModel, deviceId)
+            FreezerTemperatureControl(viewModel, deviceId)
+
 
         }
     }
@@ -125,7 +112,7 @@ fun TemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text("Temperatura Heladera", modifier = Modifier.weight(1f))
+            Text(text = stringResource(id = R.string.fridge_temperature), modifier = Modifier.weight(1f))
             Button(
                 onClick = {
                     if (temperature != null && temperature!! > 0) {
@@ -192,7 +179,7 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         ) {
-            Text("Temperatura Freezer", modifier = Modifier.weight(1f))
+            Text(text = stringResource(id = R.string.freezer_temperature), modifier = Modifier.weight(1f))
             Button(
                 onClick = {
                     if (freezerTemperature != null && freezerTemperature!! > -20) {

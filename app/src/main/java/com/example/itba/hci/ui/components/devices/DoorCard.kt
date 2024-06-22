@@ -6,9 +6,6 @@ import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,37 +39,26 @@ fun DoorCard(
     val currentDevice = uiState.currentDevice
 
     val configuration = LocalConfiguration.current
-    val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
-
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
+    val isPortrait =
+        configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+    LazyColumn(
         modifier = Modifier
-            .padding(8.dp)
-            .height(450.dp)
+            .wrapContentHeight()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(14.dp)
-        ) {
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    IconButton(onClick = { navController.navigate("devices_screen") }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-            }
-            item {
+        item {
+            Column(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.door),
@@ -100,19 +86,14 @@ fun DoorCard(
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item {
-                if(isPortrait)
-                    VerticalDoorControl(viewModel = viewModel , currentDevice = currentDevice)
-                else
-                    HorizontalDoorControl(viewModel = viewModel, currentDevice = currentDevice)
-            }
+            if (isPortrait)
+                VerticalDoorControl(viewModel = viewModel, currentDevice = currentDevice)
+            else
+                HorizontalDoorControl(viewModel = viewModel, currentDevice = currentDevice)
         }
 
     }
 }
-
-
-
 
 
 @Composable
@@ -205,7 +186,7 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
 
         Column(
             modifier = Modifier.padding(horizontal = 20.dp)
-        ){
+        ) {
             Button(onClick = {
                 if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
                     viewModel.open()
@@ -246,6 +227,7 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
 
     }
 }
+
 fun sendNotification(context: Context, text: String) {
     val builder = NotificationCompat.Builder(context, "door_lock_channel")
         .setSmallIcon(R.drawable.homedome)
@@ -253,7 +235,11 @@ fun sendNotification(context: Context, text: String) {
         .setContentText(text)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-    if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+    if (ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+    ) {
         with(NotificationManagerCompat.from(context)) {
             notify(1, builder.build())
         }
@@ -261,7 +247,6 @@ fun sendNotification(context: Context, text: String) {
         println("Notification permission not granted.")
     }
 }
-
 
 
 //

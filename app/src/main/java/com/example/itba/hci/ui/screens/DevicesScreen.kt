@@ -4,12 +4,23 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,16 +57,17 @@ fun DevicesScreen(
     fridgeViewModel: FridgeViewModel,
     speakerViewModel: SpeakerViewModel,
     blindViewModel: BlindViewModel
-){
+) {
     val uiState by devicesViewModel.uiState.collectAsState()
     Log.d("DevicesScreen", "Devices list is empty: ${uiState.devices.isEmpty()}")
 
     var showDialog by remember { mutableStateOf(false) }
     var selectedDevice by remember { mutableStateOf<Device?>(null) }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
         Text(
             text = stringResource(id = R.string.bottom_navigation_devices),
@@ -71,45 +83,79 @@ fun DevicesScreen(
             items(uiState.devices) { device ->
                 DeviceCard(
                     device = device,
-                    onClick = { selectedDevice = device
-                                showDialog = true},
+                    onClick = {
+                        selectedDevice = device
+                        showDialog = true
+                    },
                     doorViewModel = doorViewModel,
                     fridgeViewModel = fridgeViewModel,
                     speakerViewModel = speakerViewModel,
                     blindViewModel = blindViewModel
-                    )
+                )
             }
         }
     }
     if (showDialog && selectedDevice != null) {
         BasicAlertDialog(onDismissRequest = { showDialog = false },
             content = {
-                when (selectedDevice?.type) {
-                    DeviceType.DOOR -> selectedDevice!!.id?.let {
-                        DoorCard(navController, doorViewModel,
-                            it
-                        )
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    shadowElevation = 4.dp,
+                    modifier = Modifier
+                        .padding(vertical = 100.dp)
+                        .widthIn(min = 300.dp, max = 500.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ){
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            IconButton(onClick = { selectedDevice = null; showDialog = false}) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
+                        when (selectedDevice?.type) {
+                            DeviceType.DOOR -> selectedDevice!!.id?.let {
+                                DoorCard(
+                                    navController, doorViewModel,
+                                    it
+                                )
+                            }
+
+                            DeviceType.FRIDGE -> selectedDevice!!.id?.let {
+                                FridgeCard(
+                                    navController, fridgeViewModel,
+                                    it
+                                )
+                            }
+
+                            DeviceType.SPEAKER -> selectedDevice!!.id?.let {
+                                SpeakerCard(
+                                    navController, speakerViewModel,
+                                    it
+                                )
+                            }
+
+                            DeviceType.BLIND -> selectedDevice!!.id?.let {
+                                BlindsCard(
+                                    navController, blindViewModel,
+                                    it
+                                )
+                            }
+
+                            else -> Text("Tipo de dispositivo desconocido")
+                        }
                     }
 
-                    DeviceType.FRIDGE -> selectedDevice!!.id?.let {
-                        FridgeCard(navController, fridgeViewModel,
-                            it
-                        )
-                    }
-
-                    DeviceType.SPEAKER -> selectedDevice!!.id?.let {
-                        SpeakerCard(navController, speakerViewModel,
-                            it
-                        )
-                    }
-
-                    DeviceType.BLIND -> selectedDevice!!.id?.let {
-                        BlindsCard(navController, blindViewModel,
-                            it
-                        )
-                    }
-
-                    else -> Text("Tipo de dispositivo desconocido")
                 }
             }
         )
