@@ -32,13 +32,7 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
 
     Log.d("SpeakerCard", "Current device: $currentDevice")
 
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
-        modifier = Modifier
-            .padding(vertical = 8.dp)
-            .heightIn(min = 500.dp, max = 600.dp)
-    ) {
+
         LazyColumn {
             item {
                 Column(
@@ -46,17 +40,6 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
                         .fillMaxSize()
                         .padding(14.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        IconButton(onClick = { navController.navigate("devices_screen") }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(6.dp))
-
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -98,7 +81,6 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
                 }
             }
         }
-    }
 }
 
 @Composable
