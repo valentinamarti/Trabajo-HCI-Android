@@ -1,5 +1,6 @@
 package com.example.itba.hci.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -8,18 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceEvenly
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.itba.hci.utils.navigation.AppDestinations
 
 
@@ -37,26 +34,30 @@ fun NavigationBar(
     )
 
 
-    BottomNavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary,
+    Box(
         modifier = modifier
+            .height(80.dp) // Ajusta el alto según tus necesidades
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primary)
     ) {
         Row(
-            horizontalArrangement = SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .height(90.dp)
         ) {
-            screens.forEach{ screen ->
-                CustomNavigationBarItem(
-                    label = { Text(text = stringResource(screen.title)) },
-                    icon = screen.icon,
-                    selected = currentRoute == screen.route,
-                    onClick = { onNavigateToRoute(screen.route) }
-                )
+                screens.forEach{ screen ->
+                    CustomNavigationBarItem(
+                        label = { Text(text = stringResource(screen.title)) },
+                        icon = screen.icon,
+                        selected = currentRoute == screen.route,
+                        onClick = { onNavigateToRoute(screen.route) },
+                        isHome = screen.route == AppDestinations.HOME.route
+                    )
+                }
             }
-        }
+
     }
 
 }
@@ -65,44 +66,31 @@ fun NavigationBar(
 fun CircleIcon(
     icon: ImageVector,
     contentDescription: String?,
-    selected: Boolean
+    selected: Boolean,
+    size: Dp = 40.dp,
+    isHome: Boolean = false
     ) {
     Surface(
-        modifier = Modifier.size(40.dp),
+        modifier = Modifier
+            .size(size)
+            .shadow(
+                elevation = 4.dp,
+                shape = CircleShape,
+                ambientColor = Color.Black.copy(alpha = 0.4f), // Ajusta la opacidad del sombreado
+            ),
         shape = CircleShape,
-        color = if (selected) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.background,
+        color = if (selected) MaterialTheme.colorScheme.onSecondary else if(isHome) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background,
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.size(36.dp)
+            modifier = Modifier.size(size * 0.9f),
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
                 tint = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(size * 0.6f)
             )
-        }
-    }
-}
-
-@Composable
-fun BottomNavigationBar(
-    containerColor: Color,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Surface(
-        color = containerColor,
-        shadowElevation = 8.dp,
-        modifier = modifier
-            .height(80.dp)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-        ) {
-            content()
         }
     }
 }
@@ -113,16 +101,18 @@ fun CustomNavigationBarItem(
     label: @Composable () -> Unit,
     selected: Boolean,
     onClick: () -> Unit,
+    isHome: Boolean = false
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(8.dp)
+            .offset(y = if (isHome) (-20).dp else 4.dp)
     ) {
-        CircleIcon(icon = icon, contentDescription = null, selected = selected)
-        Spacer(modifier = Modifier.height(4.dp))
+        val size = if (isHome) 60.dp else 40.dp
+        CircleIcon(icon = icon, contentDescription = null, selected = selected, size = size, isHome = isHome)
+        Spacer(modifier = Modifier.height(2.dp))
         label()
     }
 }
