@@ -8,8 +8,8 @@
     <string name="color_title">Colores:</string>
     <string name="fav_devices">Dispositivos favoritos</string>
     <string name="fav_routines">Rutinas favoritas</string>
-    <string name="no_favorite_routines">No tienes ningúna rutina marcada como favorita</string>
-    <string name="no_favorite_devices">No tienes ningún dispositivo marcado como favorito</string>
+    <string name="no_favorite_routines">No tenés ninguna rutina marcada como favorita</string>
+    <string name="no_favorite_devices">No tenés ningún dispositivo marcado como favorito</string>
     <string name="fridge_temperature">Temperatura Heladera</string>
     <string name="freezer_temperature">Temperatura Freezer</string>
     <string name="door_closed">Puerta cerrada</string>
@@ -24,5 +24,18 @@
     <string name="notification_locked">La puerta con llave</string>
     <string name="notification_title">Cambio en el estado de la puerta</string>
     <string name="notification_error">No tiene permiso para las notificaciones</string>
-
+    <string name="song_title">Título</string>
+    <string name="song_artist">Artista</string>
+    <string name="previous">Anterior</string>
+    <string name="pause">Pausar</string>
+    <string name="play">Reproducir</string>
+    <string name="next">Siguiente</string>
+    <string name="stop">Parar</string>
+    <string name="volume">Volumen</string>
+    <string name="select_genre">Seleccionar género</string>
+    <string name="playlist">Lista de reproducción</string>
+    <string name="status">Estado</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="select_mode">Seleccionar modo</string>
 </resources>

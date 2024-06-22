@@ -215,8 +215,12 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
 
 @Composable
 fun ModeSelection(viewModel: FridgeViewModel, deviceId: String) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    val currentDevice = uiState.currentDevice
+
     var expanded by remember { mutableStateOf(false) }
-    var selectedMode by remember { mutableStateOf("Select Mode") }
+    var selectedMode by remember { mutableStateOf(currentDevice?.mode ?: "Select Genre") }
 
     Box(
         modifier = Modifier

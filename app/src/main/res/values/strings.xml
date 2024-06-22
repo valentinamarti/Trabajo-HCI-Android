@@ -24,5 +24,18 @@
     <string name="notification_locked">The door has been locked</string>
     <string name="notification_title">Door state changed</string>
     <string name="notification_error">Notification permission not granted</string>
+    <string name="song_title">Title</string>
+    <string name="song_artist">Artist</string>
+    <string name="previous">Previous</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
+    <string name="next">Next</string>
+    <string name="stop">Stop</string>
+    <string name="volume">Volume</string>
+    <string name="select_genre">Select Genre</string>
+    <string name="playlist">Playlist</string>
+    <string name="status">Status</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="select_mode">Select Mode</string>
 </resources>
-

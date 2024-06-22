@@ -5,14 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,55 +31,54 @@ fun SpeakerCard(navController: NavController, viewModel: SpeakerViewModel, devic
 
     Log.d("SpeakerCard", "Current device: $currentDevice")
 
-
-        LazyColumn {
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(14.dp)
+    LazyColumn {
+        item {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(14.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                    Icon(
+                        painter = painterResource(R.drawable.speaker),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column(
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Icon(
-                            painter = painterResource(R.drawable.speaker),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Column(
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = currentDevice?.name ?: "",
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 24.sp
-                                )
+                        Text(
+                            text = currentDevice?.name ?: "",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp
                             )
-                            currentDevice?.room?.let { room ->
-                                Text(room.name, style = MaterialTheme.typography.bodySmall)
-                            }
+                        )
+                        currentDevice?.room?.let { room ->
+                            Text(room.name, style = MaterialTheme.typography.bodySmall)
                         }
                     }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    SpeakerControl(viewModel, deviceId)
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    GenreSelection(viewModel, deviceId)
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Playlist()
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                SpeakerControl(viewModel, deviceId)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                GenreSelection(viewModel, deviceId)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Playlist()
             }
         }
+    }
 }
 
 @Composable
@@ -107,14 +105,14 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
         Log.d("current song:", "${currentDevice?.song}")
         if (currentDevice?.song != null) {
             Text(
-                text = "Title: ${currentDevice.song.title}",
+                text = "${stringResource(id = R.string.song_title)}: ${currentDevice.song.title}",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
             )
             Text(
-                text = "Artist: ${currentDevice.song.artist}",
+                text = "${stringResource(id = R.string.song_artist)}: ${currentDevice.song.artist}",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
@@ -142,7 +140,7 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.mdi_skip_previous_circle),
-                        contentDescription = "Previous"
+                        contentDescription = stringResource(id = R.string.previous)
                     )
                 }
                 IconButton(onClick = {
@@ -156,30 +154,30 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
                         viewModel.play()
                         isPlaying = "playing"
                     }
-                    viewModel.getDevice(deviceId) // refresh device data
+                    viewModel.getDevice(deviceId)
                 }) {
                     Icon(
                         painter = painterResource(id = if (isPlaying == "playing") R.drawable.mdi_pause_circle else R.drawable.mdi_play_circle),
-                        contentDescription = if (isPlaying == "playing") "Pause" else "Play"
+                        contentDescription = if (isPlaying == "playing") stringResource(id = R.string.pause) else stringResource(id = R.string.play)
                     )
                 }
                 IconButton(onClick = {
                     viewModel.nextSong()
-                    viewModel.getDevice(deviceId) // refresh device data
+                    viewModel.getDevice(deviceId)
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.mdi_skip_next_circle),
-                        contentDescription = "Next"
+                        contentDescription = stringResource(id = R.string.next)
                     )
                 }
                 IconButton(onClick = {
                     viewModel.stop()
                     isPlaying = "stopped"
-                    viewModel.getDevice(deviceId) // refresh device data
+                    viewModel.getDevice(deviceId)
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.mdi_square),
-                        contentDescription = "Stop"
+                        contentDescription = stringResource(id = R.string.stop)
                     )
                 }
             }
@@ -190,7 +188,7 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(2.dp) // Adjust the spacing as needed
         ) {
-            Text("Volume: ${volume.toInt()}")
+            Text("${stringResource(id = R.string.volume)}: ${volume.toInt()}")
 
             Slider(
                 value = volume,
@@ -218,7 +216,6 @@ fun GenreSelection(viewModel: SpeakerViewModel, deviceId: String) {
 
     var expanded by remember { mutableStateOf(false) }
     var selectedGenre by remember { mutableStateOf(currentDevice?.genre ?: "Select Genre") }
-
 
     Box(
         modifier = Modifier
@@ -267,7 +264,7 @@ fun Playlist() {
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        Text("Playlist", style = MaterialTheme.typography.bodyLarge)
+        Text(stringResource(id = R.string.playlist), style = MaterialTheme.typography.bodyLarge)
 
         val songs = listOf(
             "Memories",

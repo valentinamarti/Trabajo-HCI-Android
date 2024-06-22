@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,11 +123,11 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
                 sliderValue = 0f
                 viewModel.setLevel(0)
             }) {
-                Text("Abrir")
+                Text(stringResource(id = R.string.open))
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Estado: ${sliderValue.toInt()}%",
+                text = "${stringResource(id = R.string.status)}: ${sliderValue.toInt()}%",
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 14.sp),
                 modifier = Modifier.padding(vertical = 8.dp)
             )
@@ -135,16 +136,8 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
                 sliderValue = 100f
                 viewModel.setLevel(100)
             }) {
-                Text("Cerrar")
+                Text(stringResource(id = R.string.close))
             }
         }
     }
 }
-
-// @Preview(showBackground = true)
-// @Composable
-// fun BlindsPreview() {
-//     HomeDomeTheme {
-//         BlindsCard(navController = rememberNavController(), viewModel = BlindViewModel(), deviceId = "1")
-//     }
-// }
