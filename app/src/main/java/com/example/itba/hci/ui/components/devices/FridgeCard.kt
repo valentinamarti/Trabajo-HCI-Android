@@ -76,7 +76,6 @@ fun FridgeCard(navController: NavController, viewModel: FridgeViewModel, deviceI
             }
             TemperatureControl(viewModel, deviceId)
             FreezerTemperatureControl(viewModel, deviceId)
-            InventoryControl()
 
 
         }
@@ -210,42 +209,6 @@ fun FreezerTemperatureControl(viewModel: FridgeViewModel, deviceId: String) {
             ) {
                 Text("+")
             }
-        }
-    }
-}
-
-@Composable
-fun InventoryControl() {
-    var items by remember { mutableStateOf(listOf("Queso crema", "Leche", "Huevos")) }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clip(RoundedCornerShape(10.dp))
-    ) {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary)
-                .clip(shape = RoundedCornerShape(10.dp)),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                "Inventory",
-                modifier = Modifier
-                    .padding(6.dp)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Left
-            )
-            items.forEach { item ->
-                Text(
-                    item, modifier = Modifier
-                        .padding(2.dp)
-                        .fillMaxWidth(), textAlign = TextAlign.Center
-                )
-            }
-
         }
     }
 }
