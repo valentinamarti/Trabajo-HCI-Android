@@ -10,4 +10,19 @@
     <string name="fav_routines">Rutinas favoritas</string>
     <string name="no_favorite_routines">No tienes ningúna rutina marcada como favorita</string>
     <string name="no_favorite_devices">No tienes ningún dispositivo marcado como favorito</string>
+    <string name="fridge_temperature">Temperatura Heladera</string>
+    <string name="freezer_temperature">Temperatura Freezer</string>
+    <string name="door_closed">Puerta cerrada</string>
+    <string name="door_opened">Puerta abierta</string>
+    <string name="door_locked">Puerta con llave</string>
+    <string name="door_unlocked">Puerta sin llave</string>
+    <string name="closed">Cierra</string>
+    <string name="opened">Abre</string>
+    <string name="locked">Con llave</string>
+    <string name="unlocked">Sin llave</string>
+    <string name="notification_unlocked">La puerta sin llave</string>
+    <string name="notification_locked">La puerta con llave</string>
+    <string name="notification_title">Cambio en el estado de la puerta</string>
+    <string name="notification_error">No tiene permiso para las notificaciones</string>
+
 </resources>
