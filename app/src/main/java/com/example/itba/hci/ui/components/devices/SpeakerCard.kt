@@ -121,6 +121,27 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+        // Display the song title and artist
+        Log.d("current song:", "${currentDevice?.song}")
+        if (currentDevice?.song != null) {
+            Text(
+                text = "Title: ${currentDevice.song.title}",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            )
+            Text(
+                text = "Artist: ${currentDevice.song.artist}",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 18.sp
+                )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,15 +198,16 @@ fun SpeakerControl(viewModel: SpeakerViewModel, deviceId: String) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp) // Adjust the spacing as needed
+            verticalArrangement = Arrangement.spacedBy(2.dp) // Adjust the spacing as needed
         ) {
             Text("Volume: ${volume.toInt()}")
 
             Slider(
                 value = volume,
-                onValueChange = { newVolume ->
-                    volume = newVolume
-                    viewModel.setVolume(newVolume.toInt())
+                onValueChange = {
+                    Log.d("volume is:", "${volume.toInt()}")
+                    volume = it
+                    viewModel.setVolume(it.toInt())
                 },
                 valueRange = 0f..100f,
                 modifier = Modifier.fillMaxWidth()

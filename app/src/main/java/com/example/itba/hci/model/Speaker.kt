@@ -11,6 +11,7 @@ class Speaker(
     val status: String,
     val genre: String,
     val volume: Int,
+    val song: Song?,
     override val meta: RemoteDeviceMeta?
 ) : Device(id, name, DeviceType.SPEAKER, meta) {
 
@@ -19,6 +20,13 @@ class Speaker(
         state.status = status
         state.genre = genre
         state.volume = volume
+        song?.let {
+            state.title = it.title
+            state.artist = it.artist
+            state.album = it.album
+            state.duration = it.duration
+            state.progress = it.progress
+        }
 
         val model = RemoteSpeaker()
         model.id = id
@@ -42,3 +50,11 @@ class Speaker(
         const val SET_VOLUME = "setVolume"
     }
 }
+
+data class Song(
+    val title: String,
+    val artist: String,
+    val album: String,
+    val duration: String,
+    val progress: String
+)
