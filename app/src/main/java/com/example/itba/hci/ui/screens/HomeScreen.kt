@@ -226,10 +226,7 @@ fun HomeScreen(
                             .padding(vertical = 100.dp)
                             .wrapContentHeight()
                     ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(16.dp)
-                        ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
