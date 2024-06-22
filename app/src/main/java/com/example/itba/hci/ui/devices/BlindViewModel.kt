@@ -8,6 +8,7 @@ import com.example.itba.hci.DataSourceException
 import com.example.itba.hci.model.Blind
 import com.example.itba.hci.model.Device
 import com.example.itba.hci.model.Door
+import com.example.itba.hci.model.Fridge
 import com.example.itba.hci.model.Lamp
 import com.example.itba.hci.model.Routine
 import com.example.itba.hci.repository.DeviceRepository
@@ -42,6 +43,20 @@ class BlindViewModel(
 
     fun close() = runOnViewModelScope(
         { repository.executeDeviceAction(uiState.value.currentDevice?.id!!, Blind.CLOSE_ACTION) },
+        { state, _ -> state }
+    )
+
+    fun setLevel(level: Int) = runOnViewModelScope(
+        {
+            Log.d("parameters 1", "")
+            val parameters = arrayOf<Any>(level)
+            Log.d("parameters", "${parameters}")
+            repository.executeDeviceAction(
+                uiState.value.currentDevice?.id!!,
+                Blind.SET_LEVEL,
+                parameters
+            )
+        },
         { state, _ -> state }
     )
 

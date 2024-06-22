@@ -117,6 +117,7 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
                 value = sliderValue,
                 onValueChange = {
                     sliderValue = it
+                    viewModel.setLevel(it.toInt())
                 },
                 valueRange = 0f..100f,
                 modifier = Modifier
@@ -134,7 +135,7 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
         ) {
             Button(onClick = {
                 sliderValue = 0f
-                viewModel.open()
+                viewModel.setLevel(0)
             }) {
                 Text("Abrir")
             }
@@ -147,7 +148,7 @@ fun BlindControl(viewModel: BlindViewModel, deviceId: String) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 sliderValue = 100f
-                viewModel.close()
+                viewModel.setLevel(100)
             }) {
                 Text("Cerrar")
             }
