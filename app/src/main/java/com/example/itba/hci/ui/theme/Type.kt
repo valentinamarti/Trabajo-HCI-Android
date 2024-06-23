@@ -87,3 +87,10 @@ val noElements = TextStyle(
     fontSize = 12.sp,
     color = Color(0xFF70717C)
 )
+
+val navLabel = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontSize = 12.sp,
+    color = Color.Black
+)
+
