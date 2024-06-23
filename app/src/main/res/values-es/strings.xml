@@ -16,8 +16,8 @@
     <string name="door_opened">Puerta abierta</string>
     <string name="door_locked">Puerta con llave</string>
     <string name="door_unlocked">Puerta sin llave</string>
-    <string name="closed">Cierra</string>
-    <string name="opened">Abre</string>
+    <string name="closed">Cerrar</string>
+    <string name="opened">Abrir</string>
     <string name="locked">Con llave</string>
     <string name="unlocked">Sin llave</string>
     <string name="notification_unlocked">La puerta sin llave</string>
