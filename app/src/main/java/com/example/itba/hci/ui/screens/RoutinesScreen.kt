@@ -37,6 +37,7 @@ import com.example.itba.hci.model.Routine
 import com.example.itba.hci.ui.RoutineViewModel
 import com.example.itba.hci.ui.components.RoutineView
 import com.example.itba.hci.ui.components.cards.RoutineCard
+import com.example.itba.hci.ui.theme.noElements
 import com.example.itba.hci.ui.theme.screenTitle
 
 
@@ -67,14 +68,26 @@ fun RoutinesScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(uiState.routines) { routine ->
-                routine.meta?.color?.primary?.let {
-                    routine.meta.color.secondary?.let { it1 ->
-                        RoutineCard(
-                            routine = routine,
-                            viewModel = viewModel,
-                            onClick = { selectedRoutine = routine; showDialog = true },
-                        )
+            if (uiState.routines.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.no_routines),
+                        style = noElements,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+            } else {
+                items(uiState.routines) { routine ->
+                    routine.meta?.color?.primary?.let {
+                        routine.meta.color.secondary?.let { it1 ->
+                            RoutineCard(
+                                routine = routine,
+                                viewModel = viewModel,
+                                onClick = { selectedRoutine = routine; showDialog = true },
+                            )
+                        }
                     }
                 }
             }

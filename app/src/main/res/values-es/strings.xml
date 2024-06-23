@@ -39,4 +39,6 @@
     <string name="close">Cerrar</string>
     <string name="select_mode">Seleccionar modo</string>
     <string name="fridge_mode">Modo:</string>
+    <string name="no_routines">No tenés ninguna rutina</string>
+    <string name="no_devices">No tenés ningún dispositivo</string>
 </resources>
