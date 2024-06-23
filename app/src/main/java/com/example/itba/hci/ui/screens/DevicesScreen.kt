@@ -100,7 +100,7 @@ fun DevicesScreen(
                     shape = RoundedCornerShape(16.dp),
                     shadowElevation = 4.dp,
                     modifier = Modifier
-                        .padding(vertical = 100.dp)
+                        .padding(vertical = 50.dp)
                         .widthIn(min = 300.dp, max = 500.dp)
                 ) {
                     Column(

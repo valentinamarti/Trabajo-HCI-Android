@@ -201,7 +201,7 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
         Spacer(modifier = Modifier.width(16.dp))
 
         Column(
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier.padding(horizontal = 10.dp)
         ) {
             Button(onClick = {
                 if (isDoorOpen == "closed" && isDoorLocked == "unlocked") {
@@ -212,7 +212,9 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
                     isDoorOpen = "closed"
                 }
             }) {
-                Text(if (isDoorOpen != "closed")  stringResource(id = R.string.closed) else  stringResource(id = R.string.opened))
+                Text(text = if (isDoorOpen != "closed")  stringResource(id = R.string.closed) else  stringResource(id = R.string.opened),
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(horizontal = 2.dp))
             }
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -228,9 +230,11 @@ fun HorizontalDoorControl(viewModel: DoorViewModel, currentDevice: Door?) {
                         isDoorLocked = "unlocked"
                         sendNotification(context, notificationTextUnlocked, notificationTitle, notificationError)
                     }
-                }
+                },
+                modifier = Modifier.padding(horizontal = 10.dp)
             ) {
                 Icon(
+                    modifier = Modifier.size(20.dp),
                     painter = painterResource(
                         id = if (isDoorLocked != "unlocked") R.drawable.mdi_lock_open else R.drawable.mdi_lock
                     ),
