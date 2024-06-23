@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.itba.hci.ui.theme.navLabel
@@ -47,7 +49,16 @@ fun NavigationBar(
         ) {
             screens.forEach { screen ->
                 CustomNavigationBarItem(
-                    label = { Text(text = stringResource(screen.title), style = navLabel) },
+                    label = {
+                        Text(
+                            text = stringResource(screen.title),
+                            style = navLabel,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.width(80.dp) // Ensure equal width for labels
+                        )
+                    },
                     icon = screen.icon,
                     selected = currentRoute == screen.route,
                     onClick = { onNavigateToRoute(screen.route) },
