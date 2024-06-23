@@ -46,9 +46,57 @@ import com.example.itba.hci.ui.devices.FridgeViewModel
 import com.example.itba.hci.ui.devices.SpeakerViewModel
 import com.example.itba.hci.ui.theme.screenTitle
 
+
+import android.content.Context
+import android.content.res.Configuration
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.ui.platform.LocalContext
+import com.example.itba.hci.ui.theme.noElements
+
+fun Context.isTablet(): Boolean {
+    val configuration = this.resources.configuration
+    val screenLayout = configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
+    return screenLayout == Configuration.SCREENLAYOUT_SIZE_LARGE ||
+            screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE
+}
+
+
+@Composable
+fun DevicesScreen( navController: NavHostController,
+                   devicesViewModel: DevicesViewModel,
+                   doorViewModel: DoorViewModel,
+                   fridgeViewModel: FridgeViewModel,
+                   speakerViewModel: SpeakerViewModel,
+                   blindViewModel: BlindViewModel) {
+    val context = LocalContext.current
+    val isTablet = context.isTablet()
+
+    if (isTablet) {
+        TabletUI(navController = navController,
+            devicesViewModel = devicesViewModel,
+            doorViewModel = doorViewModel,
+            fridgeViewModel = fridgeViewModel,
+            speakerViewModel = speakerViewModel,
+            blindViewModel = blindViewModel
+        )
+    } else {
+        PhoneUI(navController = navController,
+            devicesViewModel = devicesViewModel,
+            doorViewModel = doorViewModel,
+            fridgeViewModel = fridgeViewModel,
+            speakerViewModel = speakerViewModel,
+            blindViewModel = blindViewModel
+        )
+    }
+}
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DevicesScreen(
+fun PhoneUI(
     navController: NavHostController,
     devicesViewModel: DevicesViewModel,
     doorViewModel: DoorViewModel,
@@ -78,19 +126,160 @@ fun DevicesScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(uiState.devices) { device ->
-                DeviceCard(
-                    device = device,
-                    onClick = {
-                        selectedDevice = device
-                        showDialog = true
-                    },
-                    doorViewModel = doorViewModel,
-                    fridgeViewModel = fridgeViewModel,
-                    speakerViewModel = speakerViewModel,
-                    blindViewModel = blindViewModel
-                )
+            if (uiState.devices.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.no_devices),
+                        style = noElements,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+            } else {
+                items(uiState.devices) { device ->
+                    DeviceCard(
+                        device = device,
+                        onClick = {
+                            selectedDevice = device
+                            showDialog = true
+                        },
+                        doorViewModel = doorViewModel,
+                        fridgeViewModel = fridgeViewModel,
+                        speakerViewModel = speakerViewModel,
+                        blindViewModel = blindViewModel
+                    )
+                }
             }
+        }
+    }
+    if (showDialog && selectedDevice != null) {
+        BasicAlertDialog(onDismissRequest = { showDialog = false },
+            content = {
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    shadowElevation = 4.dp,
+                    modifier = Modifier
+                        .padding(vertical = 50.dp)
+                        .widthIn(min = 300.dp, max = 500.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ){
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            IconButton(onClick = { selectedDevice = null; showDialog = false}) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                        when (selectedDevice?.type) {
+                            DeviceType.DOOR -> selectedDevice!!.id?.let {
+                                DoorCard(
+                                    navController, doorViewModel,
+                                    it
+                                )
+                            }
+
+                            DeviceType.FRIDGE -> selectedDevice!!.id?.let {
+                                FridgeCard(
+                                    navController, fridgeViewModel,
+                                    it
+                                )
+                            }
+
+                            DeviceType.SPEAKER -> selectedDevice!!.id?.let {
+                                SpeakerCard(
+                                    navController, speakerViewModel,
+                                    it
+                                )
+                            }
+
+                            DeviceType.BLIND -> selectedDevice!!.id?.let {
+                                BlindsCard(
+                                    navController, blindViewModel,
+                                    it
+                                )
+                            }
+
+                            else -> Text("Tipo de dispositivo desconocido")
+                        }
+                    }
+
+                }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TabletUI(
+    navController: NavHostController,
+    devicesViewModel: DevicesViewModel,
+    doorViewModel: DoorViewModel,
+    fridgeViewModel: FridgeViewModel,
+    speakerViewModel: SpeakerViewModel,
+    blindViewModel: BlindViewModel
+) {
+    val uiState by devicesViewModel.uiState.collectAsState()
+    Log.d("DevicesScreen", "Devices list is empty: ${uiState.devices.isEmpty()}")
+
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedDevice by remember { mutableStateOf<Device?>(null) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.bottom_navigation_devices),
+            style = screenTitle,
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+
+            if (uiState.devices.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.no_devices),
+                        style = noElements,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+            } else {
+                items(uiState.devices) { device ->
+                    DeviceCard(
+                        device = device,
+                        onClick = {
+                            selectedDevice = device
+                            showDialog = true
+                        },
+                        doorViewModel = doorViewModel,
+                        fridgeViewModel = fridgeViewModel,
+                        speakerViewModel = speakerViewModel,
+                        blindViewModel = blindViewModel
+                    )
+                }
+            }
+
         }
     }
     if (showDialog && selectedDevice != null) {
